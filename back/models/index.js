@@ -134,10 +134,10 @@ export {
   categoryModel,
   productModel,
   detailProductModel,
-  reviewModel,
   cartModel,
   paymentModel,
   offModel,
   addressModel,
-  reviewModel, imageModel
+  reviewModel,
+  imageModel,
 };
