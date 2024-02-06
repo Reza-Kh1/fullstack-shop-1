@@ -40,9 +40,9 @@ const userModel = dataBase.define(
     password: {
       type: DataTypes.STRING,
       allowNull: false,
-      set: async function (value) {
-        return this.setDataValue("password", await createHash(value));
-      },
+      // set: async function (value) {
+      //   return this.setDataValue("password", await createHash(value));
+      // },
     },
     role: {
       type: DataTypes.ENUM,
