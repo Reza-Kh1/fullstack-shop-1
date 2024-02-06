@@ -4,9 +4,9 @@ import cartModel from "../models/cartModel.js";
 export const createCart = asyncHandler(async (req, res) => {
   const { total } = req.query;
   const { id } = req.params;
-  //   const idUser = res.userInfo
+  const user = res.userInfo.id;
   try {
-    await cartModel.create({ postId: id, total });
+    await cartModel.create({ productId: id, total, userId: user });
     res.send({ message: "محصول با موفقیت افزوده شد" });
   } catch (err) {
     throw customError(err, 401);

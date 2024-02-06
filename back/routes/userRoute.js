@@ -2,6 +2,7 @@ import {
   createUser,
   deleteUser,
   getAllUser,
+  getProfile,
   loginAdmin,
   loginToken,
   loginUser,
@@ -15,5 +16,6 @@ const routes = express.Router();
 routes.route("/").get(isAdmin, getAllUser).post(createUser);
 routes.route("/login").post(loginUser);
 routes.route("/admin").get(isAuthor, loginAdmin);
+routes.route("/profile").get(isLogin, getProfile);
 routes.route("/:id").put(isLogin, updateUser).get(isLogin, loginToken).delete(isAdmin, deleteUser);
 export default routes;

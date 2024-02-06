@@ -23,12 +23,12 @@ subCategoryModel.belongsTo(categoryModel, {
 });
 // محصولات
 userModel.hasOne(productModel, {
-  foreignKey: "IdUser",
+  foreignKey: "userId",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
 productModel.belongsTo(userModel, {
-  foreignKey: "IdUser",
+  foreignKey: "userId",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
@@ -90,7 +90,7 @@ productModel.hasMany(cartModel, {
   onDelete: "SET NULL",
   onUpdate: "SET NULL",
 });
-cartModel.hasMany(productModel, {
+cartModel.belongsTo(productModel, {
   foreignKey: "productId",
   onDelete: "SET NULL",
   onUpdate: "SET NULL",
@@ -100,7 +100,7 @@ userModel.hasMany(cartModel, {
   onDelete: "SET NULL",
   onUpdate: "SET NULL",
 });
-cartModel.hasMany(userModel, {
+cartModel.belongsTo(userModel, {
   foreignKey: "userId",
   onDelete: "SET NULL",
   onUpdate: "SET NULL",

@@ -24,7 +24,8 @@ const reviewModel = dataBase.define(
   },
   {
     tableName: "review",
-    timestamps: true,
+    updatedAt:false,
+    createdAt:true,
     indexes: [{ unique: false, fields: ["postId", "replyId"] }],
   }
 );

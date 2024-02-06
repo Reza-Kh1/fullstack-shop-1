@@ -3,9 +3,16 @@ import { addressModel } from "../models/index.js";
 import asyncHandler from "express-async-handler";
 export const createAddress = asyncHandler(async (req, res) => {
   const { name, city, street, note, phone } = req.body;
-  //   const id = res.userInfo.id
+  const id = res.userInfo.id;
   try {
-    const data = await addressModel.create({ name, city, street, note, phone });
+    const data = await addressModel.create({
+      name,
+      city,
+      street,
+      note,
+      phone,
+      userId: id,
+    });
     res.send({ data });
   } catch (err) {
     throw customError(err, 401);

@@ -4,6 +4,7 @@ import asyncHandler from "express-async-handler";
 
 export const createOff = asyncHandler(async (req, res) => {
   const { name, offer, filterCount, start, end, total } = req.body;
+  const id = res.userInfo.id;
   try {
     const data = await offModel.create({
       name,
@@ -12,7 +13,7 @@ export const createOff = asyncHandler(async (req, res) => {
       start,
       end,
       total,
-      // userId:
+      userId: id,
     });
     res.send({ data });
   } catch (err) {
@@ -60,11 +61,11 @@ export const updateOff = asyncHandler(async (req, res) => {
   }
 });
 export const getOff = asyncHandler(async (req, res) => {
-  const { name } = req.params;
+  const { id } = req.params;
   try {
-    const data = await offModel.findOne({ where: { name } });
-    if (!data.total)
-      throw new Error("ظرفیت استفاده از این کد به اتمام رسیده است");
+    const data = await offModel.findOne({ where: { name: id } });
+    if (!data) throw new Error(" کد تخفیف وجود ندارد");
+    if (!data?.total) throw new Error("کد تخفیف منقضی شده است");
     const body = {
       name: data.name,
       offer: data.offer,
@@ -83,7 +84,8 @@ export const getAllOff = asyncHandler(async (req, res) => {
       where: {},
       order: [["createdAt", "DESC"]],
     });
-    if (!data) return res.send({ message: "هیچ کد تخفیفی ثبت نکرده اید !" });
+    if (!data.length)
+      return res.send({ message: "هیچ کد تخفیفی ثبت نکرده اید !" });
     res.send({ data });
   } catch (err) {
     throw customError(err, 401);

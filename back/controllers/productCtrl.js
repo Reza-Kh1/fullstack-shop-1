@@ -1,5 +1,9 @@
 import asyncHandler from "express-async-handler";
-import { detailProductModel, productModel } from "../models/index.js";
+import {
+  detailProductModel,
+  productModel,
+  reviewModel,
+} from "../models/index.js";
 import { customError } from "../middlewares/errorHandler.js";
 import pagination from "../middlewares/pagination.js";
 import dotenv from "dotenv";
@@ -113,7 +117,27 @@ export const getProduct = asyncHandler(async (req, res) => {
       ],
     });
     if (!data) throw new Error("محصولی وجود ندارد !");
-    res.send({ data });
+    const review = await reviewModel.findAndCountAll({
+      where: { postId: data.id, status: true },
+      order: [["createdAt", "DESC"]],
+      limit: 20,
+      include: [
+        {
+          model: reviewModel,
+          as: "replies",
+          where: { status: true },
+          separate: true,
+          attributes: ["comment", "name", "replyId", "id", "createdAt"],
+        },
+      ],
+      attributes: { exclude: ["status", "email", "phone"] },
+    });
+    res.send({
+      data: {
+        data,
+        review,
+      },
+    });
   } catch (err) {
     throw customError(err, 404);
   }

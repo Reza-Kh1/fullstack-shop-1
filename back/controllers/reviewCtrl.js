@@ -131,12 +131,12 @@ export const getAllReview = asyncHandler(async (req, res) => {
   const limit = process.env.LIMIT;
   try {
     const data = await reviewModel.findAndCountAll({
-      where: { postId: post || 1, status: false },
+      where: { postId: post, status: true },
       order: [["createdAt", "DESC"]],
       limit: limit,
       offset: page * limit - limit,
     });
-    if (data.count) res.send({ message: "هیچ کامنتی وجود ندارد" });
+    if (!data.count) return res.send({ message: "هیچ کامنتی وجود ندارد" });
     res.send({ data });
   } catch (err) {
     throw customError(err, 404);
@@ -165,7 +165,7 @@ export const getReplyReview = asyncHandler(async (req, res) => {
           ],
         },
       ],
-      attributes: { exclude: ["status", "email", "phone", "updatedAt"] },
+      attributes: { exclude: ["status", "email", "phone"] },
     });
     if (!data) throw customError("هیچ کامنتی یافت نشد", 404);
     res.send({ data });

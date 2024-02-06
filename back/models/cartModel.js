@@ -9,7 +9,7 @@ const cartModel = dataBase.define(
     },
   },
   {
-    timestamps: true,
+    timestamps: false,
     tableName: "cart",
   }
 );

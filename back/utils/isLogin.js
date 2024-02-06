@@ -3,8 +3,9 @@ import { customError } from "../middlewares/errorHandler.js";
 import asyncHandler from "express-async-handler";
 const isLogin = asyncHandler(async (req, res, next) => {
   const { authorization } = req.headers;
-  const cookie = req.cookies?.user;
-  if (!authorization || !cookie)
+  const cookie = req.cookies.user;
+
+  if (!authorization && !cookie)
     throw customError("لطفا دوباره وارد حساب کاربری خود شوید", 400);
   try {
     if (authorization) {
