@@ -5,6 +5,7 @@ import categoryModel from "./categoryModel.js";
 import productModel from "./productModel.js";
 import detailProductModel from "./detialModel.js";
 import reviewModel from "./reviewModel.js";
+import imageModel from "./imageModel.js";
 // دسته ها
 categoryModel.hasMany(subCategoryModel, {
   foreignKey: "categoryId",
@@ -77,5 +78,5 @@ export {
   categoryModel,
   productModel,
   detailProductModel,
-  reviewModel,
+  reviewModel, imageModel
 };

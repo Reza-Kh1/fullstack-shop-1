@@ -12,6 +12,7 @@ import categoryRoute from "../routes/categoryRoute.js";
 import subCategoryRoute from "../routes/subCategoryRoute.js";
 import productRoute from "../routes/productRoute.js";
 import reviewtRoute from "../routes/reviewRoute.js";
+import imagetRoute from "../routes/imageRoute.js";
 // static
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,6 +32,7 @@ app.use(api + "category", categoryRoute);
 app.use(api + "sub-category", subCategoryRoute);
 app.use(api + "product", productRoute);
 app.use(api + "review", reviewtRoute);
+app.use(api + "image", imagetRoute);
 
 // middlewares
 app.use(globalHandler);
