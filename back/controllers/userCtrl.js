@@ -1,21 +1,27 @@
 import asyncHandler from "express-async-handler";
 import { userModel } from "../models/index.js";
 import { customError } from "../middlewares/errorHandler.js";
-import { Op } from "sequelize";
-import { compareHash } from "../utils/createHash.js";
+import { compareHash, createHash } from "../utils/createHash.js";
 import createToken from "../utils/createToken.js";
+import token from "jsonwebtoken"
 export const createUser = asyncHandler(async (req, res) => {
   let { phone, name, password, role, email } = req.body;
   if (!phone || !name || !password) {
     throw customError("تمامیه فیلد های لازم را پر کنید", 400);
   }
+  if (role) {
+    const cookie = req.cookies.user;
+    const userInfo = token.verify(cookie, process.env.TOKEN_SECURET);
+    if (userInfo.role !== "ADMIN") throw customError("شما مجاز به این عملیات نیستید", 403);
+  }
   try {
     const count = await userModel.count();
     if (!count) role = "ADMIN";
-    const data = await userModel.create({ phone, name, password, role, email });
+    const hash = await createHash(password)
+    const data = await userModel.create({ phone, name, password: hash, role, email });
     const body = notPass(data);
     const token = await createToken(body);
-    if (data.role !== "USER") {
+    if (data.role !== "USER" && !role) {
       res.cookie("user", token, {
         httpOnly: true,
         secure: true,
@@ -68,16 +74,17 @@ export const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 export const updateUser = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const { name, password, email, role } = req.body;
+  const { name, password, email, role, id } = req.body;
+  const info = res.userInfo
   try {
-    const data = await userModel.findByPk(id);
+    const data = await userModel.findByPk(id ? id : info.id);
     if (!data) throw new Error("کاربر یافت نشد");
+    if (id && info.role !== "ADMIN") throw new Error("شما مجاز به این عملیات نیستید")
     if (name) {
       data.name = name;
     }
     if (password) {
-      data.password = password;
+      data.password = await createHash(password);
     }
     if (email) {
       data.email = email;
@@ -97,7 +104,8 @@ export const loginToken = asyncHandler(async (req, res) => {
   const token = await res.userInfo;
   const data = await userModel.findByPk(token.id);
   if (!data) throw customError("لطفا دوباره وارد حساب کاربری خود شوید !", 403);
-  res.send({ message: "💕خوش آمدید " + token.name });
+  const body = notPass(data)
+  res.send({ message: "💕خوش آمدید " + token.name, data: body });
 });
 export const getAllUser = asyncHandler(async (req, res) => {
   let { page } = req.query;
@@ -120,7 +128,8 @@ export const loginAdmin = asyncHandler(async (req, res) => {
   const info = res.userInfo;
   const data = await userModel.findByPk(info.id);
   if (data.role === "USER") throw customError("اجازه دسترسی ندارید!", 403);
-  res.send({ message: "💕خوش آمدید " + info.name });
+  const body = notPass(data)
+  res.send({ message: "💕خوش آمدید " + info.name, data: body });
 });
 const notPass = (data) => {
   let res = {

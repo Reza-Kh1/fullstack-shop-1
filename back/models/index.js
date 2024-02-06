@@ -9,6 +9,7 @@ import cartModel from "./cartModel.js";
 import paymentModel from "./paymentMode.js";
 import offModel from "./offModel.js";
 import addressModel from "./addressModel.js";
+import imageModel from "./imageModel.js";
 // دسته ها
 categoryModel.hasMany(subCategoryModel, {
   foreignKey: "categoryId",
@@ -138,4 +139,5 @@ export {
   paymentModel,
   offModel,
   addressModel,
+  reviewModel, imageModel
 };

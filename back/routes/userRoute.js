@@ -10,9 +10,10 @@ import {
 import express from "express";
 import isLogin from "../utils/isLogin.js";
 import isAdmin from "../utils/isAdmin.js";
+import isAuthor from "../utils/isAuthor.js";
 const routes = express.Router();
-routes.route("/").get(getAllUser).post(createUser);
+routes.route("/").get(isAdmin, getAllUser).post(createUser);
 routes.route("/login").post(loginUser);
-routes.route("/admin").get(isAdmin,loginAdmin);
-routes.route("/:id").put(updateUser).get(isLogin, loginToken).delete(deleteUser);
+routes.route("/admin").get(isAuthor, loginAdmin);
+routes.route("/:id").put(isLogin, updateUser).get(isLogin, loginToken).delete(isAdmin, deleteUser);
 export default routes;

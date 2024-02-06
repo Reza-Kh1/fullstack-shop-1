@@ -4,9 +4,9 @@ import asynchandler from "express-async-handler";
 const isAdmin = asynchandler(async (req, res, next) => {
   try {
     const cookie = req.cookies.user;
-    const info = token.verify(cookie, process.env.TOKEN_SECURET);
-    if (info.role !== "ADMIN") throw new Error();
-    res.userInfo = info;
+    const userInfo = token.verify(cookie, process.env.TOKEN_SECURET);
+    if (userInfo.role !== "ADMIN") throw new Error();
+    res.userInfo = userInfo;
     next();
   } catch (err) {
     throw customError("لطفا دوباره وارد حساب کاربری شوید", 403);

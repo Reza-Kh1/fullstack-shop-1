@@ -15,8 +15,8 @@ import reviewtRoute from "../routes/reviewRoute.js";
 import offRoute from "../routes/offRoute.js";
 import addressRoute from "../routes/addressRoute.js";
 import cartRoute from "../routes/cartRoute.js";
-import paymentRoute from "../routes/paymentRoute.js";
-
+import paymentRoute from "../routes/paymentRoute.js"
+import imagetRoute from "../routes/imageRoute.js";
 // static
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -40,7 +40,7 @@ app.use(api + "off", offRoute);
 app.use(api + "address", addressRoute);
 app.use(api + "cart", cartRoute);
 app.use(api + "payment", paymentRoute);
-
+app.use(api + "image", imagetRoute);
 // middlewares
 app.use(globalHandler);
 app.use(notFound);

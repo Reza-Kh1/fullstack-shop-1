@@ -8,11 +8,7 @@ const storage = multer.diskStorage({
     return cb(null, Date.now() + "-" + file.originalname);
   },
 });
-export const uploadSingle = multer({
-  storage,
-  limits: { fieldSize: maxSize },
-}).single("file");
-export const uploadArray = multer({
+export const uploadImage = multer({
   storage,
   limits: { fieldSize: maxSize },
 }).array("file");
