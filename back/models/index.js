@@ -22,7 +22,7 @@ subCategoryModel.belongsTo(categoryModel, {
   onUpdate: "RESTRICT",
 });
 // محصولات
-userModel.hasOne(productModel, {
+userModel.hasMany(productModel, {
   foreignKey: "userId",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
@@ -32,7 +32,7 @@ productModel.belongsTo(userModel, {
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
-subCategoryModel.hasOne(productModel, {
+subCategoryModel.hasMany(productModel, {
   foreignKey: "categoryId",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
@@ -53,7 +53,7 @@ detailProductModel.belongsTo(productModel, {
   onUpdate: "CASCADE",
 });
 // نظرات
-productModel.hasOne(reviewModel, {
+productModel.hasMany(reviewModel, {
   foreignKey: "postId",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
@@ -63,7 +63,7 @@ reviewModel.belongsTo(productModel, {
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
-userModel.hasOne(reviewModel, {
+userModel.hasMany(reviewModel, {
   foreignKey: "userId",
   onDelete: "SET NULL",
   onUpdate: "SET NULL",
@@ -80,7 +80,7 @@ userModel.hasMany(addressModel, {
   onDelete: "SET NULL",
   onUpdate: "SET NULL",
 });
-addressModel.hasMany(userModel, {
+addressModel.belongsTo(userModel, {
   foreignKey: "userId",
   onDelete: "SET NULL",
   onUpdate: "SET NULL",
@@ -110,7 +110,7 @@ userModel.hasMany(paymentModel, {
   onDelete: "SET NULL",
   onUpdate: "SET NULL",
 });
-paymentModel.hasMany(userModel, {
+paymentModel.belongsTo(userModel, {
   foreignKey: "userId",
   onDelete: "SET NULL",
   onUpdate: "SET NULL",
