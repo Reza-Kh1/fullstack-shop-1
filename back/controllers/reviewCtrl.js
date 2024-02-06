@@ -80,7 +80,6 @@ export const createReplyReview = asyncHandler(async (req, res) => {
   if (authorization) {
     const verify = authorization.split(" ")[1];
     const userInfo = token.verify(verify, process.env.TOKEN_SEmCURET);
-    console.log(userInfo);
   }
   try {
     const data = await reviewModel.create({
@@ -151,7 +150,7 @@ export const getReplyReview = asyncHandler(async (req, res) => {
       include: [
         {
           model: reviewModel,
-          as: "reply",
+          as: "replies",
           where: { status: true },
           separate: true,
           attributes: ["comment", "name", "replyId", "id", "createdAt"],
@@ -160,7 +159,7 @@ export const getReplyReview = asyncHandler(async (req, res) => {
               where: { status: true },
               separate: true,
               model: reviewModel,
-              as: "reply",
+              as: "replies",
               attributes: ["comment", "name", "replyId", "id", "createdAt"],
             },
           ],

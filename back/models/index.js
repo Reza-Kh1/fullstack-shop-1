@@ -5,6 +5,10 @@ import categoryModel from "./categoryModel.js";
 import productModel from "./productModel.js";
 import detailProductModel from "./detialModel.js";
 import reviewModel from "./reviewModel.js";
+import cartModel from "./cartModel.js";
+import paymentModel from "./paymentMode.js";
+import offModel from "./offModel.js";
+import addressModel from "./addressModel.js";
 // دسته ها
 categoryModel.hasMany(subCategoryModel, {
   foreignKey: "categoryId",
@@ -15,15 +19,15 @@ subCategoryModel.belongsTo(categoryModel, {
   foreignKey: "categoryId",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
-})
+});
 // محصولات
 userModel.hasOne(productModel, {
-  foreignKey: "userId",
+  foreignKey: "IdUser",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
 productModel.belongsTo(userModel, {
-  foreignKey: "userId",
+  foreignKey: "IdUser",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
@@ -68,7 +72,59 @@ reviewModel.belongsTo(userModel, {
   onDelete: "SET NULL",
   onUpdate: "SET NULL",
 });
-reviewModel.hasMany(reviewModel, { as: "reply", foreignKey: "replyId" });
+reviewModel.hasMany(reviewModel, { as: "replies", foreignKey: "replyId" });
+// پرداخت
+userModel.hasMany(addressModel, {
+  foreignKey: "userId",
+  onDelete: "SET NULL",
+  onUpdate: "SET NULL",
+});
+addressModel.hasMany(userModel, {
+  foreignKey: "userId",
+  onDelete: "SET NULL",
+  onUpdate: "SET NULL",
+});
+productModel.hasMany(cartModel, {
+  foreignKey: "productId",
+  onDelete: "SET NULL",
+  onUpdate: "SET NULL",
+});
+cartModel.hasMany(productModel, {
+  foreignKey: "productId",
+  onDelete: "SET NULL",
+  onUpdate: "SET NULL",
+});
+userModel.hasMany(cartModel, {
+  foreignKey: "userId",
+  onDelete: "SET NULL",
+  onUpdate: "SET NULL",
+});
+cartModel.hasMany(userModel, {
+  foreignKey: "userId",
+  onDelete: "SET NULL",
+  onUpdate: "SET NULL",
+});
+userModel.hasMany(paymentModel, {
+  foreignKey: "userId",
+  onDelete: "SET NULL",
+  onUpdate: "SET NULL",
+});
+paymentModel.hasMany(userModel, {
+  foreignKey: "userId",
+  onDelete: "SET NULL",
+  onUpdate: "SET NULL",
+});
+// تخفیف ها
+userModel.hasMany(offModel, {
+  foreignKey: "userId",
+  onDelete: "RESTRICT",
+  onUpdate: "RESTRICT",
+});
+offModel.belongsTo(userModel, {
+  foreignKey: "userId",
+  onDelete: "RESTRICT",
+  onUpdate: "RESTRICT",
+});
 // dataBase.sync({ force: true });
 dataBase.sync();
 export {
@@ -78,4 +134,8 @@ export {
   productModel,
   detailProductModel,
   reviewModel,
+  cartModel,
+  paymentModel,
+  offModel,
+  addressModel,
 };
