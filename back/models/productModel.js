@@ -13,7 +13,7 @@ const productModel = dataBase.define(
       defaultValue: false,
     },
     price: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
     },
     off: {
       type: DataTypes.STRING,

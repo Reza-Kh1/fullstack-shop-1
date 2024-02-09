@@ -6,8 +6,7 @@ import {
 } from "../models/index.js";
 import { customError } from "../middlewares/errorHandler.js";
 import pagination from "../middlewares/pagination.js";
-import dotenv from "dotenv";
-dotenv.config();
+import { Op } from "sequelize";
 export const createProduct = asyncHandler(async (req, res) => {
   const {
     name,
@@ -143,17 +142,39 @@ export const getProduct = asyncHandler(async (req, res) => {
   }
 });
 export const getAllProduct = asyncHandler(async (req, res) => {
-  let { page } = req.query;
+  let { page, name, price, order } = req.query;
   const limit = 10;
   if (!page) {
     page = 1;
   }
+  let filterOrder = [];
+  let filter = {
+    [Op.and]: [{ status: false }],
+  };
+  if (price) {
+    const newPrice = price.split("-");
+    filter[Op.and].push({
+      price: { [Op.between]: [Number(newPrice[0]), Number(newPrice[1])] },
+    });
+  }
+  if (name) {
+    filter[Op.and].push({
+      [Op.or]: [
+        { name: { [Op.like]: "%" + name + "%" } },
+        { description: { [Op.like]: "%" + name + "%" } },
+      ],
+    });
+  }
+  if (order) {
+    const newOrder = order.split("-");
+    filterOrder.push([newOrder[0], newOrder[1]]);
+  }
   try {
     const data = await productModel.findAndCountAll({
-      where: { status: true },
+      where: filter,
       limit: limit,
       offset: limit * page - limit,
-      order: [["createdAt", "DESC"]],
+      order: filterOrder,
     });
     const pager = pagination(data.count, limit, page);
     if (!data.count) return res.send({ message: "هیچ محصولی یافت نشد" });

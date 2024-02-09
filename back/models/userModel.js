@@ -53,7 +53,10 @@ const userModel = dataBase.define(
   {
     timestamps: true,
     tableName: "user",
-    indexes: [{ unique: true, fields: ["phone"] }],
+    indexes: [
+      { unique: true, fields: ["phone", "email"] },
+      { unique: false, fields: ["role","name"] },
+    ],
   }
 );
 export default userModel;
