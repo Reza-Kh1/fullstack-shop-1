@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import { dataBase } from "../config/db.js";
-
 const productModel = dataBase.define(
   "product",
   {
@@ -37,6 +36,15 @@ const productModel = dataBase.define(
     },
     totel: {
       type: DataTypes.INTEGER,
+    },
+    keycode: {
+      type: DataTypes.STRING,
+      defaultValue: () => {
+        const key = [...Array(8)]
+          .map(() => (~~(Math.random() * 36)).toString(36))
+          .join("");
+        return key.toUpperCase();
+      },
     },
   },
   {

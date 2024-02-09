@@ -7,6 +7,7 @@ import {
 import { customError } from "../middlewares/errorHandler.js";
 import pagination from "../middlewares/pagination.js";
 import { Op } from "sequelize";
+import token from "jsonwebtoken";
 export const createProduct = asyncHandler(async (req, res) => {
   const {
     name,
@@ -142,14 +143,24 @@ export const getProduct = asyncHandler(async (req, res) => {
   }
 });
 export const getAllProduct = asyncHandler(async (req, res) => {
-  let { page, name, price, order } = req.query;
+  let { page, name, price, order, status } = req.query;
+  try {
+    const cookie = req.cookies.user;
+    if (cookie) {
+      token.verify(cookie, process.env.TOKEN_SECURET);
+    } else {
+      status = false;
+    }
+  } catch (err) {
+    throw customError(err, 403);
+  }
   const limit = 10;
   if (!page) {
     page = 1;
   }
   let filterOrder = [];
   let filter = {
-    [Op.and]: [{ status: false }],
+    [Op.and]: [{ status: status || false }],
   };
   if (price) {
     const newPrice = price.split("-");
@@ -175,29 +186,6 @@ export const getAllProduct = asyncHandler(async (req, res) => {
       limit: limit,
       offset: limit * page - limit,
       order: filterOrder,
-    });
-    const pager = pagination(data.count, limit, page);
-    if (!data.count) return res.send({ message: "هیچ محصولی یافت نشد" });
-    res.send({ data: { data, pagination: pager } });
-  } catch (err) {
-    customError(err, 404);
-  }
-});
-export const getAllProductAdmin = asyncHandler(async (req, res) => {
-  let { page, status } = req.query;
-  const limit = 10;
-  if (!page) {
-    page = 1;
-  }
-  if (!status) {
-    status = true;
-  }
-  try {
-    const data = await productModel.findAndCountAll({
-      where: {},
-      limit: limit,
-      offset: limit * page - limit,
-      order: [["createdAt", "DESC"]],
     });
     const pager = pagination(data.count, limit, page);
     if (!data.count) return res.send({ message: "هیچ محصولی یافت نشد" });

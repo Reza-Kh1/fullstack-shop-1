@@ -13,7 +13,7 @@ export const createUser = asyncHandler(async (req, res) => {
     throw customError("تمامیه فیلد های لازم را پر کنید", 400);
   }
   if (role) {
-    const cookie = req.cookies.user;
+    const cookie = req.cookies?.user;
     const userInfo = token.verify(cookie, process.env.TOKEN_SECURET);
     if (userInfo.role !== "ADMIN")
       throw customError("شما مجاز به این عملیات نیستید", 403);
@@ -173,7 +173,7 @@ export const verifyPassword = asyncHandler(async (req, res) => {
       subject: "باز نشانی رمز عبور کلبه ساحلی",
       text: `حتما پس از ورود به حساب کاربری خود رمز عبور خود را تغییر دهید و در دسرس ما بقی افراد قرار ندهید مرز عبور : ${newPass}`,
     };
-    await transporter.sendMail(mailOptions, (error, info) => {
+    transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         throw customError(error, 404);
       }

@@ -1,5 +1,9 @@
 import asyncHandler from "express-async-handler";
-import { categoryModel, subCategoryModel } from "../models/index.js";
+import {
+  categoryModel,
+  productModel,
+  subCategoryModel,
+} from "../models/index.js";
 import { customError } from "../middlewares/errorHandler.js";
 export const createSubCategory = asyncHandler(async (req, res) => {
   const { name, slug, altImg, srcImg, categoryId } = req.body;
@@ -52,11 +56,18 @@ export const getSubCategory = asyncHandler(async (req, res) => {
   try {
     const data = await subCategoryModel.findOne({
       where: { slug: id },
-      include: [{ model: categoryModel, attributes: ["name", "slug"] }],
+      attributes: { exclude: ["createdAt", "updatedAt", "categoryId"] },
+      include: [
+        { model: categoryModel, attributes: ["name", "slug"] },
+        {
+          separate: true,
+          where: { status: true },
+          model: productModel,
+          attributes: { exclude: ["createdAt", "updatedAt", "status"] },
+        },
+      ],
     });
-    console.log(data);
     if (!data) throw new Error("زیر دسته مورد نظر یافت نشد");
-    console.log(data);
     res.send({ data });
   } catch (err) {
     throw customError(err, 401);
