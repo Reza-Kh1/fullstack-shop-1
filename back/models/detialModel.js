@@ -4,6 +4,9 @@ import { dataBase } from "../config/db.js";
 const detailProductModel = dataBase.define(
   "detailProduct",
   {
+    srcImg: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+    },
     title: {
       type: DataTypes.STRING,
     },

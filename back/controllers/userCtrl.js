@@ -115,7 +115,7 @@ export const updateUser = asyncHandler(async (req, res) => {
 export const getAllUser = asyncHandler(async (req, res) => {
   let { page } = req.query;
   if (!page) page = 1;
-  const limit = 10;
+  const limit = process.env.LIMIT;
   try {
     const data = await userModel.findAndCountAll({
       limit: limit,
@@ -123,8 +123,9 @@ export const getAllUser = asyncHandler(async (req, res) => {
       order: [["createdAt", "DESC"]],
       attributes: { exclude: ["password"] },
     });
+    const pager = pagination(data.count, limit, page);
     if (!data.count) return res.send({ message: "هیچ کاربری وجود ندارد" });
-    res.send({ data });
+    res.send({ data: { ...data, pagination: pager } });
   } catch (err) {
     throw customError("خطای ناشناخته", 500);
   }
@@ -191,8 +192,11 @@ export const searchUser = asyncHandler(async (req, res) => {
   if (!page) {
     page = 1;
   }
-  if (!order) {
-    order = "DESC";
+  let filterOrder = [];
+  if (order) {
+    filterOrder.push(["createdAt", order]);
+  } else {
+    filterOrder.push(["createdAt", "DESC"]);
   }
   const limit = process.env.LIMIT;
   let filter = {
@@ -210,14 +214,21 @@ export const searchUser = asyncHandler(async (req, res) => {
   if (phone) {
     filter[Op.or].push({ phone: { [Op.like]: "%" + phone + "%" } });
   }
+  if (!filter[Op.or].length) {
+    filter = {};
+  }
   const data = await userModel.findAndCountAll({
-    where: filter,
-    order: [["createdAt", order]],
+    where: filter || {},
+    order: filterOrder,
     limit: limit,
     offset: page * limit - limit,
   });
   const pager = pagination(data.count, limit, page);
   res.send({ data: { pagination: pager, ...data } });
+});
+export const logOut = asyncHandler(async (req, res) => {
+  res.cookie("user", "", { expires: new Date(0) });
+  res.send({ message: "logOut" });
 });
 const notPass = (data) => {
   let res = {

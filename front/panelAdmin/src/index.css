@@ -2,3 +2,84 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: "iranSans";
+    src: url("./fonts/Vazir-Regular.woff") format("woff");
+}
+
+@keyframes ldio-q5iz3826roe {
+    0% {
+        opacity: 1
+    }
+
+    100% {
+        opacity: 0
+    }
+}
+
+.font-sans {
+    font-family: "iranSans", Arial, Helvetica, sans-serif !important;
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label::before, .ql-snow .ql-picker.ql-header .ql-picker-item::before {
+    content: 'Header';
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label::before, .ql-snow .ql-picker.ql-size .ql-picker-item::before {
+    content: 'Size';
+}
+.ql-snow .ql-picker.ql-font .ql-picker-label::before, .ql-snow .ql-picker.ql-font .ql-picker-item::before {
+    content: 'Font';
+}
+body {
+    min-height: 100vh;
+    background: linear-gradient(360deg, #232323, #000000);
+    font-family: "iranSans", Arial, Helvetica, sans-serif !important;
+    box-sizing: border-box;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.table-rounded thead tr:last-child th:first-child {
+    border-radius: 0 10px 0 0;
+}
+
+.table-rounded thead tr:last-child th:last-child {
+    border-radius: 10px 0 0 0;
+}
+
+.table-rounded tbody tr:last-child td:first-child {
+    border-radius: 0 0 10px 0;
+}
+
+.table-rounded tbody tr:last-child td:last-child {
+    border-radius: 0 0 0px 10px;
+}
+
+.table-rounded tbody tr:last-child {
+    border: none;
+}
+
+.input-identity:focus-visible {
+    outline: 1px solid #fa8a46;
+    box-shadow: 0px 0px 5px 1px #f27a3e;
+}
+
+.input-customize:focus-visible {
+    outline: 1px solid #fff;
+}
+
+.side-bar a.active button {
+    transition: all ease-in-out 0.1s;
+    margin-right: 8px;
+    background-image: linear-gradient(to right, #212121, #005aff);
+}

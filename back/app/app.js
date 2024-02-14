@@ -15,7 +15,7 @@ import reviewtRoute from "../routes/reviewRoute.js";
 import offRoute from "../routes/offRoute.js";
 import addressRoute from "../routes/addressRoute.js";
 import cartRoute from "../routes/cartRoute.js";
-import paymentRoute from "../routes/paymentRoute.js"
+import paymentRoute from "../routes/paymentRoute.js";
 import imagetRoute from "../routes/imageRoute.js";
 // static
 const __filename = fileURLToPath(import.meta.url);
@@ -23,7 +23,12 @@ const __dirname = path.dirname(__filename);
 // configs
 dotenv.config();
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // آدرس مبدا درخواست ها
+    credentials: true, // اجازه دادن به درخواست های با credentials
+  })
+);
 app.use(helmet.xssFilter());
 app.use(express.json());
 app.use("/public", express.static(path.join(__dirname, "../public")));

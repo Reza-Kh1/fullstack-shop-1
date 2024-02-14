@@ -15,7 +15,7 @@ const productModel = dataBase.define(
       type: DataTypes.INTEGER,
     },
     off: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
     },
     altImg: {
       type: DataTypes.STRING,
@@ -51,7 +51,7 @@ const productModel = dataBase.define(
     timestamps: true,
     tableName: "product",
     indexes: [
-      { unique: false, fields: ["slug", "name", "description", "status"] },
+      { unique: false, fields: ["slug", "name", "description", "status","keycode"] },
     ],
   }
 );

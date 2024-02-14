@@ -1,11 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+import withMT from '@material-tailwind/react/utils/withMT';
+const tailwind = withMT({
+  content: ['./src/**/*.{mjs,js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {}
   },
-  plugins: [],
-}
+  plugins: []
+})
+export default tailwind

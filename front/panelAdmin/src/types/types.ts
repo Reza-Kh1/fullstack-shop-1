@@ -1,0 +1,24 @@
+declare module '@material-tailwind/react' {
+    export const Button: any;
+    export const Dialog: any;
+    export const DialogHeader: any;
+    export const DialogBody: any;
+    export const DialogFooter: any;
+    export const Radio: any
+    export const Card: any
+    export const List: any
+    export const ListItem: any
+    export const ListItemPrefix: any
+    export const Typography: any
+    export const Select: any
+    export const Option: any
+    export const Checkbox: any
+    export const CardHeader: any
+    export const CardBody: any
+    export const Chip: any
+    export const CardFooter: any
+    export const Avatar: any
+    export const IconButton: any
+    export const Tooltip: any
+    export const Input: any
+}

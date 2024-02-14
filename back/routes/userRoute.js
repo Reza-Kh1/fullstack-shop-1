@@ -6,6 +6,7 @@ import {
   loginAdmin,
   loginUser,
   searchUser,
+  logOut,
   updateUser,
   verifyPassword,
 } from "../controllers/userCtrl.js";
@@ -19,6 +20,7 @@ routes.route("/login").post(loginUser);
 routes.route("/verify").post(verifyPassword);
 routes.route("/admin").get(isAuthor, loginAdmin);
 routes.route("/profile").get(isLogin, getProfile);
+routes.route("/logout").get(logOut)
 routes
   .route("/:id")
   .put(isLogin, updateUser)

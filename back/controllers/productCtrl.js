@@ -3,6 +3,8 @@ import {
   detailProductModel,
   productModel,
   reviewModel,
+  subCategoryModel,
+  userModel,
 } from "../models/index.js";
 import { customError } from "../middlewares/errorHandler.js";
 import pagination from "../middlewares/pagination.js";
@@ -143,18 +145,56 @@ export const getProduct = asyncHandler(async (req, res) => {
   }
 });
 export const getAllProduct = asyncHandler(async (req, res) => {
-  let { page, name, price, order, status } = req.query;
-  try {
-    const cookie = req.cookies.user;
-    if (cookie) {
-      token.verify(cookie, process.env.TOKEN_SECURET);
-    } else {
-      status = false;
-    }
-  } catch (err) {
-    throw customError(err, 403);
+  let { page, name, price, order } = req.query;
+  const limit = process.env.LIMIT;
+  if (!page) {
+    page = 1;
   }
-  const limit = 10;
+  let filterOrder = [];
+  let filter = {
+    [Op.and]: [{ status: true }],
+  };
+  if (price) {
+    const newPrice = price.split("-");
+    filter[Op.and].push({
+      price: { [Op.between]: [Number(newPrice[0]), Number(newPrice[1])] },
+    });
+  }
+  if (name) {
+    filter[Op.and].push({
+      [Op.or]: [
+        { name: { [Op.like]: "%" + name + "%" } },
+        { description: { [Op.like]: "%" + name + "%" } },
+        { keycode: { [Op.like]: "%" + name + "%" } },
+      ],
+    });
+  }
+  if (order) {
+    const newOrder = order.split("-");
+    filterOrder.push([newOrder[0], newOrder[1]]);
+  }
+  if (!filter[Op.and].length) {
+    filter = {};
+  }
+  try {
+    const data = await productModel.findAndCountAll({
+      where: filter,
+      limit: limit,
+      offset: limit * page - limit,
+      order: filterOrder,
+      attributes: { exclude: ["createdAt", "keycode", "userId", "status","useId","id","categoryId"] },
+      include:[{model:subCategoryModel,attributes:["name","slug"]}]
+    });
+    const pager = pagination(data.count, limit, page);
+    if (!data.count) return res.send({ message: "هیچ محصولی یافت نشد" });
+    res.send({ ...data, pagination: pager });
+  } catch (err) {
+    customError(err, 404);
+  }
+});
+export const getAllProductAdmin = asyncHandler(async (req, res) => {
+  let { page, name, price, order, status } = req.query;
+  const limit = process.env.LIMIT;
   if (!page) {
     page = 1;
   }
@@ -173,6 +213,7 @@ export const getAllProduct = asyncHandler(async (req, res) => {
       [Op.or]: [
         { name: { [Op.like]: "%" + name + "%" } },
         { description: { [Op.like]: "%" + name + "%" } },
+        { keycode: { [Op.like]: "%" + name + "%" } },
       ],
     });
   }
@@ -180,16 +221,26 @@ export const getAllProduct = asyncHandler(async (req, res) => {
     const newOrder = order.split("-");
     filterOrder.push([newOrder[0], newOrder[1]]);
   }
+  if (!filter[Op.and].length) {
+    filter = {};
+  }
   try {
     const data = await productModel.findAndCountAll({
       where: filter,
       limit: limit,
       offset: limit * page - limit,
       order: filterOrder,
+      attributes: {
+        exclude: ["createdAt", "keycode", "userId", "status", "categoryId"],
+      },
+      include: [
+        { model: userModel, attributes: ["name"] },
+        { model: subCategoryModel, attributes: ["name"] },
+      ],
     });
     const pager = pagination(data.count, limit, page);
     if (!data.count) return res.send({ message: "هیچ محصولی یافت نشد" });
-    res.send({ data: { data, pagination: pager } });
+    res.send({ ...data, pagination: pager });
   } catch (err) {
     customError(err, 404);
   }
@@ -199,11 +250,14 @@ export const getProductAdmin = asyncHandler(async (req, res) => {
   try {
     const data = await productModel.findOne({
       where: { slug: id },
+      attributes: { exclude: ["userId", "categoryId"] },
       include: [
         {
           model: detailProductModel,
           attributes: { exclude: ["updatedAt", "createdAt"] },
         },
+        { model: userModel, attributes: ["name"] },
+        { model: subCategoryModel, attributes: ["name"] },
       ],
     });
     if (!data) throw new Error("محصولی وجود ندارد !");
@@ -213,7 +267,7 @@ export const getProductAdmin = asyncHandler(async (req, res) => {
   }
 });
 export const createDetail = asyncHandler(async (req, res) => {
-  const { title, keyward, skillProduct, text } = req.body;
+  const { title, keyward, skillProduct, text, srcImg } = req.body;
   const { id } = req.params;
   try {
     await detailProductModel.create({
@@ -222,6 +276,7 @@ export const createDetail = asyncHandler(async (req, res) => {
       keyward,
       skillProduct,
       text,
+      srcImg,
     });
     res.send({ message: "توضیحات محصول ثبت شد" });
   } catch (err) {
@@ -229,7 +284,7 @@ export const createDetail = asyncHandler(async (req, res) => {
   }
 });
 export const updateDetail = asyncHandler(async (req, res) => {
-  const { title, keyward, skillProduct, text } = req.body;
+  const { title, keyward, skillProduct, text, srcImg } = req.body;
   const { id } = req.params;
   try {
     const data = await detailProductModel.findByPk(id);
@@ -245,6 +300,9 @@ export const updateDetail = asyncHandler(async (req, res) => {
     }
     if (text) {
       data.text = text;
+    }
+    if (srcImg) {
+      data.srcImg = srcImg;
     }
     await data.save();
     res.send({ message: "توضیحات محصول ثبت شد" });
