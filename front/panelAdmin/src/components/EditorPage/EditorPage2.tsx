@@ -1,17 +1,7 @@
 import EditorJS from "@editorjs/editorjs";
-import { Dialog, DialogBody } from "@material-tailwind/react";
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { FaUpload } from "react-icons/fa6";
-import { toast } from "react-toastify";
 export default function EditorPage2() {
   const [isMounted, setIsMounted] = useState<boolean>();
-  const [value, setValue] = useState("");
-  const [open, setopen] = useState<boolean>(false);
-  const [allImage, setAllimage] = useState();
-  const [altValue, setAltValue] = useState("");
-  const [imgClass, setImgClass] = useState("");
-
   const ref = useRef<EditorJS>();
   const initEditor = async () => {
     const EditorJs = (await import("@editorjs/editorjs")).default;
@@ -29,7 +19,8 @@ export default function EditorPage2() {
     const Warning = (await import("@editorjs/warning")).default;
     const Code = (await import("@editorjs/code")).default;
     const FontSize = (await import("editorjs-inline-font-size-tool")).default;
-    const TextColor = (await import("editorjs-text-color-plugin")).default;
+    const ColorPlugin = (await import("editorjs-text-color-plugin")).default;
+    const Link = (await import("@editorjs/link")).default;
     if (!ref.current) {
       const editor = new EditorJs({
         holder: "editorjs",
@@ -42,14 +33,23 @@ export default function EditorPage2() {
           delimiter: Delimiter,
           inlineCode: InlineCode,
           list: List,
-          marker: Marker,
-
           quote: Quote,
           code: Code,
           rawHtml: Raw,
           fontSize: FontSize,
-          textColor: TextColor,
           warning: Warning,
+          Color: {
+            class: ColorPlugin, // if load from CDN, please try: window.ColorPlugin
+            config: {
+              customPicker: true, // add a button to allow selecting any colour
+            },
+          },
+          Marker: {
+            class: Marker,
+          },
+          linkTool: {
+            class: Link,
+          },
           paragraph: {
             class: Paragraph,
             inlineToolbar: true,
@@ -58,9 +58,11 @@ export default function EditorPage2() {
             class: Image,
             config: {
               endpoints: {
-                byFile: "http://localhost:5000/api-v1/image",
+                byFile: `${import.meta.env.VITE_PUBLIC_API}image`,
+                byUrl: `http://localhost:5000/api-v1/image`,
               },
             },
+            inlineToolbar: true,
           },
         },
         inlineToolbar: true,
@@ -100,49 +102,11 @@ export default function EditorPage2() {
       <div
         id="editorjs"
         className="max-w-full min-h-screen border shadow-md"
+        style={{ direction: "ltr" }}
       ></div>
       <button onClick={save} type="button">
         save
       </button>
-      <Dialog
-        open={open}
-        animate={{
-          mount: { scale: 1, y: 0 },
-          unmount: { scale: 0.9, y: -100 },
-        }}
-        handler={setopen}
-        size={"md"}
-      >
-        <DialogBody className="overflow-y-auto bg-gray-700 rounded-md">
-          {allImage &&
-            allImage.map((i) => (
-              <figure
-                onClick={() =>
-                  addImage(import.meta.env.VITE_PUBLIC_URL + i.url)
-                }
-                className="w-full relative bg-blue-gray-800 rounded-md"
-                key={i.id}
-              >
-                <img
-                  src={import.meta.env.VITE_PUBLIC_URL + i.url}
-                  alt="uploade"
-                  className="rounded-md shadow-md h-52 object-cover"
-                />
-              </figure>
-            ))}
-          <input
-            type="text"
-            onChange={({ target }) => setAltValue(target.value)}
-            value={altValue}
-          />
-          <input
-            type="text"
-            placeholder="class"
-            onChange={({ target }) => setImgClass(target.value)}
-            value={imgClass}
-          />
-        </DialogBody>
-      </Dialog>
     </>
   );
 }

@@ -4,7 +4,6 @@ import axios from "axios";
 import Pagination from "../../components/Pagination/Pagination";
 import { FaPlus } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import EditorPage2 from "../../components/EditorPage/EditorPage2";
 
 export default function Product() {
   const [allProduct, setAllProduct] = useState<ProductType[]>();
@@ -55,7 +54,7 @@ export default function Product() {
           </div>
         </div>
         <div>
-          <EditorPage2 />
+        
         </div>
       </div>
     </>
