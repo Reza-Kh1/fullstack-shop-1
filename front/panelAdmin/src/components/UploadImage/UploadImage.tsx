@@ -4,11 +4,11 @@ import { toast } from "react-toastify";
 
 export default function UploadImage() {
   const uploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (!files) return;
+    const newFile = event.target.files;
+    if (!newFile) return;
     const formData = new FormData();
-    for (let file of files) {
-      formData.append("file", file);
+    for (let file of newFile) {
+      formData.append("image", file);
     }
     axios
       .post("image", formData)
@@ -28,7 +28,7 @@ export default function UploadImage() {
         htmlFor="plus"
         className="w-2/12 h-28 rounded-md bg-orange-400 flex justify-center items-center shadow-md mt-3 cursor-pointer"
       >
-        <input type="file" multiple onChange={uploadImage} id="plus" hidden />
+        <input type="file" onChange={uploadImage} id="plus" hidden />
         <i>
           <FaFileUpload className="text-gray-50 text-3xl" />
         </i>
