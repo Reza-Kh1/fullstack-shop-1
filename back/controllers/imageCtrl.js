@@ -5,16 +5,21 @@ import pagination from "../middlewares/pagination.js";
 import { fileURLToPath } from "url";
 import fs from "fs";
 import path from "path";
+import { log } from "console";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 export const createImage = asyncHandler(async (req, res) => {
-  if (req.files == undefined) throw customError("هیچ عکسی انتخاب نشده", 401);
+  if (req.file == undefined) throw customError("هیچ عکسی انتخاب نشده", 401);
   try {
-    const url = await req.files.map((i) => {
-      return { url: i.path.replace(/\\/g, "/") };
-    });
-    const data = await imageModel.bulkCreate(url);
-    res.send({ data });
+    const url = req.file.path.replace(/\\/g, "/");
+    await imageModel.create({ url });
+    const body = {
+      success: 1,
+      file: {
+        url: process.env.URL_SITE + url,
+      },
+    };
+    res.send({ ...body });
   } catch (err) {
     throw customError(err, 400);
   }
