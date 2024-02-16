@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import SubmitBtn from "../SubmitBtn/SubmitBtn";
 import InputForm from "../InputForm/InputForm";
 import { useEffect, useState } from "react";
-import { CategoryType, ProductType } from "../../types/type";
+import { CategoryType, ProductDetailType, ProductType } from "../../types/type";
 import { Checkbox, Option, Select } from "@material-tailwind/react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -10,22 +10,29 @@ import SelectImage from "../SelectImage/SelectImage";
 import { FaTrash } from "react-icons/fa6";
 import DetailProduct from "../DetailProduct/DetailProduct";
 
-export default function CreateProduct() {
-  const { register, handleSubmit } = useForm<ProductType>();
+export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
+  const { register, handleSubmit, setValue } = useForm<ProductType>();
   const [category, setCategory] = useState<CategoryType[]>();
-  const [selectCategory, setSelectCategory] = useState<string>();
+  const [selectCategory, setSelectCategory] = useState<string>(
+    infoProduct?.subCategory?.name || ""
+  );
   const [imgProduct, setImgProduct] = useState<{ url: string }[]>([]);
-  const [status, setStatus] = useState<boolean>();
-  const [detail, setDetail] = useState<ProductType>();
+  const [status, setStatus] = useState<boolean>(infoProduct?.status || false);
+  const [response, setResponse] = useState<ProductDetailType | null>(null);
+  const [idProduct, setIdProduct] = useState<number | null>();
   const createAction = (form: ProductType) => {
     if (!selectCategory) return toast.error("دسته را مشخص کنید");
     const id = category?.find((i) => i.name === selectCategory);
+    let src: string[] = [];
+    imgProduct.forEach((i) => {
+      src.push(i.url);
+    });
     const body = {
       name: form.name,
       price: Number(form.price) === 0 ? null : Number(form.price),
       off: Number(form.off) === 0 ? null : Number(form.off),
       altImg: form.altImg ? form.altImg : null,
-      srcImg: imgProduct.length ? imgProduct : null,
+      srcImg: src.length ? src : null,
       slug: form.slug,
       total: Number(form.totel) === 0 ? null : Number(form.totel),
       description: form.description,
@@ -35,16 +42,12 @@ export default function CreateProduct() {
     axios
       .post("product", body)
       .then(({ data }) => {
-        setDetail(data.data);
+        setIdProduct(data.data.id);
         toast.success("محصول با موفقیت ثبت شد");
       })
       .catch((err) => {
         toast.error(err);
       });
-    // reset();
-    // setSelectCategory("");
-    // setImgProduct([]);
-    // setStatus(false);
   };
   const getData = () => {
     axios
@@ -58,6 +61,23 @@ export default function CreateProduct() {
   };
   useEffect(() => {
     getData();
+    if (infoProduct) {
+      let src: { url: string }[] = [];
+      infoProduct?.srcImg;
+      setValue("totel", infoProduct?.total || 0);
+      setValue("off", infoProduct?.off || 0);
+      setValue("price", infoProduct?.price || 0);
+      setValue("name", infoProduct?.name || "");
+      setValue("description", infoProduct?.description || "");
+      setValue("slug", infoProduct?.slug || "");
+      setValue("altImg", infoProduct?.altImg || "");
+      setResponse(infoProduct?.detailProduct || null);
+      infoProduct?.srcImg.map((i) => {
+        src.push(i);
+      });
+      setImgProduct(src || []);
+    }
+    console.log(infoProduct);
   }, []);
   return (
     <div className="w-full">
@@ -115,9 +135,7 @@ export default function CreateProduct() {
             register={register}
             type="text"
             onInput={(e) => {
-              e.target.value = e.target.value
-                .replace(/[^0-9]/g, "")
-                .replace(/^0+/, "");
+              e.target.value = e.target.value.replace(/[^0-9]/g, "");
             }}
           />
         </div>
@@ -217,9 +235,14 @@ export default function CreateProduct() {
             label="منتشر شود ؟"
           />
         </div>
-        {/* {detail?.id && <DetailProduct  />} */}
+        {idProduct ? (
+          <DetailProduct id={idProduct} />
+        ) : response ? (
+          <DetailProduct detail={response} />
+        ) : (
+          ""
+        )}
       </form>
-      <DetailProduct id={4} />
     </div>
   );
 }

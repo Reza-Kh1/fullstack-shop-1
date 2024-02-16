@@ -56,7 +56,23 @@ export type ProductType = {
   description: string;
   totel: null | number;
   updatedAt: Date;
+  createdAt?: Date;
   categoryId: null;
+  subCategory: {
+    name: string;
+  };
+  user?: {
+    name?: string;
+  };
+};
+export type ProductDetailType = {
+  id: number;
+  srcImg: string[];
+  title: string;
+  keyward: string[];
+  skillProduct: { name: string; skills: { name: string; text: string }[] }[];
+  text: string;
+  postId: 2;
 };
 export type ImageType = {
   id: number;

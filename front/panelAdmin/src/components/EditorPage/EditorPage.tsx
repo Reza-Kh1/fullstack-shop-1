@@ -70,7 +70,7 @@ const Editor = ({ setEditor, editor }: EditorType) => {
   const modules = {
     toolbar: {
       container: [
-        ["link", "video"],
+        ["link", "video", "image"],
         [{ font: ["sansrif", "roboto", "iranSans"] }],
         ["bold", "italic", "underline", "strike"],
         ["blockquote", "code-block"],
@@ -85,6 +85,9 @@ const Editor = ({ setEditor, editor }: EditorType) => {
         [{ align: [] }],
         ["clean"],
       ],
+      imageResize: {
+        displaySize: true,
+      },
     },
   };
   useEffect(() => {
@@ -99,6 +102,13 @@ const Editor = ({ setEditor, editor }: EditorType) => {
       node.setAttribute("alt", value.alt);
       node.setAttribute("class", value.class);
       return node;
+    };
+    CustomImage.value = function (node) {
+      return {
+        url: node.getAttribute("src"),
+        alt: node.getAttribute("alt"),
+        class: node.getAttribute("class"),
+      };
     };
     Quill.register(CustomImage, true);
     if (!number) {

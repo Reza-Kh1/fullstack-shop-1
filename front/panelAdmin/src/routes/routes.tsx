@@ -1,4 +1,5 @@
 import CreateProduct from "../components/CreateProduct/CreateProduct";
+import SingleProduct from "../components/SingleProduct/SingleProduct";
 import Admin from "../pages/Admin/Admin";
 import Auth from "../pages/Auth/Auth";
 import Cart from "../pages/Cart/Cart";
@@ -20,6 +21,7 @@ export default [
       { path: "dashboard", element: <Dashboard /> },
       { path: "category", element: <Category /> },
       { path: "product", element: <Product /> },
+      { path: "product/admin/:id", element: <SingleProduct /> },
       { path: "upload", element: <Upload /> },
       { path: "user", element: <User /> },
       { path: "review", element: <Review /> },

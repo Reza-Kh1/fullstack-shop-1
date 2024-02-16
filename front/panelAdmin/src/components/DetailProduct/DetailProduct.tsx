@@ -4,42 +4,92 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Editor from "../EditorPage/EditorPage";
-import { Accordion, Button } from "@material-tailwind/react";
+import { Accordion, Button, Option, Select } from "@material-tailwind/react";
 import { AccordionHeader } from "@material-tailwind/react";
 import { AccordionBody } from "@material-tailwind/react";
 import DialogImage from "../DialogImage/DialogImage";
 import { FaTrash } from "react-icons/fa6";
 import SubmitBtn from "../SubmitBtn/SubmitBtn";
 import { MdTitle } from "react-icons/md";
-
-export default function DetailProduct({ id }: { id: number }) {
-  const { register, handleSubmit, resetField } = useForm();
+import { ProductDetailType } from "../../types/type";
+type SlillType = {
+  name: string;
+  skills: { name: string; text: string }[];
+};
+type DetailProductType = {
+  detail?: ProductDetailType;
+  id?: number | undefined | null;
+};
+export default function DetailProduct({ id, detail }: DetailProductType) {
+  const { register, handleSubmit, resetField, setValue } = useForm();
   const [showImage, setShowImage] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>();
   const [allImage, setAllImage] = useState<string[]>([]);
   const [editor, setEditor] = useState("");
   const [open, setOpen] = useState<number>();
   const [keyword, setKeyword] = useState<string[]>([]);
-  const [skill, setSkill] = useState<{}[]>();
+  const [skill, setSkill] = useState<SlillType[]>([]);
+  const [skillCategory, setSkillCategory] = useState<string>("");
   const createAction = (form: any) => {
-    console.log(form);
-
-    // const body = {};
-    // axios
-    //   .post(`product/detail/${id}`, body)
-    //   .then(() => {
-    //     toast.success("محصول ثبت شد");
-    //   })
-    //   .catch(() => {
-    //     toast.error(401);
-    //   });
+    if (!form.title) return toast.error("سربرگ رو بنویسید");
+    const body = {
+      title: form.title,
+      keyward: keyword,
+      srcImg: allImage,
+      skillProduct: skill,
+      text: editor,
+    };
+    if (id) {
+      axios
+        .post(`product/detail/${id}`, body)
+        .then(() => {
+          toast.success("تنظیمات ثبت شد");
+        })
+        .catch(() => {
+          toast.error(401);
+        });
+    } else {
+      axios
+        .put(`product/detail/${detail?.id}`, body)
+        .then(() => {
+          toast.success("تنظیمات ثبت شد");
+        })
+        .catch(() => {
+          toast.error(401);
+        });
+    }
   };
-
   const createSkill = (form: any) => {
     if (!form.skillname || !form.skilltext) return;
-
+    if (form.categoryskill) {
+      const body = {
+        name: form.categoryskill,
+        skills: [{ name: form.skillname, text: form.skilltext }],
+      };
+      setSkill([...skill, body]);
+    } else {
+      skill?.some((i) => {
+        if (i.name === skillCategory) {
+          return (i.skills = [
+            ...i.skills,
+            { name: form.skillname, text: form.skilltext },
+          ]);
+        }
+      });
+    }
+    setSkillCategory("");
+    resetField("categoryskill");
     resetField("skillname");
     resetField("skilltext");
+  };
+  const deleteSkill = (text: string, name: string) => {
+    const newSkill: SlillType[] = skill?.map((i) => {
+      if (i.name === name) {
+        i.skills = i.skills.filter((skill) => skill.text !== text);
+      }
+      return i;
+    });
+    setSkill(newSkill);
   };
   const createKeyword = (form: any) => {
     if (!form.keyword) return;
@@ -60,6 +110,13 @@ export default function DetailProduct({ id }: { id: number }) {
     if (imageUrl) {
       setShowImage(false);
       addImage();
+    }
+    if (detail) {
+      setAllImage(detail?.srcImg || []);
+      setSkill(detail?.skillProduct || []);
+      setEditor(detail?.text || "");
+      setKeyword(detail?.keyward || []);
+      setValue("title", detail?.title || "");
     }
   }, [imageUrl]);
   return (
@@ -123,23 +180,45 @@ export default function DetailProduct({ id }: { id: number }) {
             <AccordionBody>
               <div className="w-full flex">
                 <div className="w-6/12 flex flex-wrap p-2">
-                  <div className="w-full grid gap-2 grid-cols-2">
+                  <div className="w-full grid gap-2 items-center grid-cols-2 mb-3">
                     <InputForm
-                      name="keyword"
+                      name="categoryskill"
                       register={register}
                       type="text"
                       placeholder="نام دسته"
                       icon={<MdTitle />}
                     />
+                    {skill && (
+                      <div
+                        style={{ direction: "ltr" }}
+                        className="flex items-center w-full"
+                      >
+                        <Select
+                          onChange={(value: string) => setSkillCategory(value)}
+                          label="انتخاب دسته"
+                          animate={{
+                            mount: { y: 0 },
+                            unmount: { y: 25 },
+                          }}
+                          value={skillCategory}
+                        >
+                          {skill.map((i, index) => (
+                            <Option value={i.name} key={index}>
+                              {i.name}
+                            </Option>
+                          ))}
+                        </Select>
+                      </div>
+                    )}
                   </div>
                   <div className="w-full grid gap-2 grid-cols-2">
                     <textarea
                       rows={6}
-                      {...register("skilename")}
+                      {...register("skillname")}
                       className="w-full rounded-md p-1 shadow-md bg-blue-gray-200 text-gray-900"
                     ></textarea>
                     <textarea
-                      {...register("skiletext")}
+                      {...register("skilltext")}
                       rows={6}
                       className="w-full rounded-md p-1 shadow-md bg-blue-gray-200 text-gray-900"
                     ></textarea>
@@ -154,14 +233,43 @@ export default function DetailProduct({ id }: { id: number }) {
                   </div>
                 </div>
                 <div className="w-6/12 p-2">
-                  <div className="w-4/12 pr-2">
-                    <SubmitBtn
-                      type="button"
-                      value="افزودن"
-                      classPlus="w-full flex justify-center"
-                      onClick={handleSubmit(createKeyword)}
-                    />
-                  </div>
+                  {skill.length &&
+                    skill.map((i, index) => (
+                      <div
+                        key={index}
+                        className="my-2 bg-blue-gray-400 p-2 rounded-md"
+                      >
+                        <span className="text-gray-100">
+                          {i.name}
+                          <FaTrash
+                            className="inline text-red-400 mr-1 cursor-pointer"
+                            onClick={() => {
+                              const news = skill.filter(
+                                (id) => id.name !== i.name
+                              );
+                              setSkill(news);
+                            }}
+                          />
+                        </span>
+                        {i.skills.map((id, index) => (
+                          <div
+                            key={index}
+                            className="flex justify-between p-2 rounded-md bg-blue-gray-50 my-1 flex-wrap"
+                          >
+                            <p className="w-[40%] border ml-1 border-l-gray-900">
+                              {id.name}
+                            </p>
+                            <p className="w-[58%]">
+                              {id.text}
+                              <FaTrash
+                                className="inline text-red-400 mr-1 cursor-pointer"
+                                onClick={() => deleteSkill(id.text, i.name)}
+                              />
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
                 </div>
               </div>
             </AccordionBody>
@@ -192,23 +300,21 @@ export default function DetailProduct({ id }: { id: number }) {
               <div className="w-8/12 flex flex-wrap gap-3 p-2">
                 {keyword &&
                   keyword?.map((i, index) => (
-                    <>
-                      <div
-                        key={index}
-                        className="rounded-md shadow-md px-3 py-1 text-gray-50 bg-blue-400"
+                    <div
+                      key={index}
+                      className="rounded-md shadow-md px-3 py-1 text-gray-50 bg-blue-400"
+                    >
+                      <span>{i}</span>
+                      <i
+                        className="cursor-pointer text-orange-500"
+                        onClick={() => {
+                          const newKey = keyword.filter((id) => id !== i);
+                          setKeyword(newKey);
+                        }}
                       >
-                        <span>{i}</span>
-                        <i
-                          className="cursor-pointer text-orange-500"
-                          onClick={() => {
-                            const newKey = keyword.filter((id) => id !== i);
-                            setKeyword(newKey);
-                          }}
-                        >
-                          <FaTrash className="inline mr-2" />
-                        </i>
-                      </div>
-                    </>
+                        <FaTrash className="inline mr-2" />
+                      </i>
+                    </div>
                   ))}
               </div>
             </AccordionBody>
@@ -241,9 +347,3 @@ export default function DetailProduct({ id }: { id: number }) {
     </div>
   );
 }
-
-// "title": "ss",
-// "keyward": ["qwq","qwdqw"],
-// "srcImg": ["b skdbaksj","dsjadui"],
-// "skillProduct": "ww",
-// "text": "ee"

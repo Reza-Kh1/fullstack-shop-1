@@ -25,6 +25,7 @@ export default function Product() {
   }, [page]);
   return (
     <>
+      {console.log(allProduct)}
       <div className="w-full">
         <div className="my-2">
           <Link
@@ -36,7 +37,60 @@ export default function Product() {
               <FaPlus className="inline" />
             </i>
           </Link>
-          <span></span>
+        </div>
+        <div className="w-full grid grid-cols-4 gap-2 mt-4">
+          {allProduct &&
+            allProduct.map((item, index) => (
+              <Link
+                key={index}
+                to={"admin/" + item.slug}
+                className="bg-blue-gray-200 shadow-md p-2 rounded-md"
+              >
+                <figure>
+                 
+                  {item.srcImg &&
+                    item.srcImg.map((src, index) => (
+                      <img key={index} src={src} alt={item.altImg || ""} />
+                    ))}
+                </figure>
+                <div className="flex justify-between">
+                  <span className="text-sm">{item?.subCategory?.name}</span>
+                  <span className="text-sm">
+                    {new Date(item.updatedAt).toLocaleDateString("fa")}
+                  </span>
+                </div>
+                <div className="flex justify-between mt-4">
+                  <div className="relative">
+                    {item.price ? (
+                      <span className="text-blue-700 mr-1 text-lg">
+                        {item.price.toLocaleString("fa")} تومان
+                      </span>
+                    ) : (
+                      "رایگان"
+                    )}
+                    {item.off && (
+                      <del className="text-xs text-red-300 -top-3 right-0 absolute">
+                        {item.off.toLocaleString("fa")} تخفیف
+                      </del>
+                    )}
+                  </div>
+                  <span>
+                    {item.totel ? (
+                      <>
+                        <span className="text-xs">{item.totel} انبار</span>
+                      </>
+                    ) : (
+                      "ناموجود"
+                    )}
+                  </span>
+                </div>
+                <div className="mt-3">
+                  <span className="text-lg">{item.name}</span>
+                  <p className="">{item.description}</p>
+                  <span className="text-xs">نویسنده {item?.user?.name}</span>
+                </div>
+              </Link>
+            ))}
         </div>
         <div>
           <div className="my-5">
