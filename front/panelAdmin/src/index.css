@@ -21,21 +21,6 @@
     font-family: "iranSans", Arial, Helvetica, sans-serif !important;
 }
 
-.ql-snow .ql-picker.ql-header .ql-picker-label::before,
-.ql-snow .ql-picker.ql-header .ql-picker-item::before {
-    content: 'Header';
-}
-
-.ql-snow .ql-picker.ql-size .ql-picker-label::before,
-.ql-snow .ql-picker.ql-size .ql-picker-item::before {
-    content: 'Size';
-}
-
-.ql-snow .ql-picker.ql-font .ql-picker-label::before,
-.ql-snow .ql-picker.ql-font .ql-picker-item::before {
-    content: 'Font';
-}
-
 body {
     min-height: 100vh;
     background: linear-gradient(360deg, #232323, #000000);
@@ -54,6 +39,54 @@ li {
 
 a {
     text-decoration: none;
+}
+
+.dialog-upload::-webkit-scrollbar {
+    width: 5px;
+}
+
+.dialog-upload::-webkit-scrollbar-track {
+    background: #0d0d0d;
+}
+
+.dialog-upload::-webkit-scrollbar-thumb {
+    background: #5b5b5b;
+}
+
+.dialog-upload::-webkit-scrollbar-thumb:hover {
+    background: #000000;
+}
+
+.ql-snow .ql-picker.ql-header .ql-picker-label::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item::before {
+    content: 'Normal';
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item::before {
+    content: 'Size';
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item::before {
+    content: 'Font';
+}
+
+.ql-container.ql-snow {
+    min-height: 300px;
+    background-color: #f4f4f4;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0px 0px 6px 8px #c8c8c8;
+}
+
+
+.ql-toolbar.ql-snow {
+    position: sticky;
+    width: 100%;
+    z-index: 50;
+    box-shadow: 0px -1px 14px 0px #dcdada;
+    background: aliceblue;
+    top: 0;
 }
 
 .table-rounded thead tr:last-child th:first-child {

@@ -47,7 +47,10 @@ export default function Upload() {
         <div className="grid grid-cols-4 gap-3 mt-5">
           {allImage &&
             allImage.map((i) => (
-              <figure className="w-full relative bg-blue-gray-800 rounded-md" key={i.id}>
+              <figure
+                className="w-full relative bg-blue-gray-800 rounded-md"
+                key={i.id}
+              >
                 <img
                   src={import.meta.env.VITE_PUBLIC_URL + i.url}
                   alt="uploade"
@@ -68,7 +71,12 @@ export default function Upload() {
           setAll={setAllImage}
           allImage={allImage}
         />
-        <UploadImage />
+        <span className="bg-blue-200 py-3 px-3 rounded-md shadow-md block mt-5">
+          افزودن عکس جدید
+        </span>
+        <div className="w-2/12 mt-5 h-28">
+          <UploadImage />
+        </div>
       </div>
     </div>
   );

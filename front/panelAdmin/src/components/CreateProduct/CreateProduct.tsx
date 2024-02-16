@@ -219,9 +219,8 @@ export default function CreateProduct() {
           />
         </div>
         {/* {detail?.id && <DetailProduct  />} */}
-        <DetailProduct id={4} />
       </form>
-
+      <DetailProduct id={4} />
     </div>
   );
 }

@@ -1,8 +1,10 @@
 import axios from "axios";
 import { FaFileUpload } from "react-icons/fa";
 import { toast } from "react-toastify";
-
-export default function UploadImage() {
+type UploadImageType = {
+  setUpload?: (value: string) => void;
+};
+export default function UploadImage({ setUpload }: UploadImageType) {
   const uploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newFile = event.target.files;
     if (!newFile) return;
@@ -12,27 +14,26 @@ export default function UploadImage() {
     }
     axios
       .post("image", formData)
-      .then(() => {
-        toast.success("عکس ها ذخیره شدند");
+      .then(({ data }) => {
+        toast.success("عکس با موفقیت افزوده شد");
+        if (data.file.url && setUpload) {
+          setUpload(data.file.url || "");
+        }
       })
       .catch((err) => {
         toast.error(err);
       });
   };
+
   return (
-    <div>
-      <span className="bg-blue-200 py-3 px-3 rounded-md shadow-md block mt-5">
-        افزودن عکس جدید
-      </span>
-      <label
-        htmlFor="plus"
-        className="w-2/12 h-28 rounded-md bg-orange-400 flex justify-center items-center shadow-md mt-3 cursor-pointer"
-      >
-        <input type="file" onChange={uploadImage} id="plus" hidden />
-        <i>
-          <FaFileUpload className="text-gray-50 text-3xl" />
-        </i>
-      </label>
-    </div>
+    <label
+      htmlFor="plus"
+      className="w-full py-5 h-full rounded-md bg-orange-400 flex justify-center items-center shadow-md cursor-pointer"
+    >
+      <input type="file" onChange={uploadImage} id="plus" hidden />
+      <i>
+        <FaFileUpload className="text-gray-50 text-3xl" />
+      </i>
+    </label>
   );
 }
