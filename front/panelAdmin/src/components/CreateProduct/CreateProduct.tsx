@@ -11,12 +11,11 @@ import { FaTrash } from "react-icons/fa6";
 import DetailProduct from "../DetailProduct/DetailProduct";
 
 export default function CreateProduct() {
-  const { register, handleSubmit, reset } = useForm<ProductType>();
+  const { register, handleSubmit } = useForm<ProductType>();
   const [category, setCategory] = useState<CategoryType[]>();
   const [selectCategory, setSelectCategory] = useState<string>();
   const [imgProduct, setImgProduct] = useState<{ url: string }[]>([]);
   const [status, setStatus] = useState<boolean>();
-  const [imgDetial, setImgDetial] = useState<string[]>([]);
   const [detail, setDetail] = useState<ProductType>();
   const createAction = (form: ProductType) => {
     if (!selectCategory) return toast.error("دسته را مشخص کنید");
