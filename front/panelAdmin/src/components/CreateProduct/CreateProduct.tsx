@@ -6,9 +6,9 @@ import { CategoryType, ProductDetailType, ProductType } from "../../types/type";
 import { Checkbox, Option, Select } from "@material-tailwind/react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import SelectImage from "../SelectImage/SelectImage";
 import { FaTrash } from "react-icons/fa6";
 import DetailProduct from "../DetailProduct/DetailProduct";
+import DialogImage from "../DialogImage/DialogImage";
 
 export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
   const { register, handleSubmit, setValue } = useForm<ProductType>();
@@ -16,38 +16,48 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
   const [selectCategory, setSelectCategory] = useState<string>(
     infoProduct?.subCategory?.name || ""
   );
-  const [imgProduct, setImgProduct] = useState<{ url: string }[]>([]);
+  const [allImage, setAllImage] = useState<string[]>([]);
+  const [imgProduct, setImgProduct] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
   const [status, setStatus] = useState<boolean>(infoProduct?.status || false);
   const [response, setResponse] = useState<ProductDetailType | null>(null);
-  const [idProduct, setIdProduct] = useState<number | null>();
+  const [idProduct, setIdProduct] = useState<any>();
   const createAction = (form: ProductType) => {
     if (!selectCategory) return toast.error("دسته را مشخص کنید");
     const id = category?.find((i) => i.name === selectCategory);
-    let src: string[] = [];
-    imgProduct.forEach((i) => {
-      src.push(i.url);
-    });
     const body = {
       name: form.name,
       price: Number(form.price) === 0 ? null : Number(form.price),
       off: Number(form.off) === 0 ? null : Number(form.off),
       altImg: form.altImg ? form.altImg : null,
-      srcImg: src.length ? src : null,
+      srcImg: allImage,
       slug: form.slug,
       total: Number(form.totel) === 0 ? null : Number(form.totel),
       description: form.description,
       categoryId: id?.id ? id.id : null,
       status: status || false,
     };
-    axios
-      .post("product", body)
-      .then(({ data }) => {
-        setIdProduct(data.data.id);
-        toast.success("محصول با موفقیت ثبت شد");
-      })
-      .catch((err) => {
-        toast.error(err);
-      });
+
+    if (infoProduct?.slug) {
+      axios
+        .put(`product/${infoProduct?.slug}`, body)
+        .then(() => {
+          toast.success("محصول با موفقیت به روزرسانی شد");
+        })
+        .catch((err) => {
+          toast.error(err);
+        });
+    } else {
+      axios
+        .post("product", body)
+        .then(({ data }) => {
+          setIdProduct(data.data.id);
+          toast.success("محصول با موفقیت ثبت شد");
+        })
+        .catch((err) => {
+          toast.error(err);
+        });
+    }
   };
   const getData = () => {
     axios
@@ -56,13 +66,17 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
       .catch(() => toast.error("دریافت دسته ها با خطا روبرو شد!"));
   };
   const deleteImage = (i: string) => {
-    const newImg = imgProduct.filter((id) => id.url !== i);
-    setImgProduct(newImg);
+    const newImg = allImage.filter((id) => id !== i);
+    setAllImage(newImg);
   };
+  useEffect(() => {
+    if (imgProduct) {
+      allImage.push(imgProduct);
+    }
+  }, [imgProduct]);
   useEffect(() => {
     getData();
     if (infoProduct) {
-      let src: { url: string }[] = [];
       infoProduct?.srcImg;
       setValue("totel", infoProduct?.total || 0);
       setValue("off", infoProduct?.off || 0);
@@ -71,13 +85,12 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
       setValue("description", infoProduct?.description || "");
       setValue("slug", infoProduct?.slug || "");
       setValue("altImg", infoProduct?.altImg || "");
-      setResponse(infoProduct?.detailProduct || null);
-      infoProduct?.srcImg.map((i) => {
-        src.push(i);
-      });
-      setImgProduct(src || []);
+      if (infoProduct.detailProduct) {
+        setResponse(infoProduct?.detailProduct || null);
+      }
+      setIdProduct(infoProduct.id);
+      setAllImage(infoProduct?.srcImg);
     }
-    console.log(infoProduct);
   }, []);
   return (
     <div className="w-full">
@@ -198,23 +211,27 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
               )}
             </div>
             <div>
-              <SelectImage setImage={setImgProduct} image={imgProduct} />
+              <SubmitBtn
+                type="button"
+                value="انتخاب عکس"
+                onClick={() => setOpen(true)}
+              />
             </div>
           </div>
           <div className="w-4/6 grid grid-cols-2 gap-2 p-2 items-center">
-            {imgProduct &&
-              imgProduct.map((i, index) => (
+            {allImage &&
+              allImage.map((i, index) => (
                 <figure
                   key={index}
                   className="w-full relative h-32 bg-blue-gray-800 rounded-md"
                 >
                   <img
-                    src={import.meta.env.VITE_PUBLIC_URL + i.url}
+                    src={i}
                     className="w-full rounded-md shadow-md h-full object-cover"
                     alt=""
                   />
                   <i
-                    onClick={() => deleteImage(i.url)}
+                    onClick={() => deleteImage(i)}
                     className="absolute bottom-2 left-2 text-red-500 p-2 transition-all bg-[#f0f8ff3d] hover:bg-gray-900 hover:text-gray-100 rounded-md cursor-pointer"
                   >
                     <FaTrash className="text-lg" />
@@ -243,6 +260,7 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
           ""
         )}
       </form>
+      <DialogImage open={open} setOpen={setOpen} setUrl={setImgProduct} />
     </div>
   );
 }
