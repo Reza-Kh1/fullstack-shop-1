@@ -80,3 +80,17 @@ export type ImageType = {
   createdAt: Date;
   updatedAt: Date;
 };
+export type ReviewsType = {
+  id: number;
+  comment: string;
+  name: string;
+  email: string | null;
+  phone: string;
+  status: boolean;
+  createdAt: Date;
+  replyId: string | null;
+  product: {
+    name: string;
+    slug: string;
+  } | null;
+};

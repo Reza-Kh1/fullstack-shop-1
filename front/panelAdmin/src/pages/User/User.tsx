@@ -91,7 +91,7 @@ export default function User() {
       .then(() => {
         toast.success("عملیات موفقیت آمیز بود"), getData();
       })
-      .catch((err) => toast.error("کاربر ثبت نشد"));
+      .catch(() => toast.error("کاربر ثبت نشد"));
     CloseModel();
     setSelectRole("");
   };

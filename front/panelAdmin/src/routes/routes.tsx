@@ -21,7 +21,7 @@ export default [
       { path: "dashboard", element: <Dashboard /> },
       { path: "category", element: <Category /> },
       { path: "product", element: <Product /> },
-      { path: "product/admin/:id", element: <SingleProduct /> },
+      { path: "product/edit-product/:id", element: <SingleProduct /> },
       { path: "upload", element: <Upload /> },
       { path: "user", element: <User /> },
       { path: "review", element: <Review /> },

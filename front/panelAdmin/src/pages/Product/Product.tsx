@@ -24,7 +24,7 @@ type SearchType = {
 };
 export default function Product() {
   const [search, setSearch] = useState({ order: "", status: "" });
-  const { register, handleSubmit, reset } = useForm<SearchType>();
+  const { register, handleSubmit } = useForm<SearchType>();
   const location = useLocation();
   const { page }: any = queryString.parse(location.search);
   const [allProduct, setAllProduct] = useState<ProductType[]>();
@@ -46,7 +46,7 @@ export default function Product() {
     } as any;
     const urlQuery = new URLSearchParams(body);
     const searchBody = urlQuery.toString();
-    navigate("/admin/product?" + searchBody)
+    navigate("/admin/edit-product?" + searchBody)
     axios
       .get("/product/admin?" + searchBody)
       .then(({ data }) => {
@@ -226,7 +226,7 @@ export default function Product() {
             allProduct.map((item, index) => (
               <Link
                 key={index}
-                to={"admin/" + item.slug}
+                to={"edit-product/" + item.slug}
                 className="bg-blue-gray-200 flex flex-col shadow-md p-2 rounded-md h-[450px]"
               >
                 <div>
