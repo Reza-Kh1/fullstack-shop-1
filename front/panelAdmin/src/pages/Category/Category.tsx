@@ -14,6 +14,8 @@ import {
   Select,
 } from "@material-tailwind/react";
 import { toast } from "react-toastify";
+import SelectImage from "../../components/SelectImage/SelectImage";
+import DialogImage from "../../components/DialogImage/DialogImage";
 type CreateCategoryType = {
   categoryname: string | null | undefined;
   categoryslug: string | null | undefined;
@@ -33,6 +35,8 @@ export default function Category() {
   const [deletModal, setDeletModal] = useState<boolean>(false);
   const [selectCategory, setSelectCategory] = useState<string>("");
   const [editCategory, setEditCategory] = useState<any>();
+  const [imageSubCategor, setImageSubCategory] = useState<string | null>(null);
+  const [showImage, setShowImage] = useState<boolean>(false);
   const {
     register: create,
     handleSubmit: handleCreate,
@@ -73,7 +77,7 @@ export default function Category() {
       body.name = form.subcategoryname;
       body.slug = form.subcategoryslug;
       body.altImg = form.subcategoryalt;
-      // body.srcImg = form.
+      body.srcImg = imageSubCategor || null;
       body.categoryId = id;
     }
     axios
@@ -87,6 +91,8 @@ export default function Category() {
           resetCreate();
         }
         resetCreate();
+        resetEdit();
+        setImageSubCategory(null);
       })
       .catch((err) => {
         console.log(err), toast.error(err.message);
@@ -98,12 +104,12 @@ export default function Category() {
     let url: string = "";
     if (form.editalt) {
       if (!selectCategory || !category.length) return;
-      const { id }: any = category.find((i) => i.name === selectCategory);
+      const { id }: any = category.find((i) => i.slug === selectCategory);
       url = "sub-category/";
       body.name = form.editname;
       body.slug = form.editslug;
       body.altImg = form.editalt;
-      // body.srcImg = form.
+      body.srcImg = imageSubCategor || null;
       body.categoryId = id;
     } else {
       url = "category/";
@@ -122,6 +128,7 @@ export default function Category() {
           resetCreate();
         }
         resetCreate();
+        setImageSubCategory(null);
       })
       .catch((err) => {
         console.log(err), toast.error(err.message);
@@ -404,9 +411,9 @@ export default function Category() {
           </h3>
           <form
             onSubmit={handleCreate(categoryCreate)}
-            className="flex flex-wrap"
+            className="flex flex-wrap items-center justify-between"
           >
-            <div className="w-1/2 p-2">
+            <div className="w-1/3 p-2">
               <InputForm
                 register={create}
                 name="subcategoryname"
@@ -415,7 +422,7 @@ export default function Category() {
                 icon={<MdTitle className="inline" />}
               />
             </div>
-            <div className="w-1/2 p-2">
+            <div className="w-1/3 p-2">
               <InputForm
                 register={create}
                 name="subcategoryslug"
@@ -424,7 +431,7 @@ export default function Category() {
                 icon={<MdTitle className="inline" />}
               />
             </div>
-            <div className="w-1/2 p-2">
+            <div className="w-1/3 p-2">
               <InputForm
                 register={create}
                 name="subcategoryalt"
@@ -435,7 +442,7 @@ export default function Category() {
             </div>
             {category && (
               <div
-                className="w-1/2 p-2 flex items-end"
+                className="w-1/6 p-2 flex items-end"
                 style={{ direction: "ltr" }}
               >
                 <Select
@@ -454,11 +461,26 @@ export default function Category() {
                 </Select>
               </div>
             )}
-            <div className="w-1/6 mt-3">
+            <div className="w-1/6 p-2">
+              <SubmitBtn
+                type="button"
+                onClick={() => setShowImage(true)}
+                value="انتخاب عکس"
+                classPlus={"w-full flex justify-center"}
+              />
+            </div>
+            <div className="w-2/6 p-2">
+              <img
+                src={imageSubCategor ? imageSubCategor : "/image/back.webp"}
+                className="w-6/12 table mx-auto rounded-md shadow-md"
+                alt="alt"
+              />
+            </div>
+            <div className="w-full mt-3">
               <SubmitBtn
                 value="افزودن دسته"
                 type="submit"
-                classPlus={"w-full flex justify-center"}
+                classPlus={"w-2/12 flex justify-center"}
               />
             </div>
           </form>
@@ -609,8 +631,11 @@ export default function Category() {
                     </div>
                     <div className="w-full p-2">
                       <img
-                        src="/image/back.webp"
-                        className="w-6/12 table mx-auto rounded-md shadow-md"
+                        onClick={() => setShowImage(true)}
+                        src={
+                          imageSubCategor ? imageSubCategor : "/image/back.webp"
+                        }
+                        className="w-6/12 table mx-auto cursor-pointer rounded-md shadow-md"
                         alt="alt"
                       />
                     </div>
@@ -635,6 +660,11 @@ export default function Category() {
           </form>
         </DialogBody>
       </Dialog>
+      <DialogImage
+        setUrl={setImageSubCategory}
+        setOpen={setShowImage}
+        open={showImage}
+      />
     </>
   );
 }
