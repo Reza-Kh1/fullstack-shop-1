@@ -49,7 +49,7 @@ function App() {
   return (
     <>
       <div>{route}</div>
-      <ToastContainer style={{ zIndex: 10000 }} />
+      <ToastContainer style={{ zIndex: 10000 }} autoClose={1400}/>
     </>
   );
 }

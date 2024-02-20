@@ -94,3 +94,16 @@ export type ReviewsType = {
     slug: string;
   } | null;
 };
+export type OffType = {
+  id: number
+  name: string
+  offer: number
+  filterCount: number
+  start: Date
+  end: Date
+  total: number
+  updatedAt: Date
+  user: {
+    name: string
+  }
+}

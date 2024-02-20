@@ -140,3 +140,22 @@ a {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.rmdp-input {
+    box-shadow: 0px 1px 5px 1px #716f6f;
+    color: #ededed;
+    background: #343333;
+    border: none !important;
+    width: 100%;
+    border-radius: 4px !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 7px 5px !important;
+    cursor: pointer;
+}
+.rmdp-panel-body li .b-deselect {
+    padding: 0 5px;
+}
+.rmdp-container {
+    width: 100% !important;
+}

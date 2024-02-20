@@ -42,7 +42,7 @@ export default function Auth() {
         toast.success("خوش امدید");
       })
       .catch((err) => {
-        const error = err.response.data.message;
+        const error = err?.response?.data?.message;
         if (error) {
           toast.error(error);
         } else {
