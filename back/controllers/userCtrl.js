@@ -49,13 +49,16 @@ export const loginUser = asyncHandler(async (req, res) => {
   const whereClause = {};
   if (phone) whereClause.phone = phone;
   if (email) whereClause.email = email;
+  if (!phone && !email)
+    return res.status(403).send({ message: "اطلاعات رو کامل پر کنید" });
   try {
     const data = await userModel.findOne({
       where: whereClause,
       include: [{ model: cartModel }],
     });
+    console.log(data);
     if (!data)
-      return res.send({
+      return res.status(404).send({
         message: "هیچ کاربری با این شماره یا ایمیل یافت نشد",
       });
     await compareHash(password, data.password);
@@ -109,7 +112,7 @@ export const updateUser = asyncHandler(async (req, res) => {
     const token = await createToken(body);
     res.send({ data: { body, token } });
   } catch (err) {
-    throw customError(err, 401);
+    throw customError(err, 403);
   }
 });
 export const getAllUser = asyncHandler(async (req, res) => {
@@ -142,6 +145,7 @@ export const getProfile = asyncHandler(async (req, res) => {
   try {
     const data = await userModel.findByPk(id, {
       include: [{ model: cartModel }, { model: addressModel }],
+      attributes: { exclude: ["id","password", "createdAt", "updatedAt"] },
     });
     res.send({ data });
   } catch (err) {

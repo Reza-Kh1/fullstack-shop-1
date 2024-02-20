@@ -77,6 +77,7 @@ export const getAllSubCategory = asyncHandler(async (req, res) => {
   try {
     const data = await subCategoryModel.findAll({
       include: [{ model: categoryModel, attributes: ["name", "slug"] }],
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     });
     if (!data.length) return res.send({ message: "هیچ دسته ای وجو ندارد" });
     res.send({ data });
