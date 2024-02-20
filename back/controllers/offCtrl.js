@@ -1,5 +1,5 @@
 import { customError } from "../middlewares/errorHandler.js";
-import { offModel } from "../models/index.js";
+import { offModel, userModel } from "../models/index.js";
 import asyncHandler from "express-async-handler";
 
 export const createOff = asyncHandler(async (req, res) => {
@@ -83,10 +83,12 @@ export const getAllOff = asyncHandler(async (req, res) => {
     const data = await offModel.findAll({
       where: {},
       order: [["createdAt", "DESC"]],
+      include: [{ model: userModel, attributes: ["name"] }],
+      attributes: { exclude: ["userId", "createdAt"] }
     });
     if (!data.length)
       return res.send({ message: "هیچ کد تخفیفی ثبت نکرده اید !" });
-    res.send({ data });
+    res.send( [...data] );
   } catch (err) {
     throw customError(err, 401);
   }

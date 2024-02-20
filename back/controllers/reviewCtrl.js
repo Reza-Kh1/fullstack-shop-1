@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import { reviewModel } from "../models/index.js";
+import { productModel, reviewModel } from "../models/index.js";
 import { customError } from "../middlewares/errorHandler.js";
 import pagination from "../middlewares/pagination.js";
 import token from "jsonwebtoken";
@@ -9,25 +9,28 @@ export const createReview = asyncHandler(async (req, res) => {
   const cookie = req.cookies.user;
   let userId;
   let status;
-  // if (authorization) {
-  //   const verify = authorization.split(" ")[1];
-  //   const userInfo = token.verify(verify, process.env.TOKEN_SECURET);
-  //   if (userInfo.id && userInfo.phone && userInfo.name) {
-  //     userId = userInfo;
-  //     phone = userInfo.phone;
-  //     name = userInfo.name;
-  //   }
-  // }
+  if (authorization) {
+    const verify = authorization.split(" ")[1];
+    const userInfo = token.verify(verify, process.env.TOKEN_SECURET);
+    if (userInfo.id && userInfo.phone && userInfo.name) {
+      userId = userInfo;
+      phone = userInfo?.phone;
+      name = userInfo?.name;
+      email = userInfo?.email;
+    }
+  }
   try {
     if (cookie) {
       const userInfo = token.verify(cookie, process.env.TOKEN_SECURET);
       userId = userInfo.id;
       if (userInfo.role === "ADMIN") {
-        name = "ادمین" + userInfo.name;
+        name = "ادمین " + userInfo.name;
       }
       if (userInfo.role === "AUTHOR") {
-        name = "نویسنده" + userInfo.name;
+        name = "نویسنده " + userInfo.name;
       }
+      email = userInfo?.email
+      phone = userInfo?.phone
       status = true;
     }
     const data = await reviewModel.create({
@@ -110,14 +113,17 @@ export const getAllReviewAdmin = asyncHandler(async (req, res) => {
       order: [["createdAt", "DESC"]],
       limit: limit,
       offset: page * limit - limit,
+      include: [{ model: productModel, attributes: ["name", "slug"] }],
+      attributes: {
+        exclude: ["postId", "userId"]
+      }
     });
     if (!data.count) res.send({ message: "هیچ کامنتی ثبت نشده" });
     const pager = pagination(data.count, limit, page);
     res.send({
-      data: {
-        data,
-        pagination: pager,
-      },
+      ...data,
+      pagination: pager,
+
     });
   } catch (err) {
     customError(err, 500);
@@ -135,6 +141,9 @@ export const getAllReview = asyncHandler(async (req, res) => {
       order: [["createdAt", "DESC"]],
       limit: limit,
       offset: page * limit - limit,
+      attributes: {
+        exclude: ["email", "phone", "status", "userId", "replyId",]
+      }
     });
     if (!data.count) return res.send({ message: "هیچ کامنتی وجود ندارد" });
     res.send({ data });

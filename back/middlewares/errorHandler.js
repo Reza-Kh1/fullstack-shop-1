@@ -14,7 +14,5 @@ export const customError = (message, statusCode) => {
 };
 
 export const notFound = (req, res, next) => {
-  const err = new Error(`Route ${req.originalUrl} Not Found`);
-  err.statusCode = 404
-  next(err);
+  return res.status(404).send(`Route ${req.originalUrl} Not Found`)
 };
