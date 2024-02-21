@@ -10,6 +10,7 @@ import paymentModel from "./paymentMode.js";
 import offModel from "./offModel.js";
 import addressModel from "./addressModel.js";
 import imageModel from "./imageModel.js";
+import messageModel from "./MessageModel.js";
 // دسته ها
 categoryModel.hasMany(subCategoryModel, {
   foreignKey: "categoryId",
@@ -126,6 +127,18 @@ offModel.belongsTo(userModel, {
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
+// پیام ها
+userModel.hasMany(messageModel, {
+  foreignKey: "userId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+})
+messageModel.belongsTo(userModel, {
+  foreignKey: "userId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+messageModel.hasMany(messageModel, { as: "replies", foreignKey: "replyId" });
 // dataBase.sync({ force: true });
 dataBase.sync();
 export {
@@ -140,4 +153,5 @@ export {
   addressModel,
   reviewModel,
   imageModel,
+  messageModel
 };
