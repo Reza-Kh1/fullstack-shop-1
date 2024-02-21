@@ -1,6 +1,6 @@
 import asyncHnader from "express-async-handler"
 import { customError } from "../middlewares/errorHandler.js"
-import { messageModel } from "../models"
+import { messageModel } from "../models/index.js"
 import pagination from "../middlewares/pagination.js"
 export const createMessasge = asyncHnader(async (req, res) => {
     const { name, userId } = req.body
@@ -15,18 +15,36 @@ export const createMessasge = asyncHnader(async (req, res) => {
     }
 })
 export const replyMessage = asyncHnader(async (req, res) => {
-    const { text, replyId } = req.body
+    const { text } = req.body
+    const { id } = req.query
+    const userId = res.userInfo
     try {
-        const data = await messageModel.create({ text, replyId })
+        await messageModel.create({ text, replyId: id, userId })
+        res.send({ success: true })
     } catch (err) {
         throw customError(err, 401)
     }
 })
-export const getMessasge = asyncHnader(async (req, res) => {
+export const getAllMessasge = asyncHnader(async (req, res) => {
     const info = res.userInfo
     try {
         console.log(info.id);
         const data = await messageModel.findAll({ where: { userId: info.id }, order: [["createdAt"]] })
+        res.send({ ...data })
+    } catch (err) {
+        throw customError(err, 401)
+    }
+})
+export const getMessage = asyncHnader(async (req, res) => {
+    const { id } = req.params
+    try {
+        console.log(info.id);
+        const data = await messageModel.findByPk(id, {
+            include: [{
+                model: reviewModel,
+                as: "replies",
+            }]
+        })
         res.send({ ...data })
     } catch (err) {
         throw customError(err, 401)
@@ -64,4 +82,4 @@ export const updateMessage = asyncHnader(async (req, res) => {
     } catch (err) {
         throw customError(err, 401)
     }
-}) 
+})
