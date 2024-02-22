@@ -291,7 +291,7 @@ export default function User() {
               <div className="flex justify-between w-full">
                 <div className="w-1/6 mt-3">
                   <SubmitBtn
-                    value="افزودن دسته"
+                    value="افزودن کاربر"
                     type="submit"
                     classPlus={"w-full flex justify-center"}
                   />
@@ -307,7 +307,7 @@ export default function User() {
                       mount: { y: 0 },
                       unmount: { y: 25 },
                     }}
-                    vlaue={selectRole}
+                    value={selectRole}
                   >
                     <Option value={"USER"}>کاربر</Option>
                     <Option value={"AUTHOR"}>نویسنده</Option>

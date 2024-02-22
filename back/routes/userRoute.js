@@ -15,7 +15,7 @@ import isLogin from "../utils/isLogin.js";
 import isAdmin from "../utils/isAdmin.js";
 import isAuthor from "../utils/isAuthor.js";
 const routes = express.Router();
-routes.route("/").get(isAdmin, getAllUser).post(createUser);
+routes.route("/").get(isAdmin, getAllUser).post(isAdmin,createUser);
 routes.route("/login").post(loginUser);
 routes.route("/verify").post(verifyPassword);
 routes.route("/admin").get(isAuthor, loginAdmin);

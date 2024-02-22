@@ -81,7 +81,7 @@ export default function SearchUser({
                 mount: { y: 0 },
                 unmount: { y: 25 },
               }}
-              vlaue={selectRole}
+              value={selectRole}
             >
               <Option value={"USER"}>کاربر</Option>
               <Option value={"AUTHOR"}>نویسنده</Option>
@@ -99,7 +99,7 @@ export default function SearchUser({
                 mount: { y: 0 },
                 unmount: { y: 25 },
               }}
-              vlaue={selectOrder}
+              value={selectOrder}
             >
               <Option value={"ASC"}>قدیمی ترین</Option>
               <Option value={"DESC"}>جدید ترین</Option>

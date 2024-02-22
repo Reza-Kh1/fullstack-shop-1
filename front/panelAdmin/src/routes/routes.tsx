@@ -5,6 +5,7 @@ import Auth from "../pages/Auth/Auth";
 import Cart from "../pages/Cart/Cart";
 import Category from "../pages/Category/Category";
 import Dashboard from "../pages/Dashboard/Dashboard";
+import Message from "../pages/Message/Message";
 import Off from "../pages/Off/Off";
 import Product from "../pages/Product/Product";
 import Profile from "../pages/Profile/Profile";
@@ -28,6 +29,7 @@ export default [
       { path: "profile", element: <Profile /> },
       { path: "Cart", element: <Cart /> },
       { path: "Off", element: <Off /> },
+      { path: "message", element: <Message /> },
       { path: "create-product", element: <CreateProduct /> },
     ],
   },

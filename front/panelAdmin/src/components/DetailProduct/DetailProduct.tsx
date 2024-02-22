@@ -39,9 +39,9 @@ export default function DetailProduct({ id, detail }: DetailProductType) {
       skillProduct: skill,
       text: editor,
     };
-    if (id) {
+    if (detail?.id) {
       axios
-        .post(`product/detail/${id}`, body)
+        .put(`product/detail/${detail?.id}`, body)
         .then(() => {
           toast.success("تنظیمات ثبت شد");
         })
@@ -50,7 +50,7 @@ export default function DetailProduct({ id, detail }: DetailProductType) {
         });
     } else {
       axios
-        .put(`product/detail/${detail?.id}`, body)
+        .post(`product/detail/${id}`, body)
         .then(() => {
           toast.success("تنظیمات ثبت شد");
         })
@@ -77,7 +77,6 @@ export default function DetailProduct({ id, detail }: DetailProductType) {
         }
       });
     }
-    setSkillCategory("");
     resetField("categoryskill");
     resetField("skillname");
     resetField("skilltext");
@@ -188,28 +187,23 @@ export default function DetailProduct({ id, detail }: DetailProductType) {
                       placeholder="نام دسته"
                       icon={<MdTitle />}
                     />
-                    {skill && (
-                      <div
-                        style={{ direction: "ltr" }}
-                        className="flex items-center w-full"
+
+                    <div
+                      style={{ direction: "ltr" }}
+                      className="flex items-center w-full"
+                    >
+                      <Select
+                        onChange={(value: string) => setSkillCategory(value)}
+                        label="انتخاب دسته"
                       >
-                        <Select
-                          onChange={(value: string) => setSkillCategory(value)}
-                          label="انتخاب دسته"
-                          animate={{
-                            mount: { y: 0 },
-                            unmount: { y: 25 },
-                          }}
-                          value={skillCategory}
-                        >
-                          {skill.map((i, index) => (
-                            <Option value={i.name} key={index}>
+                        {skill &&
+                          skill.map((i, index) => (
+                            <Option value={"op"} key={index}>
                               {i.name}
                             </Option>
                           ))}
-                        </Select>
-                      </div>
-                    )}
+                      </Select>
+                    </div>
                   </div>
                   <div className="w-full grid gap-2 grid-cols-2">
                     <textarea

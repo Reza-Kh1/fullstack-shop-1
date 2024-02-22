@@ -9,7 +9,6 @@ import {
 import { customError } from "../middlewares/errorHandler.js";
 import pagination from "../middlewares/pagination.js";
 import { Op } from "sequelize";
-import token from "jsonwebtoken";
 export const createProduct = asyncHandler(async (req, res) => {
   const {
     name,
@@ -182,8 +181,18 @@ export const getAllProduct = asyncHandler(async (req, res) => {
       limit: limit,
       offset: limit * page - limit,
       order: filterOrder,
-      attributes: { exclude: ["createdAt", "keycode", "userId", "status","useId","id","categoryId"] },
-      include:[{model:subCategoryModel,attributes:["name","slug"]}]
+      attributes: {
+        exclude: [
+          "createdAt",
+          "keycode",
+          "userId",
+          "status",
+          "useId",
+          "id",
+          "categoryId",
+        ],
+      },
+      include: [{ model: subCategoryModel, attributes: ["name", "slug"] }],
     });
     const pager = pagination(data.count, limit, page);
     if (!data.count) return res.send({ message: "هیچ محصولی یافت نشد" });

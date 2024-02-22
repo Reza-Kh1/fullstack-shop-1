@@ -252,14 +252,12 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
             label="منتشر شود ؟"
           />
         </div>
-        {idProduct ? (
-          <DetailProduct id={idProduct} />
-        ) : response ? (
-          <DetailProduct detail={response} />
-        ) : (
-          ""
-        )}
       </form>
+      {response ? (
+        <DetailProduct detail={response} id={idProduct} />
+      ) : idProduct ? (
+        <DetailProduct id={idProduct} />
+      ) : null}
       <DialogImage open={open} setOpen={setOpen} setUrl={setImgProduct} />
     </div>
   );

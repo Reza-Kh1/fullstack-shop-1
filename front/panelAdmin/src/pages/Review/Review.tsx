@@ -105,7 +105,7 @@ export default function Review() {
                 mount: { y: 0 },
                 unmount: { y: 25 },
               }}
-              vlaue={status}
+              value={status}
             >
               <Option value={"false"}>منتشر نشده</Option>
               <Option value={"true"}>منتشر شده</Option>

@@ -18,5 +18,5 @@ export default function SingleProduct() {
   useEffect(() => {
     getData();
   }, []);
-  return <>{data && <CreateProduct infoProduct={data}/>}</>;
+  return <>{data && <CreateProduct infoProduct={data} />}</>;
 }

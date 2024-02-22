@@ -14,8 +14,7 @@ import {
   Select,
 } from "@material-tailwind/react";
 import { toast } from "react-toastify";
-import SelectImage from "../../components/SelectImage/SelectImage";
-import DialogImage from "../../components/DialogImage/DialogImage";
+ import DialogImage from "../../components/DialogImage/DialogImage";
 type CreateCategoryType = {
   categoryname: string | null | undefined;
   categoryslug: string | null | undefined;

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { PaginationType, ProductType } from "../../types/type";
 import axios from "axios";
-import Pagination from "../../components/Pagination/Pagination";
 import { FaPlus } from "react-icons/fa6";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ImageSlider from "../../components/ImageSlider/ImageSlider";
@@ -10,6 +9,8 @@ import {
   Accordion,
   AccordionBody,
   AccordionHeader,
+  Button,
+  IconButton,
   Option,
   Select,
 } from "@material-tailwind/react";
@@ -17,6 +18,10 @@ import InputForm from "../../components/InputForm/InputForm";
 import { FaSearch } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import SubmitBtn from "../../components/SubmitBtn/SubmitBtn";
+import {
+  MdKeyboardDoubleArrowLeft,
+  MdKeyboardDoubleArrowRight,
+} from "react-icons/md";
 type SearchType = {
   name: string | null;
   pricedown: string | null;
@@ -26,29 +31,36 @@ export default function Product() {
   const [search, setSearch] = useState({ order: "", status: "" });
   const { register, handleSubmit } = useForm<SearchType>();
   const location = useLocation();
-  const { page }: any = queryString.parse(location.search);
+  const { page, ...query }: any = queryString.parse(location.search);
   const [allProduct, setAllProduct] = useState<ProductType[]>();
   const [paginations, setPaginations] = useState<PaginationType>();
   const [count, setCount] = useState<number>();
-  const [pages, setPage] = useState<number>(page || 1);
   const [open, setOpen] = useState<number>(0);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleOpen = (value: number) => setOpen(open === value ? 0 : value);
-
+  const urlQuery = new URLSearchParams(query);
+  const searchBody = urlQuery.toString();
   const searchProduct = (form: SearchType) => {
-    const body = {
-      status: search.status,
-      order: search.order,
-      price:
-        form.pricedown && form.priceup && `${form.pricedown}-${form.priceup}`,
-      name: form.name,
-      page: pages,
+    let body = {
+      page: page || 1,
     } as any;
+    if (search.status) {
+      body.status = search.status;
+    }
+    if (search.order) {
+      body.order = search.order;
+    }
+    if (form.pricedown && form.priceup) {
+      body.price = `${form.pricedown}-${form.priceup}`;
+    }
+    if (form.name) {
+      body.name = form.name;
+    }
     const urlQuery = new URLSearchParams(body);
     const searchBody = urlQuery.toString();
-    navigate("/admin/edit-product?" + searchBody)
+    navigate("?" + searchBody);
     axios
-      .get("/product/admin?" + searchBody)
+      .get("product/admin?" + searchBody)
       .then(({ data }) => {
         setAllProduct(data.rows);
         setCount(data.count);
@@ -57,7 +69,7 @@ export default function Product() {
       .catch((err) => console.log(err));
   };
   const getData = () => {
-    let url = `product/admin?page=${pages}`;
+    let url = `product/admin?page=${page}&${searchBody}`;
     axios
       .get(url)
       .then(({ data }) => {
@@ -69,7 +81,7 @@ export default function Product() {
   };
   useEffect(() => {
     getData();
-  }, [pages]);
+  }, [page]);
   function Icon({ id, open }: { id: number; open: number }) {
     return (
       <svg
@@ -143,7 +155,7 @@ export default function Product() {
                         mount: { y: 0 },
                         unmount: { y: 25 },
                       }}
-                      vlaue={search.order}
+                      value={search.order}
                     >
                       <Option value={"createdAt-ASC"}>جدید ترین</Option>
                       <Option value={"createdAt-DESC"}>قدیمی ترین</Option>
@@ -164,7 +176,7 @@ export default function Product() {
                         mount: { y: 0 },
                         unmount: { y: 25 },
                       }}
-                      vlaue={search.status || "false"}
+                      value={search.status || "false"}
                     >
                       <Option value={"false"}>منتشر نشده</Option>
                       <Option value={"true"}>منتشر شده</Option>
@@ -218,8 +230,8 @@ export default function Product() {
           </Accordion>
         </div>
         <h3 className="bg-blue-200 py-3 px-3 rounded-md shadow-md">
-          محصول
-          {count ?  count.toLocaleString("fa") : "یافت نشد"}
+          محصولات
+          {count ? count.toLocaleString("fa") : "یافت نشد"}
         </h3>
         <div className="w-full grid grid-cols-4 gap-2 mt-4">
           {allProduct &&
@@ -277,13 +289,77 @@ export default function Product() {
         </div>
         <div>
           <div className="my-5">
-            {paginations && (
-              <Pagination
-                pagination={paginations}
-                setPage={setPage}
-                page={pages}
-              />
-            )}
+            <div className="w-full flex bg-gray-50 mt-4 rounded-md p-2 justify-between">
+              {paginations && (
+                <>
+                  <div className="flex items-center">
+                    {paginations?.prevPage && (
+                      <Link
+                        to={
+                          location.pathname +
+                          `?page=${paginations.prevPage || 1}&${searchBody}`
+                        }
+                      >
+                        <Button
+                          variant="outlined"
+                          className="flex items-center"
+                          size="sm"
+                        >
+                          <MdKeyboardDoubleArrowRight className="ml-1 text-lg" />
+                          صفحه قبل
+                        </Button>
+                      </Link>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {paginations.allPage &&
+                      Array.from(
+                        { length: paginations.allPage },
+                        (_, i) => i + 1
+                      ).map((i) => {
+                        return (
+                          <Link
+                            key={i}
+                            to={
+                              location.pathname +
+                              `?page=${i || 1}&${searchBody}`
+                            }
+                          >
+                            <IconButton
+                              variant="outlined"
+                              size="sm"
+                              className={
+                                i === Number(page) ? "bg-blue-400" : ""
+                              }
+                            >
+                              {i}
+                            </IconButton>
+                          </Link>
+                        );
+                      })}
+                  </div>
+                  <div className="flex items-center">
+                    {paginations?.nextPage && (
+                      <Link
+                        to={
+                          location.pathname +
+                          `?page=${paginations.nextPage || 1}&${searchBody}`
+                        }
+                      >
+                        <Button
+                          variant="outlined"
+                          className="flex items-center"
+                          size="sm"
+                        >
+                          صفحه بعد
+                          <MdKeyboardDoubleArrowLeft className="mr-1 text-lg" />
+                        </Button>
+                      </Link>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

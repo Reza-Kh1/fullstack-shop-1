@@ -71,16 +71,10 @@ export default function Auth() {
         }
       });
   };
-  const {
-    register: signUpFrom,
-    handleSubmit: handleSignUpForm,
-    formState: { errors: errorSignUp },
-  } = useForm<signUpType>();
-  const {
-    register: loginForm,
-    handleSubmit: handleLoginForm,
-    formState: { errors: errorLogin },
-  } = useForm<loginType>();
+  const { register: signUpFrom, handleSubmit: handleSignUpForm } =
+    useForm<signUpType>();
+  const { register: loginForm, handleSubmit: handleLoginForm } =
+    useForm<loginType>();
   useEffect(() => {
     if (selectUser.isLoggin) {
       navigate("/admin/dashboard");
@@ -188,7 +182,7 @@ export default function Auth() {
                           <SubmitBtn
                             value="وارد شوید"
                             type="submit"
-                            classPlus={"w-full mt-3"}
+                            classPlus={"w-full mt-3 flex justify-center"}
                           />
                         </form>
                       </div>
@@ -245,7 +239,7 @@ export default function Auth() {
                           />
                           <SubmitBtn
                             value="ثبت نام کنید"
-                            classPlus={"w-full mt-5"}
+                            classPlus={"w-full mt-5 flex justify-center"}
                             type="submit"
                           />
                         </form>

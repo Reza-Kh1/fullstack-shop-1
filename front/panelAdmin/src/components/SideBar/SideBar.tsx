@@ -2,7 +2,7 @@ import React from "react";
 import { FaCartShopping, FaImage, FaShop, FaUsers } from "react-icons/fa6";
 import { NavLink, useNavigate } from "react-router-dom";
 import { BiSolidCategoryAlt } from "react-icons/bi";
-import { MdDashboard } from "react-icons/md";
+import { MdDashboard, MdEmail } from "react-icons/md";
 import { FaMailBulk } from "react-icons/fa";
 import { BsBoxArrowRight } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +13,6 @@ import { TbCurrencyDollarOff } from "react-icons/tb";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { logOut } from "../../utils/slices/user";
-
 export default function SideBar() {
   const selectUser = useSelector((state: SelectUserType) => state.user);
   const dispatch = useDispatch();
@@ -63,19 +62,9 @@ export default function SideBar() {
           icon={<MdDashboard className="inline ml-2 text-gray-50" />}
         />
         <LinkSideBar
-          value={"کاربران"}
-          url={"user"}
-          icon={<FaUsers className="inline ml-2 text-gray-50" />}
-        />
-        <LinkSideBar
-          value={"دسته بندی"}
-          url={"category"}
-          icon={<BiSolidCategoryAlt className="inline ml-2 text-gray-50" />}
-        />
-        <LinkSideBar
-          value={"عکس ها"}
-          url={"upload"}
-          icon={<FaImage className="inline ml-2 text-gray-50" />}
+          value={"محصولات"}
+          url={"product?page=1"}
+          icon={<FaShop className="inline ml-2 text-gray-50" />}
         />
         <LinkSideBar
           value={"نظرات"}
@@ -83,24 +72,45 @@ export default function SideBar() {
           icon={<FaMailBulk className="inline ml-2 text-gray-50" />}
         />
         <LinkSideBar
-          value={"محصولات"}
-          url={"product"}
-          icon={<FaShop className="inline ml-2 text-gray-50" />}
+          value={"سبد خرید"}
+          url={"cart"}
+          icon={<FaCartShopping className="inline ml-2 text-gray-50" />}
+        />
+        <LinkSideBar
+          value={"دسته بندی"}
+          url={"category"}
+          icon={<BiSolidCategoryAlt className="inline ml-2 text-gray-50" />}
+        />
+        {selectUser.role === "ADMIN" && (
+          <>
+            <LinkSideBar
+              value={"تیکت ها"}
+              url={"message"}
+              icon={<MdEmail className="inline ml-2 text-gray-50" />}
+            />
+            <LinkSideBar
+              value={"تخفیف ها"}
+              url={"off"}
+              icon={
+                <TbCurrencyDollarOff className="inline ml-2 text-gray-50" />
+              }
+            />
+            <LinkSideBar
+              value={"کاربران"}
+              url={"user"}
+              icon={<FaUsers className="inline ml-2 text-gray-50" />}
+            />
+          </>
+        )}
+        <LinkSideBar
+          value={"عکس ها"}
+          url={"upload"}
+          icon={<FaImage className="inline ml-2 text-gray-50" />}
         />
         <LinkSideBar
           value={"پروفایل"}
           url={"profile"}
           icon={<RiUserSettingsLine className="inline ml-2 text-gray-50" />}
-        />
-        <LinkSideBar
-          value={"تخفیف ها"}
-          url={"off"}
-          icon={<TbCurrencyDollarOff className="inline ml-2 text-gray-50" />}
-        />
-        <LinkSideBar
-          value={"سبد خرید"}
-          url={"cart"}
-          icon={<FaCartShopping className="inline ml-2 text-gray-50" />}
         />
         <button
           onClick={signOut}

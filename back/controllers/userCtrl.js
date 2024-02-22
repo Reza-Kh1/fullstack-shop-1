@@ -56,7 +56,6 @@ export const loginUser = asyncHandler(async (req, res) => {
       where: whereClause,
       include: [{ model: cartModel }],
     });
-    console.log(data);
     if (!data)
       return res.status(404).send({
         message: "هیچ کاربری با این شماره یا ایمیل یافت نشد",
