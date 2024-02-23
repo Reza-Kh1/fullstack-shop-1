@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { ImageType, PaginationType } from "../../types/type";
 import {
-  Button,
   Dialog,
   DialogBody,
   DialogFooter,

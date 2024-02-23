@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import InputForm from "../../components/InputForm/InputForm";
-import SubmitBtn from "../../components/SubmitBtn/SubmitBtn";
 import { MdTitle } from "react-icons/md";
 import { Button } from "@material-tailwind/react";
 type profileType = {

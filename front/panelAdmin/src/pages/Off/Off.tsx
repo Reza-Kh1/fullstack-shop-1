@@ -76,11 +76,11 @@ export default function Off() {
       total: form.total
     }
     if (isUpdate) {
-      axios.put(`off/${isUpdate}`, body).then(() => { toast.success("کد تخفیف به روز شد"), reset(), getAllDiscount() }).catch((err) => {
+      axios.put(`off/${isUpdate}`, body).then(() => { toast.success("کد تخفیف به روز شد"), reset(), getAllDiscount() }).catch(() => {
         toast.warning("کد تخفیف به روز نشد")
       })
     } else {
-      axios.post("off", body).then(() => { toast.success("کد تخفیف ثبت شد"), reset(), getAllDiscount() }).catch((err) => {
+      axios.post("off", body).then(() => { toast.success("کد تخفیف ثبت شد"), reset(), getAllDiscount() }).catch(() => {
         toast.warning("کد تخفیف ثبت نشد")
       })
     }

@@ -29,6 +29,10 @@ export type CategoryType = {
     altImg: string | null;
     srcImg: string | null;
   }[];
+  basicCategory: {
+    name: string;
+    id: number;
+  };
 };
 
 export type UserType = {
@@ -95,15 +99,15 @@ export type ReviewsType = {
   } | null;
 };
 export type OffType = {
-  id: number
-  name: string
-  offer: number
-  filterCount: number
-  start: Date
-  end: Date
-  total: number
-  updatedAt: Date
+  id: number;
+  name: string;
+  offer: number;
+  filterCount: number;
+  start: Date;
+  end: Date;
+  total: number;
+  updatedAt: Date;
   user: {
-    name: string
-  }
-}
+    name: string;
+  };
+};

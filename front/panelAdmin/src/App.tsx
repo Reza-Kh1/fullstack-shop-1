@@ -1,7 +1,6 @@
 import {
   useLocation,
   useNavigate,
-  useParams,
   useRoutes,
 } from "react-router-dom";
 import routes from "./routes/routes";
@@ -37,7 +36,7 @@ function App() {
           }
           dispatch(loginUser(data.data));
         })
-        .catch((err) => {
+        .catch(() => {
           navigate("/");
           if (!number) {
             number++;

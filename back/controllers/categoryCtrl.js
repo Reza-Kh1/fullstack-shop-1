@@ -1,11 +1,17 @@
 import asyncHandler from "express-async-handler";
-import { categoryModel, subCategoryModel } from "../models/index.js";
+import {
+  basicCategoryModel,
+  categoryModel,
+  subCategoryModel,
+} from "../models/index.js";
 import { customError } from "../middlewares/errorHandler.js";
 
 export const createCategory = asyncHandler(async (req, res) => {
-  const { name, slug } = req.body;
+  const { name, slug, basicCategoryId } = req.body;
+  if (!name || !slug || !basicCategoryId)
+    return res.status(401).send({ message: "تمام فلید هارو پر کنید" });
   try {
-    await categoryModel.create({ name, slug });
+    await categoryModel.create({ name, slug, basicCategoryId });
     res.send({ message: "دسته با موفقیت افزوده شد" });
   } catch (err) {
     throw customError(err, 401);
@@ -23,7 +29,7 @@ export const deleteCategory = asyncHandler(async (req, res) => {
 });
 export const updateCategory = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { name, slug } = req.body;
+  const { name, slug, basicCategoryId } = req.body;
   try {
     const data = await categoryModel.findByPk(id);
     if (!data) throw new Error("زیر دسته مورد نظر یافت نشد");
@@ -33,7 +39,10 @@ export const updateCategory = asyncHandler(async (req, res) => {
     if (slug) {
       data.slug = slug;
     }
-    data.save();
+    if (basicCategoryId) {
+      data.basicCategoryId = basicCategoryId;
+    }
+    await data.save();
     res.send({ message: "با موفقیت آپدیت شد" });
   } catch (err) {
     throw customError(err, 401);
@@ -59,6 +68,10 @@ export const getAllCategory = asyncHandler(async (req, res) => {
         {
           model: subCategoryModel,
           attributes: ["name", "slug", "altImg", "srcImg"],
+        },
+        {
+          model: basicCategoryModel,
+          attributes: ["name", "id"],
         },
       ],
       attributes: ["slug", "name", "id"],

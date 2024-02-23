@@ -14,7 +14,10 @@ import {
   Select,
 } from "@material-tailwind/react";
 import { toast } from "react-toastify";
- import DialogImage from "../../components/DialogImage/DialogImage";
+import DialogImage from "../../components/DialogImage/DialogImage";
+import BasicCategory, {
+  BasicCategoryType,
+} from "../../components/BasicCategory/BasicCategory";
 type CreateCategoryType = {
   categoryname: string | null | undefined;
   categoryslug: string | null | undefined;
@@ -36,6 +39,9 @@ export default function Category() {
   const [editCategory, setEditCategory] = useState<any>();
   const [imageSubCategor, setImageSubCategory] = useState<string | null>(null);
   const [showImage, setShowImage] = useState<boolean>(false);
+  const [baseCategoryAll, setBaseCategoryAll] = useState<BasicCategoryType[]>(
+    []
+  );
   const {
     register: create,
     handleSubmit: handleCreate,
@@ -63,12 +69,14 @@ export default function Category() {
       .catch((err) => console.log(err));
   };
   const categoryCreate = (form: CreateCategoryType) => {
+    if (!selectCategory) return toast.warning("تمام فیلدهارو پر کنید");
     let body: any = {};
     let url = "";
     if (form.categoryname && form.categoryslug) {
       url = "category";
       body.name = form.categoryname;
       body.slug = form.categoryslug;
+      body.basicCategoryId = selectCategory;
     } else {
       if (!selectCategory || !category.length) return;
       const { id }: any = category.find((i) => i.name === selectCategory);
@@ -99,6 +107,7 @@ export default function Category() {
     setSelectCategory("");
   };
   const editCategoryAction = (form: EditCategoryType) => {
+    if (!selectCategory) return toast.warning("یک دسته رو انتخاب کنید");
     let body: any = {};
     let url: string = "";
     if (form.editalt) {
@@ -114,6 +123,7 @@ export default function Category() {
       url = "category/";
       body.name = form.editname;
       body.slug = form.editslug;
+      body.basicCategoryId = selectCategory;
     }
     resetEdit();
     axios
@@ -170,6 +180,10 @@ export default function Category() {
   return (
     <>
       <div className="w-full">
+        <BasicCategory
+          allData={baseCategoryAll}
+          setAllData={setBaseCategoryAll}
+        />
         <div>
           <h3 className="bg-blue-200 py-3 px-3 rounded-md shadow-md">
             دسته اصلی
@@ -188,6 +202,9 @@ export default function Category() {
                 </th>
                 <th scope="col" className="text-center py-3 text-base">
                   زیر دسته
+                </th>
+                <th scope="col" className="text-center py-3 text-base">
+                  دسته مادر
                 </th>
                 <th scope="col" className="text-center py-3 text-base">
                   ویرایش
@@ -228,6 +245,12 @@ export default function Category() {
                     >
                       {i.subCategories.length}
                     </td>
+                    <td
+                      scope="row"
+                      className="text-center py-4 font-medium whitespace-nowrap text-white"
+                    >
+                      {i?.basicCategory?.name}
+                    </td>
                     <td className="py-4">
                       <SubmitBtn
                         type="button"
@@ -235,6 +258,7 @@ export default function Category() {
                         classPlus={"mx-auto"}
                         onClick={() => {
                           setOpenModal(true), setEditCategory(i);
+                          setSelectCategory(i?.basicCategory?.id.toString());
                         }}
                         icon={
                           <FaExclamation className="inline text-gray-50 mr-1" />
@@ -265,7 +289,7 @@ export default function Category() {
           </h3>
           <form
             onSubmit={handleCreate(categoryCreate)}
-            className="flex flex-wrap"
+            className="flex flex-wrap justify-between"
           >
             <div className="w-1/2 p-2">
               <InputForm
@@ -285,12 +309,37 @@ export default function Category() {
                 icon={<MdTitle className="inline" />}
               />
             </div>
+
             <div className="w-1/6 mt-3">
               <SubmitBtn
                 value="افزودن دسته"
                 type="submit"
                 classPlus={"w-full flex justify-center"}
               />
+            </div>
+            <div className="w-2/6 p-2">
+              {baseCategoryAll.length && (
+                <div
+                  className="w-1/6 p-2 flex items-end"
+                  style={{ direction: "ltr" }}
+                >
+                  <Select
+                    className="w-full"
+                    onChange={(value: string) => setSelectCategory(value)}
+                    label="انتخاب دسته اصلی"
+                    animate={{
+                      mount: { y: 0 },
+                      unmount: { y: 25 },
+                    }}
+                  >
+                    {baseCategoryAll.map((i, index) => (
+                      <Option value={i.id.toString()} key={index}>
+                        {i.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </div>
+              )}
             </div>
           </form>
         </div>
@@ -592,6 +641,27 @@ export default function Category() {
                     icon={<MdTitle className="inline" />}
                   />
                 </div>
+                {editCategory.basicCategory && (
+                  <div
+                    className="w-1/2 p-2 flex items-end text-gray-100 rounded-md"
+                    style={{ direction: "ltr" }}
+                  >
+                    <Select
+                      className={"text-gray-50"}
+                      onChange={(value: string) => setSelectCategory(value)}
+                      label="انتخاب دسته اصلی"
+                      value={selectCategory || ""}
+                      defaultValue={editCategory?.basicCategory?.id || ""}
+                    >
+                      {baseCategoryAll.length &&
+                        baseCategoryAll.map((i) => (
+                          <Option value={i.id.toString()} key={i.id}>
+                            {i.name}
+                          </Option>
+                        ))}
+                    </Select>
+                  </div>
+                )}
                 {editCategory.category && (
                   <>
                     <div className="w-1/2 p-2">
@@ -632,7 +702,9 @@ export default function Category() {
                       <img
                         onClick={() => setShowImage(true)}
                         src={
-                          imageSubCategor ? imageSubCategor : "/image/back.webp"
+                          imageSubCategor ||
+                          editCategory?.srcImg ||
+                          "/image/back.webp"
                         }
                         className="w-6/12 table mx-auto cursor-pointer rounded-md shadow-md"
                         alt="alt"

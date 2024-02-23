@@ -25,7 +25,7 @@ const Editor = ({ setEditor, editor }: EditorType) => {
   const [pagination, setPagination] = useState<PaginationType>();
   const [altValue, setAltValue] = useState("");
   const [imgClass, setImgClass] = useState("");
-  const quillRef = useRef();
+  const quillRef = useRef<any>();
   let number = 0;
   const formats = [
     "header",
@@ -96,14 +96,18 @@ const Editor = ({ setEditor, editor }: EditorType) => {
     Font.whitelist = ["sansrif", "roboto", "iranSans"];
     Quill.register(Font, true);
     const CustomImage = Quill.import("formats/image");
-    CustomImage.create = function (value) {
+    CustomImage.create = function (value: {
+      url: string;
+      alt: string;
+      class: string;
+    }) {
       let node = document.createElement("img");
       node.setAttribute("src", value.url);
       node.setAttribute("alt", value.alt);
       node.setAttribute("class", value.class);
       return node;
     };
-    CustomImage.value = function (node) {
+    CustomImage.value = function (node: any) {
       return {
         url: node.getAttribute("src"),
         alt: node.getAttribute("alt"),

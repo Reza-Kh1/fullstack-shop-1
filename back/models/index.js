@@ -11,7 +11,18 @@ import offModel from "./offModel.js";
 import addressModel from "./addressModel.js";
 import imageModel from "./imageModel.js";
 import messageModel from "./MessageModel.js";
+import basicCategoryModel from "./basicCategoryModel.js";
 // دسته ها
+basicCategoryModel.hasMany(categoryModel, {
+  foreignKey: "basicCategoryId",
+  onDelete: "RESTRICT",
+  onUpdate: "RESTRICT",
+});
+categoryModel.belongsTo(basicCategoryModel, {
+  foreignKey: "basicCategoryId",
+  onDelete: "RESTRICT",
+  onUpdate: "RESTRICT",
+});
 categoryModel.hasMany(subCategoryModel, {
   foreignKey: "categoryId",
   onDelete: "RESTRICT",
@@ -132,7 +143,7 @@ userModel.hasMany(messageModel, {
   foreignKey: "userId",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
-})
+});
 messageModel.belongsTo(userModel, {
   foreignKey: "userId",
   onDelete: "CASCADE",
@@ -153,5 +164,6 @@ export {
   addressModel,
   reviewModel,
   imageModel,
-  messageModel
+  messageModel,
+  basicCategoryModel,
 };
