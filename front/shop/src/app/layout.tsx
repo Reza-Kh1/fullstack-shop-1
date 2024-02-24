@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl">
       <body>
-        <div className="w-full bg-black dark:bg-blue-gray-300">
+        <div className="w-full min-h-screen bg-black dark:bg-blue-gray-300">
           <LayoutProvider>{children}</LayoutProvider>
         </div>
       </body>
