@@ -37,6 +37,32 @@ a {
   text-decoration: none;
 }
 
-.bg-instagram {
-  background: linear-gradient(6deg, #ffce07, #ff351e, #ff0081, #3712f9);
+.max-width {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1500px;
+}
+
+.color-p {
+  color: rgb(114, 114, 114);
+}
+
+.color-p-dark {
+  color: rgb(39, 39, 38);
+}
+
+.color-span {
+  color: rgb(158, 158, 158);
+}
+
+.color-span-dark {
+  color: rgb(45, 45, 45);
+}
+
+.color-h1 {
+  color: rgb(172, 172, 172);
+}
+
+.color-h1-dark {
+  color: rgb(77, 77, 77);
 }

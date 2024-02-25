@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import React from "react";
-import Header from "@/components/Header/Header";
-import Footer from "@/components/Footer/Footer";
 import LayoutProvider from "@/components/LayoutProvider/LayoutProvider";
 
 export const metadata: Metadata = {
@@ -18,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl">
       <body>
-        <div className="w-full min-h-screen bg-black dark:bg-blue-gray-300">
+        <div className="w-full min-h-screen bg-black dark:bg-blue-gray-100">
           <LayoutProvider>{children}</LayoutProvider>
         </div>
       </body>

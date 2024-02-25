@@ -11,13 +11,21 @@ const config = withMT({
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      colors: {
+        "p-light": "rgb(114, 114, 114)",
+        "p-dark": "rgb(39, 39, 38)",
+        "span-light": "rgb(158, 158, 158)",
+        "span-dark": "rgb(45, 45, 45)",
+        "h1-light": "rgb(172, 172, 172)",
+        "h1-dark": "rgb(77, 77, 77)",
+      },
+      backgroundColor: {
+        "custom-light": "rgb(255 255 255 / 76%)",
+        "custom-dark": "rgb(19 19 19 / 73%)",
       },
     },
   },
+
   plugins: [],
 });
 export default config;

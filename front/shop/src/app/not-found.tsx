@@ -1,7 +1,7 @@
 export default function NotFound() {
   return (
     <>
-      <div>NotFound</div>
+      <div className="text-gray-100 dark:text-gray-800">NotFound</div>
     </>
   );
 }

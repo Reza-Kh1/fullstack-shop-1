@@ -8,21 +8,79 @@ import {
   FaCartShopping,
   FaMoon,
 } from "react-icons/fa6";
+import "./style.css"
 import icon from "@/../public/icon.jpg";
-import {
-  Button,
-  Card,
-  Menu,
-  MenuHandler,
-  MenuItem,
-  MenuList,
-  Typography,
-} from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 import { FaSearch, FaSun } from "react-icons/fa";
-import { IoChevronDownCircleOutline } from "react-icons/io5";
+import { IoIosArrowUp } from "react-icons/io";
 export default function Header() {
+  const menuData = [
+    {
+      name: "موبایل",
+      data: [
+        {
+          name: "گوشی موبایل",
+          slug: "phone",
+          data: [
+            { name: "شیائومی", slug: "xiaomi" },
+            { name: "آنر", slug: "honor" },
+            { name: "آیفون", slug: "apple" },
+            { name: "سامسونگ", slug: "samsung" },
+          ],
+        },
+        {
+          name: "قطعات موبایل",
+          slug: "part-phone",
+          data: [
+            { name: "برد گوشی", slug: "bord-phone" },
+            { name: "صفحه نمایش گوشی", slug: "lcd-phone" },
+            { name: "سوکت شارژر گوشی", slug: "socet-phone" },
+          ],
+        },
+        {
+          name: "لوازم جانبی",
+          slug: "side-phone",
+          data: [
+            { name: "قاب", slug: "cover-phone" },
+            { name: "گلس", slug: "glass-phone" },
+          ],
+        },
+      ],
+    },
+    {
+      name: "لپتاپ",
+      data: [
+        {
+          name: "لپتاپ",
+          slug: "laptop",
+          data: [
+            { name: "ایسر", slug: "acer" },
+            { name: "ایسوس", slug: "asus" },
+            { name: "اچ پی", slug: "hp" },
+            { name: "لنوو", slug: "lenovo" },
+          ],
+        },
+        {
+          name: "لوازم جانبی لپتاپ",
+          slug: "laptop-part",
+          data: [
+            { name: "کیبرد", slug: "keybord" },
+            { name: "کول پد", slug: "colpad" },
+            { name: "اسپیکر", slug: "speacker" },
+          ],
+        },
+        {
+          name: "لپتاپ استوک",
+          slug: "stock-laptop",
+          data: [
+            { name: "اچ پی", slug: "hp-stock" },
+            { name: "دل", slug: "dell-stock" },
+          ],
+        },
+      ],
+    },
+  ];
   const [darkModes, setDarkMode] = useState<boolean>(false);
-  const [openMenu, setOpenMenu] = useState<boolean>();
   const darkModeBtn = () => {
     if (!darkModes) {
       setDarkMode(true);
@@ -44,26 +102,9 @@ export default function Header() {
       setDarkMode(false);
     }
   }, []);
-  const menuItems = [
-    {
-      title: "@material-tailwind/html",
-      description:
-        "Learn how to use @material-tailwind/html, packed with rich components and widgets.",
-    },
-    {
-      title: "@material-tailwind/react",
-      description:
-        "Learn how to use @material-tailwind/react, packed with rich components for React.",
-    },
-    {
-      title: "Material Tailwind PRO",
-      description:
-        "A complete set of UI Elements for building faster websites in less time.",
-    },
-  ];
   return (
-    <header className="pt-2">
-      <div className="max-w-7xl w-10/12 mx-auto p-2 shadow-md shadow-blue-gray-900 dark:shadow-blue-gray-200 dark:bg-gray-100 bg-blue-gray-900 rounded-md">
+    <header className="pt-3 block mb-5 w-full px-3 max-width">
+      <div className="mx-auto p-2 shadow-sm shadow-blue-gray-900 dark:shadow-blue-gray-200 dark:bg-gray-100 bg-blue-gray-900 rounded-md">
         <div className="flex justify-between items-center border-b-gray-800 pb-2 mb-2 border-b">
           <div className="flex gap-2 items-center">
             <Link href={"/"}>
@@ -113,7 +154,7 @@ export default function Header() {
                 className="font-medium"
                 placeholder={"ورود و خروج"}
               >
-                ثبت / ورود
+                ثبت نام / ورود
               </Button>
             </Link>
             <Link href={"/profile"}>
@@ -152,71 +193,52 @@ export default function Header() {
             </Button>
           </div>
         </div>
-        <div className="flex flex-wrap justify-evenly mt-3">
-          <Menu open={openMenu} handler={setOpenMenu} allowHover>
-            <MenuHandler>
-              <Button
-                variant="text"
-                className="flex items-center gap-3 text-base font-normal capitalize tracking-normal"
-              >
-                Technology{" "}
-                <IoChevronDownCircleOutline
-                  strokeWidth={2.5}
-                  className={`h-3.5 w-3.5 transition-transform ${
-                    openMenu ? "rotate-180" : ""
-                  }`}
-                />
-              </Button>
-            </MenuHandler>
-            <MenuList className="hidden w-[36rem] grid-cols-7 gap-3 overflow-visible lg:grid">
-              <Card
-                color="gray"
-                shadow={false}
-                className="col-span-3 flex h-full w-full items-center justify-center rounded-2xl p-4"
-              >
-                <Typography className="mt-5 text-center" variant="h5">
-                  Material Tailwind PRO
-                </Typography>
-              </Card>
-              <ul className="col-span-4 flex w-full flex-col gap-1">
-                {menuItems.map(({ title, description }) => (
-                  <a href="#" key={title}>
-                    <MenuItem>
-                      <Typography
-                        variant="h6"
-                        color="blue-gray"
-                        className="mb-1"
-                      >
-                        {title}
-                      </Typography>
-                      <Typography
-                        variant="small"
-                        color="gray"
-                        className="font-normal"
-                      >
-                        {description}
-                      </Typography>
-                    </MenuItem>
-                  </a>
-                ))}
-              </ul>
-            </MenuList>
-          </Menu>
-          <span className="text-gray-100 dark:text-gray-800 cursor-pointer">
-            لپتاپ
-          </span>
-          <span className="text-gray-100 dark:text-gray-800 cursor-pointer">
-            گوشی
-          </span>
-          <span className="text-gray-100 dark:text-gray-800 cursor-pointer">
-            قطعات کامپیوتر
-          </span>
-          <span className="text-gray-100 dark:text-gray-800 cursor-pointer">
-            قطعات موبایل
-          </span>
-          <span className="text-gray-100 dark:text-gray-800 cursor-pointer">
-            هارد
-          </span>
+        <div className="w-full mt-3">
+          <ul className="flex justify-evenly relative text-gray-50 dark:text-gray-800 px-4 py-1 gap-2 w-full">
+            {menuData.length &&
+              menuData.map((item, index) => (
+                <li key={index} className="menu-li-basic">
+                  <span className="cursor-pointer group ">
+                    {item.name}
+                    <IoIosArrowUp
+                      strokeWidth={2.5}
+                      className={
+                        "h-3.5 w-3.5 inline mr-2 transition-transform group-hover:rotate-180"
+                      }
+                    />
+                  </span>
+                  <ul className="menu-ul-basic bg-blue-gray-500">
+                    {item.data.map((category, index) => (
+                      <li key={index} className="menu-li-hover group/item">
+                        <Link href={category.slug} className="text-gray-100 ">
+                          {category.name}
+                          {category.data.length && (
+                            <IoIosArrowUp
+                              strokeWidth={2.5}
+                              className={
+                                "h-3.5 w-3.5 inline mr-2 transition-transform group-hover/item:rotate-180"
+                              }
+                            />
+                          )}
+                        </Link>
+                        <ul className="menu-ul-hover bg-blue-gray-800">
+                          {category.data.map((i, index) => (
+                            <li key={index}>
+                              <Link
+                                href={i.slug}
+                                className="bg-blue-gray-700 hover:bg-blue-gray-500 text-gray-100"
+                              >
+                                {i.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+          </ul>
         </div>
       </div>
     </header>

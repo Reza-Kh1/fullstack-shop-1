@@ -1,0 +1,72 @@
+.bg-instagram {
+    background: linear-gradient(6deg, #ffce07, #ff351e, #ff0081, #3712f9);
+}
+
+.menu-li-basic {
+    transition: all ease-in-out 0.3s;
+    z-index: 10;
+
+}
+
+.menu-li-hover a {
+    border-radius: 10px;
+    transition: all ease-in-out 0.3s;
+    padding: 10px 7px;
+}
+
+.menu-li-basic:hover .menu-ul-basic {
+    visibility: visible;
+    opacity: 1;
+    transition: all ease-in-out 0.3s;
+    z-index: 10;
+    top: 125%;
+}
+
+.menu-ul-basic {
+    width: 100%;
+    display: flex;
+    padding: 8px 15px;
+    transition: all ease-in-out 0.3s;
+    border-radius: 8px;
+    position: absolute;
+    top: 250%;
+    right: 0;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.menu-li-hover {
+    position: relative;
+    transition: all ease-in-out 0.3s;
+    padding: 10px;
+}
+
+.menu-li-hover:hover .menu-ul-hover {
+    visibility: visible;
+    opacity: 1;
+    top: 116%;
+    z-index: 10;
+    transition: all ease-in-out 0.3s;
+
+}
+
+.menu-ul-hover {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    min-width: 300px;
+    grid-gap: 10px;
+    border-radius: 8px;
+    position: absolute;
+    right: 0;
+    top: 200%;
+    transition: all ease-in-out 0.3s;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.menu-ul-hover a {
+    padding: 8px;
+    transition: all ease-in-out 0.3s;
+    display: block;
+}
