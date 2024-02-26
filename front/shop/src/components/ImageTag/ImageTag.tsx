@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import LoadingImage from "../LoadingImage/LoadingImage";
 import Image from "next/image";
-import ImageError from "@/../public/error.jpg";
+import ImageError from "@/../public/errorImage.webp";
 type Image = {
   src: any;
   alt: string;

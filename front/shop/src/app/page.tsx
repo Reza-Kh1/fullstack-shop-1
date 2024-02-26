@@ -13,10 +13,10 @@ import {
   FaShop,
   FaUsers,
 } from "react-icons/fa6";
-import { Button } from "@material-tailwind/react";
 import { BsCalendar3 } from "react-icons/bs";
 import { FaShippingFast } from "react-icons/fa";
 import { MdPayment } from "react-icons/md";
+import ButtonTailwind from "@/components/Button/ButtonTailwind";
 export default function Home() {
   const image = [
     {
@@ -50,15 +50,15 @@ export default function Home() {
                     گیگ ssd
                   </p>
                 </div>
-                <Button variant="gradient" color="blue" className="font-medium">
+                <ButtonTailwind variant="gradient" color="blue" className="font-medium">
                   <Link href={"/"}>
                     دیدن صفحه
                     <FaArrowLeft className="inline mr-2" />
                   </Link>
-                </Button>
+                </ButtonTailwind>
               </div>
               <figure>
-                {/* <ImageTag src={imag1} width={200} alt="offer" height={150} /> */}
+                <ImageTag src={imag1} width={200} alt="offer" height={150} />
               </figure>
             </div>
           </div>
@@ -72,13 +72,13 @@ export default function Home() {
                 {/* <ImageTag alt="" src={imag3} width={150} height={150} /> */}
               </div>
               <Link href={"/"}>
-                <Button
+                {/* <Button
                   variant="gradient"
                   color="deep-purple"
                   className="w-1/3 font-medium"
                 >
                   تماشا آنلاین
-                </Button>
+                </Button> */}
               </Link>
             </div>
           </div>
