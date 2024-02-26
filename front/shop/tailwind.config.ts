@@ -21,7 +21,7 @@ const config = withMT({
       },
       backgroundColor: {
         "custom-light": "rgb(255 255 255 / 76%)",
-        "custom-dark": "rgb(19 19 19 / 73%)",
+        "custom-dark": "rgb(20 21 24)",
       },
     },
   },

@@ -16,10 +16,9 @@ type SwiperSliderType = {
 export default function SwiperSlider({ images }: SwiperSliderType) {
   return (
     <Swiper
-      modules={[Navigation, Pagination, A11y]}
+      modules={[ Pagination, A11y]}
       spaceBetween={50}
       slidesPerView={1}
-      navigation
       pagination={{ clickable: true }}
       className="h-full"
     >
@@ -31,7 +30,7 @@ export default function SwiperSlider({ images }: SwiperSliderType) {
               height={450}
               alt={i.alt}
               src={i.src}
-              className="w-full rounded-md shadow-md h-full object-cover"
+              className="w-full rounded-md shadow-md h-full object-cover shadow-blue-gray-500"
             />
           </SwiperSlide>
         ))}

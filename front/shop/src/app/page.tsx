@@ -5,18 +5,10 @@ import imag3 from "@/../public/laptop3.jpg";
 import imag4 from "@/../public/laptop4.jpg";
 import ImageTag from "@/components/ImageTag/ImageTag";
 import Link from "next/link";
-import {
-  FaArrowLeft,
-  FaCheck,
-  FaFileInvoiceDollar,
-  FaHeadset,
-  FaShop,
-  FaUsers,
-} from "react-icons/fa6";
-import { BsCalendar3 } from "react-icons/bs";
-import { FaShippingFast } from "react-icons/fa";
-import { MdPayment } from "react-icons/md";
+import { FaArrowLeft } from "react-icons/fa6";
 import ButtonTailwind from "@/components/Button/ButtonTailwind";
+import BandPage from "@/components/BandPage/BandPage";
+import SwiperProduct from "@/components/SwiperProduct/SwiperProduct";
 export default function Home() {
   const image = [
     {
@@ -32,9 +24,9 @@ export default function Home() {
     <>
       <div className="w-full px-3 mx-auto max-width">
         <div className="h-[500px]">
-          {/* <SwiperSlider images={image} /> */}
+          <SwiperSlider images={image} />
         </div>
-        <div className="w-full flex py-2 gap-2">
+        <div className="w-full flex my-3 gap-2">
           <div className="w-8/12 p-2 bg-custom-dark dark:bg-custom-light rounded-md flex flex-col justify-between">
             <span className="text-red-600 dark:text-red-300 text-lg">
               پیشنهاد ویژه امروز
@@ -50,7 +42,7 @@ export default function Home() {
                     گیگ ssd
                   </p>
                 </div>
-                <ButtonTailwind variant="gradient" color="blue" className="font-medium">
+                <ButtonTailwind color="blue">
                   <Link href={"/"}>
                     دیدن صفحه
                     <FaArrowLeft className="inline mr-2" />
@@ -69,54 +61,52 @@ export default function Home() {
             <div className="bg-gradient-to-br to-blue-gray-500 from-blue-gray-700 p-3 rounded-md text-center">
               <h3 className="text-h1-light text-lg">معرفی کالاهای جدید</h3>
               <div className="w-1/2 mx-auto my-2">
-                {/* <ImageTag alt="" src={imag3} width={150} height={150} /> */}
+                <ImageTag alt="" src={imag3} width={150} height={150} />
               </div>
               <Link href={"/"}>
-                {/* <Button
-                  variant="gradient"
-                  color="deep-purple"
-                  className="w-1/3 font-medium"
-                >
+                <ButtonTailwind color="deep-purple" className="w-1/3">
                   تماشا آنلاین
-                </Button> */}
+                </ButtonTailwind>
               </Link>
             </div>
           </div>
         </div>
-        {/* <div className="w-full my-2 justify-evenly bg-custom-dark dark:bg-custom-light">
-          <div className="flex flex-col">
-            <span>خرید مطمئن</span>
-            <FaUsers className="inline" />
+        <div className="w-full my-3 flex justify-evenly bg-custom-dark dark:bg-custom-light p-3 py-5 rounded-md">
+          <BandPage />
+        </div>
+        <div className="w-full my-3 p-3 bg-custom-dark dark:bg-custom-light rounded-md">
+          <div className="mb-3 flex justify-between items-center">
+            <span className="text-span-light dark:text-span-dark font-bold text-lg">
+              محصولات آماده ارسال
+            </span>
+            <Link href={"/"}>
+              <ButtonTailwind color="light-green">نمایش همه</ButtonTailwind>
+            </Link>
           </div>
-          <div className="flex flex-col">
-            <span>مشاوره رایگان</span>
-            <FaHeadset className="inline" />
+          <SwiperProduct />
+        </div>
+        <div className="w-full my-3 p-3 bg-custom-dark dark:bg-custom-light rounded-md">
+          <div className="mb-3 flex justify-between items-center">
+            <span className="text-span-light dark:text-span-dark font-bold text-lg">
+              محصولات تخفیف خورده
+            </span>
+            <Link href={"/"}>
+              <ButtonTailwind color="indigo">نمایش همه</ButtonTailwind>
+            </Link>
           </div>
-          <div className="flex flex-col">
-            <span>ارسال سریع</span>
-            <FaShippingFast className="inline" />
+          <SwiperProduct />
+        </div>
+        <div className="w-full my-3 p-3 bg-custom-dark dark:bg-custom-light rounded-md">
+          <div className="mb-3 flex justify-between items-center">
+            <span className="text-span-light dark:text-span-dark font-bold text-lg">
+              فروش امروز
+            </span>
+            <Link href={"/"}>
+              <ButtonTailwind color="red">نمایش همه</ButtonTailwind>
+            </Link>
           </div>
-          <div className="flex flex-col">
-            <span>خرید حضوری</span>
-            <FaShop className="inline" />
-          </div>
-          <div className="flex flex-col">
-            <span>فروش به صورت اقساطی</span>
-            <FaFileInvoiceDollar className="inline" />
-          </div>
-          <div className="flex flex-col">
-            <span>خرید آنلاین</span>
-            <MdPayment className="inline" />
-          </div>
-          <div className="flex flex-col">
-            <span>تضمین اصالت کالا</span>
-            <FaCheck />
-          </div>
-          <div className="flex flex-col">
-            <span>7 روز ضمانت بازگشت</span>
-            <BsCalendar3 className="inline" />
-          </div>
-        </div> */}
+          <SwiperProduct />
+        </div>
       </div>
     </>
   );

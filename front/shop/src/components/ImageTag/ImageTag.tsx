@@ -9,6 +9,7 @@ type Image = {
   className?: string;
   width: number;
   height: number;
+  classPlus?: string;
 };
 export default function ImageTag({
   src,
@@ -16,6 +17,7 @@ export default function ImageTag({
   className,
   height,
   width,
+  classPlus,
 }: Image) {
   const [load, setLoad] = useState<boolean>(true);
   const [srcError, setSrcError] = useState<any>();
@@ -30,7 +32,11 @@ export default function ImageTag({
         onLoad={() => setLoad(false)}
         src={srcError || src || ""}
         alt={alt || ""}
-        className={className || " rounded-md shadow-md w-full h-full"}
+        className={
+          className ||
+          `${classPlus} rounded-md shadow-md  table mx-auto` ||
+          "rounded-md shadow-md w-full h-full table mx-auto"
+        }
         onError={() => setSrcError(ImageError)}
       />
       {load && <LoadingImage />}
