@@ -22,7 +22,7 @@ export default function ImageTag({
   const [load, setLoad] = useState<boolean>(true);
   const [srcError, setSrcError] = useState<any>();
   return (
-    <figure className="relative">
+    <figure className="relative h-full w-full">
       <Image
         width={width}
         height={height}
@@ -35,7 +35,7 @@ export default function ImageTag({
         className={
           className ||
           `${classPlus} rounded-md shadow-md  table mx-auto` ||
-          "rounded-md shadow-md w-full h-full table mx-auto"
+          "rounded-md shadow-md w-full table mx-auto object-fill"
         }
         onError={() => setSrcError(ImageError)}
       />

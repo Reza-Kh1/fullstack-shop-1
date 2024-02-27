@@ -2,9 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import {
-  FaTelegram,
-  FaInstagram,
-  FaWhatsapp,
   FaCartShopping,
   FaMoon,
 } from "react-icons/fa6";
@@ -13,6 +10,7 @@ import icon from "@/../public/icon.jpg";
 import { Button } from "@material-tailwind/react";
 import { FaSearch, FaSun } from "react-icons/fa";
 import { IoIosArrowUp } from "react-icons/io";
+import ShareApp from "../ShareApp/ShareApp";
 export default function Header() {
   const menuData = [
     {
@@ -128,21 +126,7 @@ export default function Header() {
             <span className="text-gray-300 dark:text-light-green-700"> ⟫</span>
           </div>
           <div className="share-icon flex gap-2">
-            <Link href={""}>
-              <i className="py-1 px-2  rounded-md bg-blue-600 text-gray-50">
-                <FaTelegram className="inline" />
-              </i>
-            </Link>
-            <Link href={""}>
-              <i className="py-1 px-2  rounded-md bg-instagram text-gray-50">
-                <FaInstagram className="inline" />
-              </i>
-            </Link>
-            <Link href={""}>
-              <i className="py-1 px-2  rounded-md bg-green-600 text-gray-50">
-                <FaWhatsapp className="inline" />
-              </i>
-            </Link>
+            <ShareApp />
           </div>
         </div>
         <div className="flex  justify-between">

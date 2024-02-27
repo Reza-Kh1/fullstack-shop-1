@@ -16,9 +16,10 @@ type SwiperSliderType = {
 export default function SwiperSlider({ images }: SwiperSliderType) {
   return (
     <Swiper
-      modules={[ Pagination, A11y]}
+      modules={[Pagination, A11y, Navigation]}
       spaceBetween={50}
       slidesPerView={1}
+      navigation
       pagination={{ clickable: true }}
       className="h-full"
     >
