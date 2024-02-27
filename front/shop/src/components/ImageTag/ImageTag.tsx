@@ -26,9 +26,9 @@ export default function ImageTag({
       <Image
         width={width}
         height={height}
-        loading="lazy"
-        placeholder="blur"
-        blurDataURL="data:image/gif;base64,..."
+        // loading="lazy"
+        // placeholder="blur"
+        // blurDataURL="data:image/gif;base64,..."
         onLoad={() => setLoad(false)}
         src={srcError || src || ""}
         alt={alt || ""}

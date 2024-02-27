@@ -110,3 +110,27 @@ a {
   height: 35px;
   background: linear-gradient(180deg, transparent calc(40% - 1px), #484848 40%, transparent calc(40% + 1px), transparent calc(40% + 7px), #484848 60%, transparent calc(60% + 2px));
 }
+
+.menu-footer::after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  top: 8px;
+  opacity: 0;
+  visibility: hidden;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  transition: all ease-in-out 0.2s;
+  background: #ff8112;
+}
+
+.menu-footer:hover::after {
+  right: 0;
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu-footer:hover {
+  color: #ff8112 !important;
+}
