@@ -62,10 +62,10 @@ export default function Footer() {
         <div className="footer flex gap-3">
           <div className="w-2/3">
             <div className="flex items-center gap-3">
-              <div>
+              <div className="w-16">
                 <ImageTag
                   alt="فروشگاه اینترنتی من و تو"
-                  height={150}
+                  height={144}
                   classPlus="w-14"
                   width={150}
                   src={iconImage}
@@ -136,22 +136,27 @@ export default function Footer() {
             </span>
             <GetEmail />
             <div className="flex justify-evenly mt-3">
-              <ImageTag
-                src={
-                  "https://www.systemgroup.net/wp-content/uploads/2023/10/enamad-1024x669.jpg"
-                }
-                width={150}
-                height={150}
-                alt=""
-              />
-              <ImageTag
-                src={
-                  "https://roozrang.ir/wp-content/uploads/2024/01/zarrinpal.png"
-                }
-                width={150}
-                height={150}
-                alt=""
-              />
+              <div className="w-36">
+
+                <ImageTag
+                  src={
+                    "https://www.systemgroup.net/wp-content/uploads/2023/10/enamad-1024x669.jpg"
+                  }
+                  width={150}
+                  height={150}
+                  alt=""
+                />
+              </div>
+              <div className="w-36">
+                <ImageTag
+                  src={
+                    "https://roozrang.ir/wp-content/uploads/2024/01/zarrinpal.png"
+                  }
+                  width={150}
+                  height={150}
+                  alt=""
+                />
+              </div>
             </div>
           </div>
         </div>

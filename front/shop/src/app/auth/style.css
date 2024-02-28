@@ -5,8 +5,6 @@
 .customize-shadow {
     position: relative;
     border-radius: 6px;
-    background-color: #000000b3;
-    box-shadow: 0px 1px 6px 1px #181313;
 }
 
 .customize-shadow::after {
@@ -84,8 +82,6 @@
     -webkit-transition: all 0.5s;
     transition: all 0.5s;
     border-radius: 6px;
-    background-color: #000000b3;
-    box-shadow: 0px 1px 6px 1px #181313;
 }
 
 .container .box {
@@ -160,8 +156,7 @@
     overflow: hidden;
     position: absolute;
     border-radius: 6px;
-    background-color: #000000b3;
-    box-shadow: 0px 1px 6px 1px #181313;
+    box-shadow: 0px 1px 6px 1px #646363;
     right: 0;
     top: -30px;
     width: 24rem;
@@ -218,4 +213,12 @@
 .container.log-in .container-form .form-item.log-in {
     right: -100%;
     opacity: 0;
+}
+
+.dark .div-signup label {
+    color: #312f2f !important;
+}
+
+.div-signup label {
+    color: #c2c2c2 !important;
 }

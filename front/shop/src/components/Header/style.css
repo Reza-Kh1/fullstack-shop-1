@@ -4,7 +4,7 @@
 
 .menu-li-basic {
     transition: all ease-in-out 0.3s;
-    z-index: 10;
+    z-index: 50;
 
 }
 

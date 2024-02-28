@@ -11,6 +11,8 @@ import { Button } from "@material-tailwind/react";
 import { FaSearch, FaSun } from "react-icons/fa";
 import { IoIosArrowUp } from "react-icons/io";
 import ShareApp from "../ShareApp/ShareApp";
+import { signIn } from "next-auth/react";
+import BtnLogin from "./BtnLogin";
 export default function Header() {
   const menuData = [
     {
@@ -131,27 +133,7 @@ export default function Header() {
         </div>
         <div className="flex  justify-between">
           <div className="flex gap-2">
-            <Link href={"/auth"}>
-              <Button
-                variant="gradient"
-                color="gray"
-                className="font-medium"
-                placeholder={"ورود و خروج"}
-              >
-                ثبت نام / ورود
-              </Button>
-            </Link>
-            <Link href={"/profile"}>
-              <Button
-                variant="gradient"
-                color="gray"
-                className="font-medium"
-                placeholder={"ورود و خروج"}
-              >
-                محصولات
-                <FaCartShopping className="inline mr-2" />
-              </Button>
-            </Link>
+            <BtnLogin />
           </div>
           <div className="search w-6/12">
             <label htmlFor="" className="relative">
