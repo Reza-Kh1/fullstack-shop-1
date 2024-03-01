@@ -32,12 +32,11 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
       altImg: form.altImg ? form.altImg : null,
       srcImg: allImage,
       slug: form.slug,
-      total: Number(form.totel) === 0 ? null : Number(form.totel),
+      totel: Number(form.totel) === 0 ? null : Number(form.totel),
       description: form.description,
       categoryId: id?.id ? id.id : null,
       status: status || false,
     };
-
     if (infoProduct?.slug) {
       axios
         .put(`product/${infoProduct?.slug}`, body)
@@ -77,8 +76,8 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
   useEffect(() => {
     getData();
     if (infoProduct) {
-      infoProduct?.srcImg;
-      setValue("totel", infoProduct?.total || 0);
+      infoProduct?.srcImg;      
+      setValue("totel", infoProduct?.totel || 0);
       setValue("off", infoProduct?.off || 0);
       setValue("price", infoProduct?.price || 0);
       setValue("name", infoProduct?.name || "");
@@ -142,7 +141,7 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
             تعداد
           </label>
           <InputForm
-            name="total"
+            name="totel"
             placeholder="اختیاری"
             classLabel=""
             register={register}

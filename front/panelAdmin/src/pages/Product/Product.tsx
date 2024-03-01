@@ -64,7 +64,7 @@ export default function Product() {
       .then(({ data }) => {
         setAllProduct(data.rows);
         setCount(data.count);
-        setPaginations(data.pagination);
+        setPaginations(data.pagination);        
       })
       .catch((err) => console.log(err));
   };
@@ -75,7 +75,7 @@ export default function Product() {
       .then(({ data }) => {
         setAllProduct(data.rows);
         setCount(data.count);
-        setPaginations(data.pagination);
+        setPaginations(data.pagination);        
       })
       .catch((err) => console.log(err));
   };

@@ -68,14 +68,16 @@ export default function DetailProduct({ id, detail }: DetailProductType) {
       };
       setSkill([...skill, body]);
     } else {
-      skill?.some((i) => {
+      const newSkill = skill.map((i) => {
         if (i.name === skillCategory) {
-          return (i.skills = [
+          i.skills = [
             ...i.skills,
             { name: form.skillname, text: form.skilltext },
-          ]);
+          ];
         }
+        return i;
       });
+      setSkill(newSkill);
     }
     resetField("categoryskill");
     resetField("skillname");
@@ -198,7 +200,7 @@ export default function DetailProduct({ id, detail }: DetailProductType) {
                       >
                         {skill &&
                           skill.map((i, index) => (
-                            <Option value={"op"} key={index}>
+                            <Option value={i.name} key={index}>
                               {i.name}
                             </Option>
                           ))}
