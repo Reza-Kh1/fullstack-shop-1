@@ -27,7 +27,11 @@ dotenv.config();
 const app = express();
 app.use(
   cors({
+<<<<<<< HEAD
     origin:[ "http://localhost:5173", "http://localhost:3000"],
+=======
+    origin: ["http://localhost:5173","http://localhost:3000"],
+>>>>>>> 4d4abf3944a72f221ba275a8cebdc923ce5add5c
     credentials: true, // اجازه دادن به درخواست های با credentials
   })
 );
