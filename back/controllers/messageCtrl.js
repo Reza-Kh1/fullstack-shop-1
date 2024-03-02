@@ -35,6 +35,13 @@ export const getAllMessasge = asyncHnader(async (req, res) => {
       where: { userId: info.id },
       order: [["createdAt"]],
       attributes: { exclude: ["userId", "replyId"] },
+      include: [
+        {
+          model: messageModel,
+          as: "replies",
+          attributes: ["text"],
+        },
+      ],
     });
     if (!data.length) return res.send({ message: "هنوز تیکتی ثبت نکرده اید" });
     res.send([...data]);
@@ -73,13 +80,13 @@ export const getAllMessasgeAmin = asyncHnader(async (req, res) => {
   const limit = process.env.LIMIT;
   try {
     const data = await messageModel.findAndCountAll({
-      where: { status, replyId:null },
+      where: { status, replyId: null },
       offset: limit * page - limit,
       limit: limit,
       order: [["createdAt", "DESC"]],
     });
     if (!data.count) {
-     return res.send({ message: "پیامی وجود ندارد" });
+      return res.send({ message: "پیامی وجود ندارد" });
     }
     const pager = pagination(data.count, limit, page);
     res.send({ ...data, pagination: pager });

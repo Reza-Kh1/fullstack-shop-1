@@ -2,15 +2,16 @@ import { customError } from "../middlewares/errorHandler.js";
 import { addressModel } from "../models/index.js";
 import asyncHandler from "express-async-handler";
 export const createAddress = asyncHandler(async (req, res) => {
-  const { name, city, street, note, phone } = req.body;
+  const { name, city, address, phone, postalCode, town } = req.body;
   const id = res.userInfo.id;
   try {
     const data = await addressModel.create({
       name,
       city,
-      street,
-      note,
+      address,
       phone,
+      postalCode,
+      town,
       userId: id,
     });
     res.send({ data });
@@ -29,7 +30,7 @@ export const deleteAddress = asyncHandler(async (req, res) => {
   }
 });
 export const updateAddress = asyncHandler(async (req, res) => {
-  const { name, city, street, note, phone } = req.body;
+  const { name, city, address, phone, postalCode, town } = req.body;
   const { id } = req.params;
   try {
     const data = await addressModel.findByPk(id);
@@ -40,14 +41,17 @@ export const updateAddress = asyncHandler(async (req, res) => {
     if (city) {
       data.city = city;
     }
-    if (street) {
-      data.street = street;
-    }
-    if (note) {
-      data.note = note;
+    if (address) {
+      data.address = address;
     }
     if (phone) {
       data.phone = phone;
+    }
+    if (postalCode) {
+      data.postalCode = postalCode;
+    }
+    if (town) {
+      data.town = town;
     }
     await data.save();
     res.send({ message: "با موفقیت به روز شد" });
@@ -56,9 +60,10 @@ export const updateAddress = asyncHandler(async (req, res) => {
   }
 });
 export const getAddress = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+  // const { id } = req.params;
+  const id = res.userInfo.id;
   try {
-    const data = await addressModel.findByPk(id);
+    const data = await addressModel.findOne({ where: { userId: id } });
     if (!data) throw new Error("ادرس یافت نشد !");
     res.send({ data });
   } catch (err) {

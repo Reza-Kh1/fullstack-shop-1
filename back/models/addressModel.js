@@ -10,10 +10,13 @@ const addressModel = dataBase.define(
     city: {
       type: DataTypes.STRING,
     },
-    street: {
+    address: {
       type: DataTypes.TEXT,
     },
-    note: {
+    town: {
+      type: DataTypes.TEXT,
+    },
+    postalCode: {
       type: DataTypes.TEXT,
     },
     phone: {

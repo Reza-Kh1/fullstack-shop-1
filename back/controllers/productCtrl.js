@@ -20,7 +20,7 @@ export const createProduct = asyncHandler(async (req, res) => {
     description,
     status,
     categoryId,
-    total,
+    totel,
   } = req.body;
   const info = res.userInfo;
   try {
@@ -35,7 +35,7 @@ export const createProduct = asyncHandler(async (req, res) => {
       slug,
       description,
       status,
-      total,
+      totel,
     });
     res.send({ data });
   } catch (err) {
@@ -64,7 +64,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
     status,
     description,
     categoryId,
-    total,
+    totel,
   } = req.body;
   try {
     const data = await productModel.findOne({ where: { slug: id } });
@@ -96,8 +96,8 @@ export const updateProduct = asyncHandler(async (req, res) => {
     if (description) {
       data.description = description;
     }
-    if (total) {
-      data.total = total;
+    if (totel) {
+      data.totel = totel;
     }
     data.save();
     res.send({ message: "محصول آپدیت شد" });

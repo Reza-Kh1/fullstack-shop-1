@@ -7,10 +7,7 @@ import {
 } from "../controllers/basicCategoryCtrl.js";
 import isAuthor from "../utils/isAuthor.js";
 const routes = express.Router();
-routes
-  .route("/")
-  .get(isAuthor, getBasicCategory)
-  .post(isAuthor, createBasicCategory);
+routes.route("/").get(getBasicCategory).post(isAuthor, createBasicCategory);
 routes
   .route("/:id")
   .put(isAuthor, updateBasicCategory)
