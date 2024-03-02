@@ -118,20 +118,8 @@ export const getProduct = asyncHandler(async (req, res) => {
       ],
     });
     if (!data) throw new Error("محصولی وجود ندارد !");
-    const review = await reviewModel.findAndCountAll({
-      where: { postId: data.id, status: true },
-      order: [["createdAt", "DESC"]],
-      limit: 20,
-      include: [
-        {
-          model: reviewModel,
-          as: "replies",
-          where: { status: true },
-          separate: true,
-          attributes: ["comment", "name", "replyId", "id", "createdAt"],
-        },
-      ],
-      attributes: { exclude: ["status", "email", "phone"] },
+    const review = await reviewModel.count({
+      where: { postId: data.id, status: true }
     });
     res.send({
       data: {
