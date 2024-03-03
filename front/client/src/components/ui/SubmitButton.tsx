@@ -6,7 +6,7 @@ type ButtonSubmit = {
   type?: "submit" | "reset" | "button";
   value: string;
   onClick?: (value: any) => void;
-  color: "blue" | "gray" | "orange";
+  color: "blue" | "gray" | "orange" | "red" | "green";
 };
 export default function SubmitButton({
   classs,
@@ -15,28 +15,47 @@ export default function SubmitButton({
   color,
   type,
 }: ButtonSubmit) {
+  const colors =
+    color === "blue"
+      ? "btn-blue "
+      : color === "gray"
+      ? "btn-gray "
+      : color === "orange"
+      ? "btn-orange "
+      : color === "red"
+      ? "btn-red "
+      : color === "green"
+      ? "btn-green "
+      : "";
   const { pending } = useFormStatus();
   const Loading = () => {
     return (
-      <div className="lds-ring">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+      <div className="loadingio-spinner-double-ring-vk8arn8sxy mr-1 absolute left-0 top-1/2 transform translate-x-0 -translate-y-1/2">
+        <div className="ldio-davsdf6mqul">
+          <div></div>
+          <div></div>
+          <div>
+            <div></div>
+          </div>
+          <div>
+            <div></div>
+          </div>
+        </div>
       </div>
     );
   };
   return (
     <>
-      <ButtonCustom
+      <button
         type={type}
-        color={color}
         onClick={onClick}
-        className={classs}
+        className={`items-center btn-custom flex justify-center relative ${
+          colors + classs
+        }`}
       >
         {value}
-      <Loading />
-      </ButtonCustom>
+        {pending && <Loading />}
+      </button>
     </>
   );
 }

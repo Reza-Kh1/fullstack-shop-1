@@ -1,16 +1,10 @@
 "use client";
 import { fetchApi } from "@/action/fetchApi";
-// import SubmitButton from "@/components/Button/SubmitButton";
 import InputCustom from "@/components/InputCustom/InputCustom";
 import SubmitButton from "@/components/ui/SubmitButton";
-// import {
-//   Accordion,
-//   AccordionBody,
-//   AccordionHeader,
-// } from "@material-tailwind/react";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useRef, useState } from "react";
-import { FaAngleDown, FaCheck, FaInfoCircle } from "react-icons/fa";
+import { FaAngleDown, FaCheck } from "react-icons/fa";
 import { FaInfo } from "react-icons/fa6";
 import { toast } from "react-toastify";
 type MessageType = {
@@ -90,12 +84,12 @@ export default function Page() {
             rows={6}
           />
         </div>
-        <div className="w-1/6 mt-3">
+        <div className="w-2/12 mt-3">
           <SubmitButton
             color="orange"
             type="submit"
             value="ثبت"
-            classs="w-full"
+            classs="px-5 py-1 w-full"
           />
         </div>
       </form>
@@ -104,83 +98,90 @@ export default function Page() {
           تیکت هایی که قبلا ثبت کرده اید
         </h3>
       </div>
-      {/* {allData?.length ? (
-        allData?.map((i) => (
-          <Accordion
-            className="bg-custom-dark my-3 dark:bg-custom-light p-2 rounded-md"
-            key={i.id}
-            open={open === i.id}
-            icon={
-              <FaAngleDown
-                className={`${
-                  i.id === open ? "rotate-180" : ""
-                } h-5 w-5 transition-transform`}
-              />
-            }
-          >
-            <AccordionHeader
-              className="text-h1-light dark:text-h1-dark text-lg"
-              onClick={() => handleOpen(i.id)}
+      <div>
+        {allData?.length ? (
+          allData.map((i, index) => (
+            <div
+              key={index}
+              className="dark:bg-gray-200 my-3 bg-slate-800 p-2 rounded-md"
             >
-              <div className="w-full flex justify-between pl-3">
+              <div
+                className="w-full flex justify-between py-1 cursor-pointer items-center"
+                onClick={() => handleOpen(i.id)}
+              >
                 <div className="flex gap-2">
-                  <span>{i.name}</span>
-                  <span>
+                  <span className="text-span-light dark:text-span-dark">
+                    {i.name}
+                  </span>
+                  <span className="text-span-light dark:text-span-dark">
                     ({new Date(i?.createdAt).toLocaleDateString("fa")})
                   </span>
                 </div>
-                {i.status ? (
-                  <>
-                    <div className="bg-green-300 text-gray-900 px-3 py-2 rounded-md text-sm">
-                      <span>پاسخ داد شده</span>
-                      <FaCheck className="inline mr-2" />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="bg-red-300 px-3 py-2 text-gray-900 rounded-md text-sm">
-                      <span>پاسخ داد نشده</span>
-                      <FaInfo className="inline mr-2" />
-                    </div>
-                  </>
-                )}
-              </div>
-            </AccordionHeader>
-            <AccordionBody>
-              <div className="w-full">
-                <div className="w-8/12 bg-slate-300 dark:bg-slate-300 rounded-md shadow-md p-2 ml-auto">
-                  <span className="text-h1-light dark:text-h1-dark text-lg">
-                    {i.name}
+                <div className="flex gap-2 items-center">
+                  {i.status ? (
+                    <>
+                      <div className="bg-green-300 text-gray-900 px-3 py-2 rounded-md text-sm">
+                        <span>پاسخ داد شده</span>
+                        <FaCheck className="inline mr-2" />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="bg-red-300 px-3 py-2 text-gray-900 rounded-md text-sm">
+                        <span>پاسخ داد نشده</span>
+                        <FaInfo className="inline mr-2" />
+                      </div>
+                    </>
+                  )}
+                  <span>
+                    <FaAngleDown
+                      className={`transition-all text-span-light dark:text-span-dark ${
+                        open === i.id ? "rotate-180" : ""
+                      }`}
+                    />
                   </span>
-                  <p className="text-p-light dark:text-p-dark mt-3">{i.text}</p>
                 </div>
-                {i.replies?.length ? (
-                  <div className="w-8/12 bg-slate-300 dark:bg-slate-300 mt-3 rounded-md shadow-md p-2 mr-auto">
+              </div>
+              <div
+                className={`${open === i.id ? "inline-block" : "hidden"} mt-3`}
+              >
+                <div className="w-full">
+                  <div className="w-8/12 bg-slate-900 dark:bg-slate-300 rounded-md shadow-md p-2 ml-auto">
                     <span className="text-h1-light dark:text-h1-dark text-lg">
-                      پاسخ ادمین
+                      {i.name}
                     </span>
                     <p className="text-p-light dark:text-p-dark mt-3">
-                      {i.replies?.map((respown, index) => (
-                        <p key={index}>{respown.text}</p>
-                      ))}
+                      {i.text}
                     </p>
                   </div>
-                ) : (
-                  ""
-                )}
+                  {i.replies?.length ? (
+                    <div className="w-8/12  bg-slate-900 dark:bg-slate-300 mt-3 rounded-md shadow-md p-2 mr-auto">
+                      <span className="text-h1-light dark:text-h1-dark text-lg">
+                        پاسخ ادمین
+                      </span>
+                      <p className="text-p-light dark:text-p-dark mt-3">
+                        {i.replies?.map((respown, index) => (
+                          <p key={index}>{respown.text}</p>
+                        ))}
+                      </p>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
               </div>
-            </AccordionBody>
-          </Accordion>
-        ))
-      ) : (
-        <>
-          <div className="text-center bg-deep-orange-400 dark:bg-deep-orange-300 shadow-md p-3 rounded-md">
-            <span className="text-gray-900">
-              هیچ تیکتی تاکنون ثبت نکرده اید
-            </span>
-          </div>
-        </>
-      )} */}
+            </div>
+          ))
+        ) : (
+          <>
+            <div className="text-center bg-deep-orange-400 dark:bg-deep-orange-300 shadow-md p-3 rounded-md">
+              <span className="text-gray-900">
+                هیچ تیکتی تاکنون ثبت نکرده اید
+              </span>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

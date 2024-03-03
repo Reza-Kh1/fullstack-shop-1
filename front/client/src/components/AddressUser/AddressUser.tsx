@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-// import SubmitButton from "../Button/SubmitButton";
 import { fetchApi } from "@/action/fetchApi";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import InputCustom from "../InputCustom/InputCustom";
+import SubmitButton from "../ui/SubmitButton";
 type dataTypeAddres = {
   name: string;
   address: string;
@@ -127,12 +127,7 @@ export default function AddressUser() {
           />
         </div>
         <div className="w-full">
-          {/* <SubmitButton
-            color="green"
-            value="ذخیره"
-            types="submit"
-            classs="w-1/6"
-          /> */}
+          <SubmitButton color="green" value="ذخیره" classs="w-1/6 py-2" />
         </div>
       </form>
     </div>

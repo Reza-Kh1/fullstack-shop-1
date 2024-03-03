@@ -174,7 +174,7 @@ export default function Auth() {
                           <SubmitButton
                             value="وارد شوید"
                             type="submit"
-                            classs="w-full mt-3 flex justify-center"
+                            classs="w-full mt-3 flex justify-center py-2"
                             color="blue"
                           />
                         </form>
@@ -248,7 +248,7 @@ export default function Auth() {
                             value="ثبت نام کنید"
                             type="submit"
                             color="blue"
-                            classs="w-full mt-3 flex justify-center"
+                            classs="w-full mt-3 flex justify-center py-2"
                           />
                         </form>
                       </div>

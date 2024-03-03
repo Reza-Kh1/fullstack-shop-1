@@ -1,6 +1,6 @@
 import React from "react";
 type ButtonCustomType = {
-  color: "blue" | "gray" | "orange";
+  color: "blue" | "gray" | "orange" | "red" | "green";
   children: React.ReactNode;
   className?: string;
   onClick?: (value: any) => void;
@@ -20,11 +20,14 @@ export default function ButtonCustom({
       ? "btn-gray "
       : color === "orange"
       ? "btn-orange "
+      : color === "red"
+      ? "btn-red "
+      : color === "green"
+      ? "btn-green "
       : "";
-
   return (
     <button
-      className={`btn-custom ${colors + className}`}
+      className={`btn-custom px-5 py-2 ${colors + className}`}
       type={type}
       onClick={onClick}
     >

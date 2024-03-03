@@ -4,6 +4,8 @@ import { fetchApi } from "@/action/fetchApi";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import ButtonCustom from "../ui/ButtonCustom";
+import SubmitButton from "../ui/SubmitButton";
 export default function ProfileUpdate() {
   const [open, setOpen] = useState<boolean>(false);
   const { data }: { data: any } = useSession();
@@ -39,7 +41,9 @@ export default function ProfileUpdate() {
             action={UpdateUser}
           >
             <div className="w-full items-center">
-              <span className="text-gray-100 text-lg">ویرایش اطلاعات</span>
+              <span className="text-span-light dark:text-span-dark text-lg">
+                ویرایش اطلاعات
+              </span>
             </div>
             <div className="w-5/12 p-2">
               <span className="text-span-light dark:text-span-dark">
@@ -63,61 +67,56 @@ export default function ProfileUpdate() {
               />
             </div>
             <div className="flex mt-4 w-full justify-between">
-              {/* <Button
-                variant="gradient"
-                color="green"
-                type="submit"
-                className="px-12"
-              >
-                ثبت
-              </Button>
-              <Button
-                variant="gradient"
+              <SubmitButton color="blue" value="ثبت" classs="px-12" />
+              <ButtonCustom
                 color="red"
                 className="px-12"
                 onClick={() => setOpen((prev) => !prev)}
               >
                 انصراف
-              </Button> */}
+              </ButtonCustom>
             </div>
           </form>
         ) : (
           <>
             <div className="flex flex-wrap">
               <div className="w-6/12 p-2 mt-2">
-                <span className="block text-gray-50">نام کاربری :</span>
-                <span className="px-3 mt-1 block py-1 rounded-md bg-gray-300">
+                <span className="block text-span-light dark:text-span-dark">
+                  نام کاربری :
+                </span>
+                <span className="px-3 mt-1 block py-1 rounded-md bg-gray-300 text-span-dark dark:text-span-light">
                   {data?.user?.body.name || "ثبت نشده"}
                 </span>
               </div>
               <div className="w-6/12 p-2 mt-2">
-                <span className="block text-gray-50">ایمیل :</span>
-                <span className="px-3 mt-1 block py-1 rounded-md bg-gray-300">
+                <span className="block text-span-light dark:text-span-dark">
+                  ایمیل :
+                </span>
+                <span className="px-3 mt-1 block text-span-dark dark:text-span-light py-1 rounded-md bg-gray-300">
                   {data?.user?.body?.email || "ثبت نشده"}
                 </span>
               </div>
               <div className="w-6/12 p-2 mt-2">
-                <span className="block text-gray-50">شماره تلفن :</span>
-                <span className="px-3 mt-1 block py-1 rounded-md bg-gray-300">
+                <span className="block text-span-light dark:text-span-dark">شماره تلفن :</span>
+                <span className="px-3 mt-1 block py-1 rounded-md bg-gray-300 text-span-dark dark:text-span-light">
                   {data?.user?.body?.phone || "ثبت نشده"}
                 </span>
               </div>
               <div className="w-6/12 p-2 mt-2">
-                <span className="block text-gray-50">موقعیت کاربری :</span>
-                <span className="px-3 mt-1 block py-1 rounded-md bg-gray-300">
+                <span className="block text-span-light dark:text-span-dark">موقعیت کاربری :</span>
+                <span className="px-3 mt-1 block py-1 rounded-md bg-gray-300 text-span-dark dark:text-span-light">
                   {data?.user?.body?.role || "کاربر"}
                 </span>
               </div>
             </div>
             <div className="text-right w-full mt-4">
-              {/* <Button
-                variant="gradient"
-                color="deep-orange"
+              <ButtonCustom
+                color="orange"
                 className="px-12"
                 onClick={() => setOpen((prev) => !prev)}
               >
                 ویرایش
-              </Button> */}
+              </ButtonCustom>
             </div>
           </>
         )}
