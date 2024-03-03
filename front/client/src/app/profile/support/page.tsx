@@ -2,6 +2,7 @@
 import { fetchApi } from "@/action/fetchApi";
 // import SubmitButton from "@/components/Button/SubmitButton";
 import InputCustom from "@/components/InputCustom/InputCustom";
+import SubmitButton from "@/components/ui/SubmitButton";
 // import {
 //   Accordion,
 //   AccordionBody,
@@ -90,12 +91,12 @@ export default function Page() {
           />
         </div>
         <div className="w-1/6 mt-3">
-          {/* <SubmitButton
-            color="green"
-            types="submit"
+          <SubmitButton
+            color="orange"
+            type="submit"
             value="ثبت"
             classs="w-full"
-          /> */}
+          />
         </div>
       </form>
       <div className="w-full mt-3 p-2 rounded-md bg-bg-head-dark dark:bg-bg-head-light shadow-md mb-4">

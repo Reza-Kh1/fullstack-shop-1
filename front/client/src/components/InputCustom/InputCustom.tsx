@@ -12,7 +12,8 @@ type InputCustomType = {
   onChange?: (value: any) => void;
   className?: string;
   icon?: React.ReactNode;
-  type?: "text" | "password";
+  type?: "text" | "password" | "email";
+  classSpan?: string;
 };
 export default function InputCustom({
   defaultValue,
@@ -26,14 +27,17 @@ export default function InputCustom({
   className,
   icon,
   type,
+  classSpan,
 }: InputCustomType) {
   const classInput =
     `p-3 bg-custom-dark shadow-md rounded-md w-full dark:bg-custom-light placeholder:text-gray-800 dark:placeholder:text-gray-500 text-h1-light dark:text-h1-dark ${
       icon ? "pr-12 " : ""
-    }` + className;
+    }` + className||"";
   return (
     <>
-      <span className="block mb-2 text-h1-light dark:text-h1-dark">
+      <span
+        className={`block mb-2 text-h1-light dark:text-h1-dark ${classSpan||""}` }
+      >
         {value}
       </span>
       {textarea ? (

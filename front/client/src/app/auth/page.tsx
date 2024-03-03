@@ -8,7 +8,7 @@ import { signIn } from "next-auth/react";
 import "./style.css";
 import { useRouter } from "next/navigation";
 import InputCustom from "@/components/InputCustom/InputCustom";
-// import SubmitButton from "@/components/Button/SubmitButton";
+import SubmitButton from "@/components/ui/SubmitButton";
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(false);
   const route = useRouter();
@@ -28,7 +28,6 @@ export default function Auth() {
         redirect: false,
         login: "false",
       });
-
       if (res?.error) {
         toast.warning("شماره تلفن یا ایمیل در سیستم ثبت شده است");
       } else {
@@ -45,7 +44,7 @@ export default function Auth() {
         phone,
       });
       console.log(res);
-
+      
       if (res?.error) {
         toast.warning("رمز وارد شده اشتباه است");
       } else {
@@ -56,7 +55,7 @@ export default function Auth() {
   };
   return (
     <>
-      <div className="signup-page mb-24 w-full h-screen flex items-center justify-center">
+      <div className="signup-page mb-24 w-full flex items-center justify-center">
         <div className="w-4/12 mx-auto z-10 my-auto">
           <div className="flex justify-around text-h1-light dark:text-h1-dark shadow-[#474646] shadow-lg dark:shadow-[#aea9a9] bg-[#262e35] dark:bg-white mb-52 p-3 customize-shadow">
             <span
@@ -144,6 +143,8 @@ export default function Auth() {
                                   ""
                                 );
                               }}
+                              className="text-sm"
+                              classSpan="text-sm"
                               value="شماره تلفن خود را وارد نمایید :"
                               icon={<FaPhone />}
                             />
@@ -153,6 +154,8 @@ export default function Auth() {
                               value="ایمیل خود را وارد کنید :"
                               name="email"
                               icon={<IoMail />}
+                              className="text-sm"
+                              classSpan="text-sm"
                               placeholder="اختیاری"
                             />
                           </div>
@@ -163,15 +166,17 @@ export default function Auth() {
                               placeholder="*****"
                               required
                               type="password"
+                              className="text-sm"
+                              classSpan="text-sm"
                               value="پسورد خود را وارد کنید :"
                             />
                           </div>
-                          {/* <SubmitButton
+                          <SubmitButton
                             value="وارد شوید"
-                            types="submit"
+                            type="submit"
                             classs="w-full mt-3 flex justify-center"
-                            color="deep-orange"
-                          /> */}
+                            color="blue"
+                          />
                         </form>
                       </div>
                     </div>
@@ -184,76 +189,67 @@ export default function Auth() {
                       <div className="table-cell">
                         <form
                           action={loginHandler}
-                          className="flex flex-col justify-evenly gap-5"
+                          className="flex flex-col justify-evenly"
                         >
                           <div className="div-signup">
-                            {/* <Input
-                              label="نام کاربری "
-                              color="black"
+                            <InputCustom
                               name="name"
-                              variant="static"
-                              className="text-gray-200 bg-slate-300 dark:text-gray-700 dark:placeholder:text-gray-500 placeholder:text-gray-600"
+                              icon={<MdTitle />}
                               required
-                              icon={
-                                <MdTitle className="text-gray-200 dark:text-gray-900" />
-                              }
-                            /> */}
+                              type="text"
+                              value="نام کاربری :"
+                              className="text-sm"
+                              classSpan="text-sm mt-1"
+                            />
                           </div>
                           <div className="div-signup">
-                            {/* <Input
-                              label="شماره تلفن خود را وارد نمایید "
-                              placeholder="09390199977"
-                              color="black"
+                            <InputCustom
                               name="phone"
-                              variant="static"
+                              icon={<FaPhone />}
+                              className="text-sm"
+                              classSpan="text-sm mt-1"
                               required
-                              className="text-gray-200 bg-slate-300 dark:text-gray-700 dark:placeholder:text-gray-500 placeholder:text-gray-600"
+                              type="text"
+                              placeholder="09390199977"
                               onChange={(e) => {
                                 e.target.value = e.target.value.replace(
                                   /[^0-9]/g,
                                   ""
                                 );
                               }}
-                              icon={
-                                <FaPhone className="text-gray-200 dark:text-gray-900" />
-                              }
-                            /> */}
+                              value="شماره تلفن خود را وارد نمایید:"
+                            />
                           </div>
                           <div className="div-signup">
-                            {/* <Input
-                              label="ایمیل خود را وارد کنید "
-                              placeholder="google@gmail.com"
-                              color="black"
+                            <InputCustom
                               name="email"
-                              type="email"
-                              variant="static"
+                              icon={<IoMail />}
+                              className="text-sm"
+                              classSpan="text-sm mt-1"
+                              placeholder="google@gmail.com"
                               required
-                              className="text-gray-200 bg-slate-300 dark:text-gray-700 dark:placeholder:text-gray-500 placeholder:text-gray-600"
-                              icon={
-                                <IoMail className="text-gray-200 dark:text-gray-900" />
-                              }
-                            /> */}
+                              type="email"
+                              value="ایمیل خود را وارد کنید:"
+                            />
                           </div>
                           <div className="div-signup">
-                            {/* <Input
-                              label="پسورد خود را وارد کنید "
-                              placeholder="*****"
-                              color="black"
+                            <InputCustom
                               name="password"
-                              variant="static"
+                              icon={<FaKey />}
+                              className="text-sm"
+                              classSpan="text-sm mt-1"
+                              placeholder="********"
                               required
-                              className="text-gray-200 bg-slate-300 dark:text-gray-700 dark:placeholder:text-gray-500 placeholder:text-gray-600"
-                              icon={
-                                <FaKey className="text-gray-200 dark:text-gray-900" />
-                              }
-                            /> */}
+                              type="password"
+                              value="پسورد خود را وارد کنید:"
+                            />
                           </div>
-                          {/* <SubmitButton
+                          <SubmitButton
                             value="ثبت نام کنید"
-                            types="submit"
-                            color="deep-orange"
+                            type="submit"
+                            color="blue"
                             classs="w-full mt-3 flex justify-center"
-                          /> */}
+                          />
                         </form>
                       </div>
                     </div>

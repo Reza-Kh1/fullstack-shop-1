@@ -4,12 +4,14 @@ type ButtonCustomType = {
   children: React.ReactNode;
   className?: string;
   onClick?: (value: any) => void;
+  type?: "submit" | "reset" | "button";
 };
 export default function ButtonCustom({
   color,
   children,
   className,
   onClick,
+  type,
 }: ButtonCustomType) {
   const colors =
     color === "blue"
@@ -21,7 +23,11 @@ export default function ButtonCustom({
       : "";
 
   return (
-    <button className={`btn-custom ${colors + className}`} onClick={onClick}>
+    <button
+      className={`btn-custom ${colors + className}`}
+      type={type}
+      onClick={onClick}
+    >
       {children}
     </button>
   );

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import LayoutProvider from "@/components/LayoutProvider/LayoutProvider";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import SessionProviders from "@/components/SessionProvider/SessionProvider";
-import Head from "next/head";
 export const metadata: Metadata = {
   title: "فروشگاه اینترنتی من و تو",
   description:
@@ -17,16 +16,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl">
-      <Head>
-        
-      </Head>
       <body>
         <div className="w-full min-h-screen bg-black dark:bg-slate-300">
-          <SessionProviders>
+          <LayoutProvider>
             <Header />
             {children}
             <Footer />
-          </SessionProviders>
+          </LayoutProvider>
         </div>
       </body>
     </html>

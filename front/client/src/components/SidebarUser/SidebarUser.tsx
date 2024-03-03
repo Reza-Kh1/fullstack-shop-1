@@ -41,8 +41,8 @@ export default function SidebarUser() {
     );
   };
   return (
-    <div className="w-full side-bar">
-      <div className="flex flex-col p-2 gap-2 fixed w-2/12 mt-1">
+    <div className="w-full side-bar sticky top-0">
+      <div className="flex flex-col p-2 gap-2 w-full">
         <LinkMenu icon={<FaHome />} url="/" value="بازگشت به فروشگاه" />
         <LinkMenu icon={<FaUser />} url="/profile" value="پروفایل" />
         <LinkMenu

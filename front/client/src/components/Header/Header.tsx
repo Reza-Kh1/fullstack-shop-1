@@ -29,7 +29,7 @@ export default async function Header() {
   const allData: CategorysType[] = await getData();
   return (
     <header className="pt-3 mb-5 w-full px-3 mx-auto max-width">
-      <div className="p-2 shadow-sm shadow-slate-300 dark:shadow-slate-300 dark:bg-gray-100 bg-slate-300 rounded-md">
+      <div className="p-2 shadow-sm shadow-slate-300 bg-gray-600 dark:shadow-slate-300 dark:bg-gray-100 rounded-md">
         <div className="flex justify-between items-center border-b-gray-800 pb-2 mb-2 border-b">
           <div className="flex gap-2 items-center">
             <Link href={"/"}>
@@ -78,7 +78,7 @@ export default async function Header() {
           </div>
         </div>
         <div className="w-full mt-3">
-          <ul className="flex justify-evenly relative text-gray-50 dark:text-gray-800 px-4 py-1 gap-2 w-full">
+          <ul className="flex justify-evenly relative text-gray-100 dark:text-gray-800 px-4 py-1 gap-2 w-full">
             {allData.length &&
               allData?.map((item, index) => (
                 <li key={index} className="menu-li-basic">
@@ -91,7 +91,7 @@ export default async function Header() {
                       }
                     />
                   </span>
-                  <ul className="menu-ul-basic bg-slate-300">
+                  <ul className="menu-ul-basic bg-gray-700 dark:bg-slate-500">
                     {item?.categories?.map((category, index) => (
                       <li key={index} className="menu-li-hover group/item">
                         <Link
@@ -108,12 +108,12 @@ export default async function Header() {
                             />
                           )}
                         </Link>
-                        <ul className="menu-ul-hover bg-slate-300">
+                        <ul className="menu-ul-hover bg-slate-800 dark:bg-slate-500">
                           {category.subCategories.map((i, index) => (
                             <li key={index}>
                               <Link
                                 href={`/category/${category.slug}/sub-category/${i.slug}`}
-                                className="bg-slate-300 hover:bg-slate-300-500 text-gray-100"
+                                className="dark:bg-slate-300 text-slate-900 bg-gray-400 hover:bg-slate-300-500 "
                               >
                                 {i.name}
                               </Link>
