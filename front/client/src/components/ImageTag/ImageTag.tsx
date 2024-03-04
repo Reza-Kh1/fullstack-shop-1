@@ -5,7 +5,7 @@ import Image from "next/image";
 import ImageError from "@/../public/errorImage.webp";
 type Image = {
   src: any;
-  alt: string;
+  alt: string | null;
   className?: string;
   width: number;
   height: number;
@@ -22,7 +22,7 @@ export default function ImageTag({
   const [load, setLoad] = useState<boolean>(true);
   const [srcError, setSrcError] = useState<any>();
   return (
-    <figure className="relative h-full w-full">
+    <figure className="relative w-full">
       <Image
         width={width}
         height={height}

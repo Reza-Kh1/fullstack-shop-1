@@ -113,19 +113,27 @@ export const getProduct = asyncHandler(async (req, res) => {
       include: [
         {
           model: detailProductModel,
-          attributes: { exclude: ["updatedAt", "createdAt"] },
+          attributes: { exclude: ["updatedAt", "createdAt", "id", "postId"] },
         },
       ],
+      attributes: {
+        exclude: [
+          "status",
+          "srcImg",
+          "slug",
+          "createdAt",
+          "userId",
+          "categoryId",
+        ],
+      },
     });
     if (!data) throw new Error("محصولی وجود ندارد !");
     const review = await reviewModel.count({
-      where: { postId: data.id, status: true }
+      where: { postId: data.id, status: true },
     });
     res.send({
-      data: {
         data,
         review,
-      },
     });
   } catch (err) {
     throw customError(err, 404);

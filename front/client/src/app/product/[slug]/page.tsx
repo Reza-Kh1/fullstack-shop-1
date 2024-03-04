@@ -1,15 +1,49 @@
-import { fetchApi } from '@/action/fetchApi'
-import { NextSeo, ProductJsonLd } from 'next-seo'
-import React from 'react'
-const getData = async (url: string) => {
-  const res = await fetchApi({ url, next: 86000, })
-  return res
-}
-export default async function page({ pathName }) {
-  const data = await getData(pathName)
+import { fetchApi } from "@/action/fetchApi";
+import { ProductPageType } from "@/app/type";
+import ImageTag from "@/components/ImageTag/ImageTag";
+import { NextSeo, ProductJsonLd } from "next-seo";
+import React from "react";
+type ProductComponent = {
+  params: {
+    slug: string;
+  };
+};
+
+const getData = async (slug: string) => {
+  const res = await fetchApi({ url: `product/${slug}`, next: 86000 });
+  return res;
+};
+export default async function page({ params }: ProductComponent) {
+  const { data }: ProductPageType = await getData(params.slug);
   return (
     <>
-      <NextSeo
+      <div className="w-full px-3 max-width">
+        <div>
+          <span className="text-span-light dark:text-span-dark">
+            {data.name}
+          </span>
+          {data.detailProduct.srcImg.length ? (
+            data.detailProduct.srcImg.map((i, index) => (
+              <ImageTag
+                key={index}
+                src={i}
+                alt={data.altImg}
+                height={300}
+                width={300}
+              />
+            ))
+          ) : (
+            <span>هیچ عکسی ندارد</span>
+          )}
+          <div dangerouslySetInnerHTML={{ __html: data.detailProduct.text }} />
+        </div>
+      </div>
+    </>
+  );
+}
+
+{
+  /* <NextSeo
         title="عنوان صفحه شما"
         description="توضیحات صفحه شما"
         openGraph={{
@@ -54,16 +88,7 @@ export default async function page({ pathName }) {
             },
           },
         ]}
-      />
-
-      <div className='w-full'>
-        <div>
-
-        </div>
-
-      </div>
-    </>
-  )
+      /> */
 }
 // https://schema.org/UsedCondition استوک
 // https://schema.org/NewCondition نو

@@ -16,7 +16,7 @@ export default function SwiperProduct() {
       data: ["صفحه نمایش 15.6 اینچ", "سیستم عامل اندروید", "رنگ بندی متفاوت"],
       description:
         "لپتاپ اچ پی 15.6 اینچی مدل victus رم 16 پردازنده core i5-1235uدارد",
-      src: imag2,
+      src: ["http://localhost:5000/public/images/1709299807383-images.jfif"],
       alt: "",
     },
     {
@@ -25,7 +25,7 @@ export default function SwiperProduct() {
       data: ["صفحه نمایش 15.6 اینچ", "سیستم عامل اندروید", "رنگ بندی متفاوت"],
       description:
         "لپتاپ اچ پی 15.6 اینچی مدل victus رم 16 پردازنده core i5-1235uدارد",
-      src: imag2,
+      src: ["http://localhost:5000/public/images/1709299807383-images.jfif"],
       alt: "",
     },
     {
@@ -34,7 +34,7 @@ export default function SwiperProduct() {
       data: ["صفحه نمایش 15.6 اینچ", "سیستم عامل اندروید", "رنگ بندی متفاوت"],
       description:
         "لپتاپ اچ پی 15.6 اینچی مدل victus رم 16 پردازنده core i5-1235uدارد",
-      src: imag2,
+      src: ["http://localhost:5000/public/images/1709299807383-images.jfif"],
       alt: "",
     },
     {
@@ -43,7 +43,7 @@ export default function SwiperProduct() {
       data: ["صفحه نمایش 15.6 اینچ", "سیستم عامل اندروید", "رنگ بندی متفاوت"],
       description:
         "لپتاپ اچ پی 15.6 اینچی مدل victus رم 16 پردازنده core i5-1235uدارد",
-      src: imag2,
+      src: ["http://localhost:5000/public/images/1709299807383-images.jfif"],
       alt: "",
     },
     {
@@ -52,7 +52,7 @@ export default function SwiperProduct() {
       data: ["صفحه نمایش 15.6 اینچ", "سیستم عامل اندروید", "رنگ بندی متفاوت"],
       description:
         "لپتاپ اچ پی 15.6 اینچی مدل victus رم 16 پردازنده core i5-1235uدارد",
-      src: imag2,
+      src: ["http://localhost:5000/public/images/1709299807383-images.jfif"],
       alt: "",
     },
     {
@@ -61,7 +61,7 @@ export default function SwiperProduct() {
       data: ["صفحه نمایش 15.6 اینچ", "سیستم عامل اندروید", "رنگ بندی متفاوت"],
       description:
         "لپتاپ اچ پی 15.6 اینچی مدل victus رم 16 پردازنده core i5-1235uدارد",
-      src: imag2,
+      src: ["http://localhost:5000/public/images/1709299807383-images.jfif"],
       alt: "",
     },
     {
@@ -70,7 +70,7 @@ export default function SwiperProduct() {
       data: ["صفحه نمایش 15.6 اینچ", "سیستم عامل اندروید", "رنگ بندی متفاوت"],
       description:
         "لپتاپ اچ پی 15.6 اینچی مدل victus رم 16 پردازنده core i5-1235uدارد",
-      src: imag2,
+      src: ["http://localhost:5000/public/images/1709299807383-images.jfif"],
       alt: "",
     },
     {
@@ -79,7 +79,7 @@ export default function SwiperProduct() {
       data: ["صفحه نمایش 15.6 اینچ", "سیستم عامل اندروید", "رنگ بندی متفاوت"],
       description:
         "لپتاپ اچ پی 15.6 اینچی مدل victus رم 16 پردازنده core i5-1235uدارد",
-      src: imag2,
+      src: ["http://localhost:5000/public/images/1709299807383-images.jfif"],
       alt: "",
     },
     {
@@ -88,7 +88,7 @@ export default function SwiperProduct() {
       data: ["صفحه نمایش 15.6 اینچ", "سیستم عامل اندروید", "رنگ بندی متفاوت"],
       description:
         "لپتاپ اچ پی 15.6 اینچی مدل victus رم 16 پردازنده core i5-1235uدارد",
-      src: imag2,
+      src: ["http://localhost:5000/public/images/1709299807383-images.jfif"],
       alt: "",
     },
     {
@@ -97,7 +97,7 @@ export default function SwiperProduct() {
       data: ["صفحه نمایش 15.6 اینچ", "سیستم عامل اندروید", "رنگ بندی متفاوت"],
       description:
         "لپتاپ اچ پی 15.6 اینچی مدل victus رم 16 پردازنده core i5-1235uدارد",
-      src: imag2,
+      src: ["http://localhost:5000/public/images/1709299807383-images.jfif"],
       alt: "",
     },
   ];

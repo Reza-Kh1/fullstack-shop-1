@@ -53,7 +53,12 @@ export const getCategory = asyncHandler(async (req, res) => {
   try {
     const data = await categoryModel.findOne({
       where: { slug: id },
-      include: [{ model: subCategoryModel, attributes: ["name", "slug"] }],
+      include: [
+        {
+          model: subCategoryModel,
+          attributes: ["name", "slug", "altImg", "srcImg"],
+        },
+      ],
     });
     if (!data) throw new Error("زیر دسته مورد نظر یافت نشد");
     res.send({ data });

@@ -1,16 +1,18 @@
+"use client";
 import React, { useState } from "react";
 import ImageTag from "../ImageTag/ImageTag";
 import { FaMinus } from "react-icons/fa";
 import { FaAngleLeft, FaPlus } from "react-icons/fa6";
 import Link from "next/link";
 type BoxProductType = {
-  src?: string | any;
+  src?: string[];
   alt?: string | null;
   subject?: string;
   description?: string;
   price?: number;
   id: number;
   skill?: string[];
+  slug?: string;
 };
 export default function BoxProduct({
   src,
@@ -20,17 +22,24 @@ export default function BoxProduct({
   price,
   id,
   skill,
+  slug,
 }: BoxProductType) {
   const [open, setopen] = useState<number | null>(null);
   return (
-    <div className="p-3 box-product  bg-slate-300 rounded-md overflow-hidden">
-      <ImageTag
-        src={src || ""}
-        alt={alt || ""}
-        classPlus="w-72"
-        height={120}
-        width={120}
-      />
+    <div className="p-3 box-product shadow-md bg-slate-300 rounded-md overflow-hidden">
+      <Link href={"/product/" + slug} className="h-64">
+        {src?.length &&
+          src.map((i, index) => (
+            <ImageTag
+              key={index}
+              src={i || ""}
+              alt={alt || ""}
+              classPlus="object-cover h-64"
+              height={220}
+              width={220}
+            />
+          ))}
+      </Link>
       <div className="pb-10">
         <span className="text-lg text-span-dark dark:text-span-light">
           {subject || ""}
@@ -47,7 +56,7 @@ export default function BoxProduct({
       >
         <div>
           <div
-            className="w-full text-center inline-block mt-3 cursor-pointer"
+            className="w-full text-center inline-block mt-2 cursor-pointer"
             onClick={() => setopen(open === id ? null : id)}
           >
             {open === id ? (
@@ -59,9 +68,9 @@ export default function BoxProduct({
               </>
             ) : (
               <>
-                <span className="btn-box-product">
+                <span className="btn-box-product text-sm">
                   نمایش بیشتر
-                  <FaPlus className="inline mr-2" />
+                  <FaPlus className="inline mr-2 text-xs" />
                 </span>
               </>
             )}
@@ -80,7 +89,7 @@ export default function BoxProduct({
           </ul>
         </div>
         <Link
-          href={"/"}
+          href={"/product/" + slug}
           className="w-11/12 py-2 mb-6 mx-auto text-center rounded-md bg-blue-100 hover:bg-blue-400 hover:text-gray-50 shadow-md"
         >
           صفحه محصول

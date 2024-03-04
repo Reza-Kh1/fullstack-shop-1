@@ -17,6 +17,11 @@ const nextConfig = {
         hostname: "roozrang.ir",
         pathname: "**",
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        pathname: "**",
+      },
     ],
   },
   reactStrictMode: true,
