@@ -56,7 +56,7 @@ export default async function Header() {
             <ShareApp />
           </div>
         </div>
-        <div className="flex  justify-between">
+        <div className="flex justify-between items-center">
           <div className="flex gap-2">
             <BtnLogin />
           </div>

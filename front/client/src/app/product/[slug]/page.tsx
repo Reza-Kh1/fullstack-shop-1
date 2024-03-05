@@ -3,6 +3,7 @@ import { ProductPageType } from "@/app/type";
 import ImageTag from "@/components/ImageTag/ImageTag";
 import { NextSeo, ProductJsonLd } from "next-seo";
 import React from "react";
+import Sliderse from "./Sliderse";
 type ProductComponent = {
   params: {
     slug: string;
@@ -20,22 +21,17 @@ export default async function page({ params }: ProductComponent) {
       <div className="w-full px-3 max-width">
         <div>
           <span className="text-span-light dark:text-span-dark">
-            {data.name}
+            {data?.name}
           </span>
-          {data.detailProduct.srcImg.length ? (
-            data.detailProduct.srcImg.map((i, index) => (
-              <ImageTag
-                key={index}
-                src={i}
-                alt={data.altImg}
-                height={300}
-                width={300}
-              />
-            ))
+          {data?.detailProduct?.srcImg.length ? (
+            <Sliderse data={data} />
           ) : (
             <span>هیچ عکسی ندارد</span>
           )}
-          <div dangerouslySetInnerHTML={{ __html: data.detailProduct.text }} />
+          <div
+            className="bg-gray-700 p-5 my-5 rounded-lg shadow-md dark:bg-gray-50 text-span-light blog-product"
+            dangerouslySetInnerHTML={{ __html: data?.detailProduct?.text }}
+          />
         </div>
       </div>
     </>

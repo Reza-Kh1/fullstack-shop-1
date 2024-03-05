@@ -242,3 +242,9 @@ a {
 .dark .btn-blue {
   background-image: linear-gradient(353deg, #303d87, #3548c8);
 }
+
+.blog-product img {
+  width: 350px;
+  border-radius: 15px;
+
+}

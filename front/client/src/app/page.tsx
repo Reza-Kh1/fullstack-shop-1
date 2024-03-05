@@ -1,4 +1,3 @@
-import SwiperSlider from "@/components/SwiperSlider/SwiperSlider";
 import imag1 from "@/../public/laptop1.jpg";
 import imag2 from "@/../public/laptop2.jpg";
 import imag3 from "@/../public/laptop3.jpg";
@@ -7,7 +6,6 @@ import ImageTag from "@/components/ImageTag/ImageTag";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
 import BandPage from "@/components/BandPage/BandPage";
-import SwiperProduct from "@/components/SwiperProduct/SwiperProduct";
 import { Button } from "@/components/ui/button";
 export default function Home() {
   const image = [
@@ -26,7 +24,6 @@ export default function Home() {
     <button className="text-gray-100">نمایش همه</button>
 
         <div className="h-[500px]">
-          {/* <SwiperSlider images={image} /> */}
         </div>
         <div className="w-full flex my-3 gap-2">
           <div className="w-8/12 p-2 bg-custom-dark dark:bg-custom-light rounded-md flex flex-col justify-between">
@@ -85,7 +82,6 @@ export default function Home() {
               {/* <ButtonTailwind color="light-green">نمایش همه</ButtonTailwind> */}
             </Link>
           </div>
-          <SwiperProduct />
         </div>
         <div className="w-full my-3 p-3 bg-custom-dark dark:bg-custom-light rounded-md">
           <div className="mb-3 flex justify-between items-center">
@@ -96,7 +92,6 @@ export default function Home() {
               {/* <ButtonTailwind color="indigo">نمایش همه</ButtonTailwind> */}
             </Link>
           </div>
-          <SwiperProduct />
         </div>
         <div className="w-full my-3 p-3 bg-custom-dark dark:bg-custom-light rounded-md">
           <div className="mb-3 flex justify-between items-center">
@@ -109,7 +104,6 @@ export default function Home() {
               {/* <ButtonTailwind color="red"</ButtonTailwind> */}
             </Link>
           </div>
-          <SwiperProduct />
         </div>
       </div>
     </>

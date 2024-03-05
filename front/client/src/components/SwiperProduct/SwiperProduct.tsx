@@ -5,7 +5,11 @@ import { Navigation, Pagination, A11y, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+
 import "swiper/css/scrollbar";
+
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
 import imag2 from "@/../public/laptop2.jpg";
 import BoxProduct from "../BoxProduct/BoxProduct";
 export default function SwiperProduct() {
