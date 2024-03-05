@@ -2,6 +2,7 @@ import { fetchApi } from "@/action/fetchApi";
 import { ProductPageType } from "@/app/type";
 import ImageTag from "@/components/ImageTag/ImageTag";
 import { NextSeo, ProductJsonLd } from "next-seo";
+import parse from "html-react-parser";
 import React from "react";
 import Sliderse from "./Sliderse";
 type ProductComponent = {
@@ -30,8 +31,9 @@ export default async function page({ params }: ProductComponent) {
           )}
           <div
             className="bg-gray-700 p-5 my-5 rounded-lg shadow-md dark:bg-gray-50 text-span-light blog-product"
-            dangerouslySetInnerHTML={{ __html: data?.detailProduct?.text }}
-          />
+          >
+            {parse(data?.detailProduct?.text)}
+          </div>
         </div>
       </div>
     </>
