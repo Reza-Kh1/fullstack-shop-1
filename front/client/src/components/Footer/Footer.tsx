@@ -92,6 +92,7 @@ export default function Footer() {
               </p>
               <div className="flex gap-3 justify-center items-center">
                 <Link
+                  title="call us"
                   href={"tel:09390199977"}
                   className="p-2 px-3 text-span-light dark:text-span-dark rounded-md hover:bg-[#ffffff52]"
                 >
@@ -99,6 +100,7 @@ export default function Footer() {
                   <FaPhone className="inline mr-2  text-span-light dark:text-span-dark" />
                 </Link>
                 <Link
+                  title="massage us"
                   href={"sms:09226115716"}
                   className="p-2 px-3 text-span-light dark:text-span-dark rounded-md hover:bg-[#ffffff52]"
                 >
@@ -122,7 +124,9 @@ export default function Footer() {
                       key={indexs}
                       className="text-sm menu-footer relative text-p-light dark:text-p-dark hover:pr-3 transition-all"
                     >
-                      <Link href={name.src}>{name.name}</Link>
+                      <Link title={name.name} href={name.src}>
+                        {name.name}
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -136,7 +140,6 @@ export default function Footer() {
             <GetEmail />
             <div className="flex justify-evenly mt-3">
               <div className="w-36">
-
                 <ImageTag
                   src={
                     "https://www.systemgroup.net/wp-content/uploads/2023/10/enamad-1024x669.jpg"

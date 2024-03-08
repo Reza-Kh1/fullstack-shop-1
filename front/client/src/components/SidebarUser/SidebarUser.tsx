@@ -28,7 +28,7 @@ export default function SidebarUser() {
   });
   const LinkMenu = ({ url, value, icon }: linkMenuType) => {
     return (
-      <Link href={url}>
+      <Link href={url} title={value}>
         <Button
           className={`btn-user flex items-center text-sm ${
             url === path ? "active" : ""

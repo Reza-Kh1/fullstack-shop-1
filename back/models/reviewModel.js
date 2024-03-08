@@ -21,11 +21,15 @@ const reviewModel = dataBase.define(
       defaultValue: false,
       allowNull: true,
     },
+    score: {
+      type: DataTypes.INTEGER,
+      defaultValue: 5,
+    },
   },
   {
     tableName: "review",
-    updatedAt:false,
-    createdAt:true,
+    updatedAt: false,
+    createdAt: true,
     indexes: [{ unique: false, fields: ["postId", "replyId"] }],
   }
 );

@@ -36,6 +36,7 @@ export type ProductPageType = {
   data: {
     id: number;
     name: string;
+    slug: string;
     price: number | null;
     off: number | null;
     altImg: string;
@@ -56,6 +57,22 @@ export type ProductPageType = {
       }[];
       text: string;
     };
+    subCategory: {
+      name: string;
+    };
   };
-  review: 0;
+};
+export type ReviewsType = {
+  name: string;
+  date: Date | string;
+  text: string;
+  count: number;
+  id: number;
+  reply?: {
+    name?: string;
+    date?: Date;
+    text?: string;
+    count?: number;
+    id?: number;
+  }[] | any;
 };

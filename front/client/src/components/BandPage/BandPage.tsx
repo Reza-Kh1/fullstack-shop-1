@@ -22,7 +22,7 @@ export default function BandPage() {
   return (
     <>
       {data.map((i, index) => (
-        <Link key={index} href={i.link}>
+        <Link key={index} href={i.link} title={i?.name}>
           <div className="flex flex-col items-center gap-3 px-4 mx-3 py-2 shadow-md shadow-slate-300 dark:shadow-slate-300 rounded-md">
             <i className="text-3xl text-span-light dark:text-span-dark">
               {i.icon}

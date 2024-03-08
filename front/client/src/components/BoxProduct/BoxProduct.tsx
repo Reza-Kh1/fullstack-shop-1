@@ -27,7 +27,7 @@ export default function BoxProduct({
   const [open, setopen] = useState<number | null>(null);
   return (
     <div className="p-3 box-product shadow-md bg-slate-300 rounded-md overflow-hidden">
-      <Link href={"/product/" + slug} className="h-64">
+      <Link href={"/product/" + slug} className="h-64" title={subject}>
         {src?.length &&
           src.map((i, index) => (
             <ImageTag
@@ -89,6 +89,7 @@ export default function BoxProduct({
           </ul>
         </div>
         <Link
+          title={subject}
           href={"/product/" + slug}
           className="w-11/12 py-2 mb-6 mx-auto text-center rounded-md bg-blue-100 hover:bg-blue-400 hover:text-gray-50 shadow-md"
         >

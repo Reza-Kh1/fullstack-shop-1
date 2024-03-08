@@ -4,7 +4,7 @@ import { customError } from "../middlewares/errorHandler.js";
 import pagination from "../middlewares/pagination.js";
 import token from "jsonwebtoken";
 export const createReview = asyncHandler(async (req, res) => {
-  let { comment, postId, name, email, phone, replyId } = req.body;
+  let { comment, postId, name, email, phone, replyId, score } = req.body;
   const { authorization } = req.headers;
   const cookie = req.cookies.user;
   let userId;
@@ -29,8 +29,8 @@ export const createReview = asyncHandler(async (req, res) => {
       if (userInfo.role === "AUTHOR") {
         name = "نویسنده " + userInfo.name;
       }
-      email = userInfo?.email
-      phone = userInfo?.phone
+      email = userInfo?.email;
+      phone = userInfo?.phone;
       status = true;
     }
     const data = await reviewModel.create({
@@ -42,10 +42,11 @@ export const createReview = asyncHandler(async (req, res) => {
       phone,
       status,
       replyId,
+      score,
     });
     res.send({ data });
   } catch (err) {
-    throw customError("کامنت ثبت نشد لطفا دوباره وارد حساب شوید", 500);
+    throw customError("کامنت ثبت نشد لطفا دوباره وارد حساب شوید", 403);
   }
 });
 export const deleteReview = asyncHandler(async (req, res) => {
@@ -115,15 +116,14 @@ export const getAllReviewAdmin = asyncHandler(async (req, res) => {
       offset: page * limit - limit,
       include: [{ model: productModel, attributes: ["name", "slug"] }],
       attributes: {
-        exclude: ["postId", "userId"]
-      }
+        exclude: ["postId", "userId"],
+      },
     });
     if (!data.count) res.send({ message: "هیچ کامنتی ثبت نشده" });
     const pager = pagination(data.count, limit, page);
     res.send({
       ...data,
       pagination: pager,
-
     });
   } catch (err) {
     customError(err, 500);
@@ -142,8 +142,8 @@ export const getAllReview = asyncHandler(async (req, res) => {
       limit: limit,
       offset: page * limit - limit,
       attributes: {
-        exclude: ["email", "phone", "status", "userId", "replyId",]
-      }
+        exclude: ["email", "phone", "status", "userId", "replyId"],
+      },
     });
     if (!data.count) return res.send({ message: "هیچ کامنتی وجود ندارد" });
     res.send({ data });

@@ -32,7 +32,7 @@ export default async function Header() {
       <div className="p-2 shadow-sm shadow-slate-300 bg-gray-600 dark:shadow-slate-300 dark:bg-gray-100 rounded-md">
         <div className="flex justify-between items-center border-b-gray-800 pb-2 mb-2 border-b">
           <div className="flex gap-2 items-center">
-            <Link href={"/"}>
+            <Link href={"/"} title="home">
               <Image
                 alt="فروشگاه من و تو"
                 src={icon}
@@ -95,6 +95,7 @@ export default async function Header() {
                     {item?.categories?.map((category, index) => (
                       <li key={index} className="menu-li-hover group/item">
                         <Link
+                          title={category.name}
                           href={`/category/${category.slug}`}
                           className="text-gray-100 "
                         >
@@ -112,6 +113,7 @@ export default async function Header() {
                           {category.subCategories.map((i, index) => (
                             <li key={index}>
                               <Link
+                                title={i.name}
                                 href={`/category/${category.slug}/sub-category/${i.slug}`}
                                 className="dark:bg-slate-300 text-slate-900 bg-gray-400 hover:bg-slate-300-500 "
                               >

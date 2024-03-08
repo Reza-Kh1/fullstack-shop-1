@@ -1,9 +1,10 @@
 "use client";
+import { ProductPageType } from "@/app/type";
 import ImageTag from "@/components/ImageTag/ImageTag";
 import React from "react";
 import { Navigation, Pagination, A11y, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-export default function Sliderse({ data }) {
+export default function Sliderse({ data }: ProductPageType) {
   return (
     <>
       <Swiper
@@ -24,7 +25,6 @@ export default function Sliderse({ data }) {
                 height={300}
                 width={300}
               />
-              <p className="legend">Legend 1</p>
             </div>
           </SwiperSlide>
         ))}

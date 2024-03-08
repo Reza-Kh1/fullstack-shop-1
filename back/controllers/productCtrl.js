@@ -115,16 +115,10 @@ export const getProduct = asyncHandler(async (req, res) => {
           model: detailProductModel,
           attributes: { exclude: ["updatedAt", "createdAt", "id", "postId"] },
         },
+        { model: subCategoryModel, attributes: ["name"] },
       ],
       attributes: {
-        exclude: [
-          "status",
-          "srcImg",
-          "slug",
-          "createdAt",
-          "userId",
-          "categoryId",
-        ],
+        exclude: ["status", "srcImg", "createdAt", "userId", "categoryId"],
       },
     });
     if (!data) throw new Error("محصولی وجود ندارد !");
@@ -132,8 +126,8 @@ export const getProduct = asyncHandler(async (req, res) => {
       where: { postId: data.id, status: true },
     });
     res.send({
-        data,
-        review,
+      data,
+      review,
     });
   } catch (err) {
     throw customError(err, 404);

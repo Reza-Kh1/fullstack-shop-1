@@ -10,13 +10,13 @@ export default function BtnLogin() {
     <>
       {status === "authenticated" ? (
         <>
-          <Link href={"/profile"}>
+          <Link href={"/profile"} title="profile">
             <ButtonCustom color="gray">
               پروفایل
               <FaUser className="inline mr-2" />
             </ButtonCustom>
           </Link>
-          <Link href={"/profile/cart"}>
+          <Link href={"/profile/cart"} title="cart">
             <ButtonCustom color="gray">
               سبد خرید
               <FaCartShopping className="inline mr-2" />
@@ -28,7 +28,7 @@ export default function BtnLogin() {
           <ButtonCustom color="gray" onClick={() => signIn()}>
             ثبت نام / ورود
           </ButtonCustom>
-          <Link href={"/"}>
+          <Link href={"/"} title="home">
             <ButtonCustom color="gray">
               محصولات
               <FaCartShopping className="inline mr-2" />

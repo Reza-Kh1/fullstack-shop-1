@@ -40,6 +40,7 @@ export default async function Categorys() {
                   {item?.categories?.map((category, index) => (
                     <li key={index} className="menu-li-hover group/item">
                       <Link
+                        title={category.name}
                         href={`category/${category.slug}`}
                         className="text-gray-100 "
                       >
@@ -59,6 +60,7 @@ export default async function Categorys() {
                         {category.subCategories.map((i, index) => (
                           <li key={index}>
                             <Link
+                              title={i.name}
                               href={`category/${category.slug}/sub-category/${i.slug}`}
                               className="bg-slate-300 hover:bg-slate-400 text-gray-100"
                             >

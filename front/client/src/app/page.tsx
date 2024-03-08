@@ -22,7 +22,6 @@ export default function Home() {
     <>
       <div className="w-full px-3 mx-auto max-width">
     <button className="text-gray-100">نمایش همه</button>
-
         <div className="h-[500px]">
         </div>
         <div className="w-full flex my-3 gap-2">
