@@ -24,7 +24,7 @@ export default async function Categorys() {
     <>
       <div className="w-full mt-3">
         <ul className="flex justify-evenly relative text-gray-50 dark:text-gray-800 px-4 py-1 gap-2 w-full">
-          {allData.length &&
+          {allData.length ?
             allData?.map((item, index) => (
               <li key={index} className="menu-li-basic">
                 <span className="cursor-pointer group ">
@@ -46,14 +46,14 @@ export default async function Categorys() {
                       >
                         <a>
                           {category.name}
-                          {category.subCategories.length && (
+                          {category.subCategories.length ? (
                             <IoIosArrowUp
                               strokeWidth={2.5}
                               className={
                                 "h-3.5 w-3.5 inline mr-2 transition-transform group-hover/item:rotate-180"
                               }
                             />
-                          )}
+                          ) : null}
                         </a>
                       </Link>
                       <ul className="menu-ul-hover bg-slate-300">
@@ -73,7 +73,8 @@ export default async function Categorys() {
                   ))}
                 </ul>
               </li>
-            ))}
+            )) : null
+            }
         </ul>
       </div>
     </>

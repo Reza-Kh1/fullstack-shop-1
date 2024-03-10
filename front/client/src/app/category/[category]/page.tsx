@@ -31,7 +31,7 @@ export default async function page({ params }: CategoryComponent) {
         {data?.subCategories.length &&
           data?.subCategories.map((i, index) => (
             <div key={index} className="p-1 rounded-md bg-gray-700">
-              <Link href={"product/" + i.slug} title={i?.name}>
+              <Link href={`/category/${params.category}/sub-category/` + i.slug} title={i?.name}>
                 <div className="w-full px-3">
                   <ImageTag
                     alt={i.altImg}
@@ -46,7 +46,7 @@ export default async function page({ params }: CategoryComponent) {
                 <span className="text-span-light text-lg dark:text-span-dark">
                   {i?.name}
                 </span>
-                <Link href={"product/" + i.slug} title={i?.name}>
+                <Link href={`/category/${params.category}/sub-category/` + i.slug} title={i?.name}>
                   <ButtonCustom color="blue" className="text-xs">
                     مشاهده محصولات
                   </ButtonCustom>

@@ -153,9 +153,19 @@ a {
     padding: 7px 5px !important;
     cursor: pointer;
 }
+
 .rmdp-panel-body li .b-deselect {
     padding: 0 5px;
 }
+
+.ql-snow .ql-picker-label {
+    direction: ltr;
+}
+
+.ql-editor {
+    font-family: "iranSans", Arial, Helvetica, sans-serif !important;
+}
+
 .rmdp-container {
     width: 100% !important;
 }

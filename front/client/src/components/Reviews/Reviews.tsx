@@ -1,10 +1,13 @@
-import React from "react";
+"use client"
+import { ReviewsType } from "@/app/type";
+import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 
 export default function Reviews({ data }: any) {
+  const [Reviews, setReviews] = useState<ReviewsType[]>(data)
   return (
     <>
-      {data.map((i, index) => (
+      {Reviews.map((i, index) => (
         <div
           key={index}
           className="shadow-md p-2 rounded-md border bg-gray-800 dark:bg-slate-200"
@@ -12,7 +15,7 @@ export default function Reviews({ data }: any) {
           <div className="flex justify-between">
             <div className="flex gap-2 items-center">
               <span className="text-span-light text-xs dark:text-span-dark">
-                ({i?.date})
+                ({new Date(i?.date || 0).toLocaleDateString("fa")})
               </span>
               <span className="text-span-light dark:text-span-dark">
                 {i?.name}
@@ -27,6 +30,7 @@ export default function Reviews({ data }: any) {
             </div>
             <div>
               <button
+                type="button"
                 className="text-span-light dark:text-span-dark bg-gray-900 dark:bg-gray-50 shadow-md px-3 py-1 rounded-md"
               >
                 پاسخ

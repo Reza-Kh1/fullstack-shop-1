@@ -9,6 +9,7 @@ export const createReview = asyncHandler(async (req, res) => {
   const cookie = req.cookies.user;
   let userId;
   let status;
+  console.log(authorization, cookie);
   if (authorization) {
     const verify = authorization.split(" ")[1];
     const userInfo = token.verify(verify, process.env.TOKEN_SECURET);

@@ -46,7 +46,8 @@ export default function BasicCategory({
         reset();
         getData();
       })
-      .catch(() => toast.error("با مشکل روبرو شدیم"));
+      .catch((err) => console.log(err)
+      );
   };
   const editCategory = (id: number) => {
     const value = id.toString();
@@ -67,7 +68,7 @@ export default function BasicCategory({
     axios
       .get("basic-category")
       .then(({ data }) => {
-        setAllData(data);
+        setAllData(data);        
       })
       .catch((err) => {
         console.log(err);

@@ -1,25 +1,21 @@
 import { fetchApi } from "@/action/fetchApi";
 import { ProductPageType } from "@/app/type";
 import parse from "html-react-parser";
-import React, { Suspense } from "react";
+import React from "react";
 import Sliderse from "./Sliderse";
 import { Metadata } from "next";
 import Script from "next/script";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BandPage from "@/components/BandPage/BandPage";
-import { FaStar } from "react-icons/fa6";
-import { FaLinkedin } from "react-icons/fa";
-import { SlDislike, SlLike } from "react-icons/sl";
-import { PiArrowBendUpLeft } from "react-icons/pi";
-import Reviews from "@/components/Reviews/Reviews";
-import LoadingPage from "@/components/LoadingPage/LoadingPage";
+import { notFound } from "next/navigation";
 type ProductComponent = {
-  params: {
-    slug: string;
-  };
+  params: { slug: string };
 };
-export async function getData(slug: string) {
+const getData = async (slug: string) => {
   const res = await fetchApi({ url: `product/${slug}`, next: 10 });
+  if (res?.error) {
+    return notFound()
+  }
   return res;
 }
 export async function generateMetadata({
@@ -47,18 +43,18 @@ export async function generateMetadata({
   };
 }
 export default async function page({ params }: ProductComponent) {
-  const { data }: ProductPageType = await getData(params.slug);
+  const allData: ProductPageType = await getData(params.slug);
   const jsonld = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: data?.name,
-    image: data?.detailProduct?.srcImg,
-    description: data?.description,
-    sku: data?.keycode,
+    name: allData?.data?.name,
+    image: allData?.data?.detailProduct?.srcImg,
+    description: allData.data?.description,
+    sku: allData?.data?.keycode,
     mpn: "کد ساخت",
     brand: {
       "@type": "Brand",
-      name: data?.subCategory.name,
+      name: allData?.data?.subCategory.name,
     },
     review: [
       {
@@ -83,9 +79,9 @@ export default async function page({ params }: ProductComponent) {
     offers: [
       {
         "@type": "Offer",
-        url: process.env.NEXTAUTH_URL + "/product/" + data?.slug,
+        url: process.env.NEXTAUTH_URL + "/product/" + allData?.data?.slug,
         priceCurrency: "IRR",
-        price: data?.price,
+        price: allData?.data?.price,
         priceValidUntil: "تاریخ اعتبار تخفیف",
         itemCondition: "https://schema.org/NewCondition",
         availability: "https://schema.org/InStock",
@@ -96,44 +92,9 @@ export default async function page({ params }: ProductComponent) {
       },
     ],
   };
-  const review = [
-    {
-      name: "علی رحیمی",
-      date: "2014 / 05 / 04",
-      text: "test 1",
-      count: 4,
-      id: 1,
-      reply: [
-        {
-          name: "علی بگایی",
-          date: "2014 / 05 / 04",
-          text: "test 25",
-          count: 4,
-          id: 1,
-          reply: [],
-        },
-        {
-          name: "علی کسشعر",
-          date: "2014 / 05 / 04",
-          text: "test 2",
-          count: 4,
-          id: 1,
-          reply: [
-            {
-              name: "سمیه",
-              date: "2014 / 05 / 04",
-              text: "test somaye",
-              count: 4,
-              id: 1,
-              reply: [],
-            },
-          ],
-        },
-      ],
-    },
-  ];
   return (
     <>
+      <span>salam</span>
       <Script
         type="application/ld+json"
         id="jsonld-product"
@@ -142,10 +103,12 @@ export default async function page({ params }: ProductComponent) {
       <div className="w-full px-3 max-width">
         <div>
           <span className="text-span-light dark:text-span-dark">
-            {data?.name}
+            {allData?.data?.name}
           </span>
-          {data?.detailProduct?.srcImg.length ? (
-            <Sliderse data={data} />
+          {allData?.data?.detailProduct?.srcImg.length ? (
+            <div className="w-4/12">
+              <Sliderse data={allData?.data?.detailProduct?.srcImg} />
+            </div>
           ) : (
             <span>هیچ عکسی ندارد</span>
           )}
@@ -175,14 +138,14 @@ export default async function page({ params }: ProductComponent) {
             </TabsList>
             <TabsContent value="tab1">
               <div className="bg-gray-700 p-5 my-5 rounded-lg shadow-md dark:bg-gray-50 text-span-light blog-product">
-                {data?.detailProduct?.text
-                  ? parse(data?.detailProduct?.text)
+                {allData?.data?.detailProduct?.text
+                  ? parse(allData?.data?.detailProduct?.text)
                   : null}
               </div>
             </TabsContent>
             <TabsContent value="tab2">
               <div className="bg-custom-dark dark:bg-custom-light p-2 rounded-md">
-                {data?.detailProduct?.skillProduct.map((item, index) => (
+                {allData?.data?.detailProduct?.skillProduct.map((item, index) => (
                   <div className="" key={index}>
                     <span className="text-span-light dark:text-span-dark font-bold text-lg mb-1 block">
                       {item?.name}
@@ -208,55 +171,11 @@ export default async function page({ params }: ProductComponent) {
                     54 نظر ثبت شده است
                   </h4>
                 </div>
-                {review.map((i, index) => (
-                  <div
-                    key={index}
-                    className="shadow-md p-2 rounded-md border bg-gray-800 dark:bg-slate-200"
-                  >
-                    <div className="flex justify-between">
-                      <div className="flex gap-2 items-center">
-                        <span className="text-span-light text-xs dark:text-span-dark">
-                          ({i?.date})
-                        </span>
-                        <span className="text-span-light dark:text-span-dark">
-                          {i?.name}
-                        </span>
-                        <span>
-                          <FaStar className="text-yellow-400 inline" />
-                          <FaStar className="text-yellow-400 inline" />
-                          <FaStar className="text-yellow-400 inline" />
-                          <FaStar className="text-yellow-400 inline" />
-                          <FaStar className="text-yellow-400 inline" />
-                        </span>
-                      </div>
-                      <div>
-                        <button className="text-span-light dark:text-span-dark bg-gray-900 dark:bg-gray-50 shadow-md px-3 py-1 rounded-md">
-                          پاسخ
-                        </button>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-span-light mt-2 dark:text-span-dark">
-                        {i?.text}
-                      </p>
-                      <div className="w-1/12 mt-3">
-                        <button
-                          type="button"
-                          className=" text-span-light w-full dark:text-span-dark bg-gray-900 dark:bg-gray-50 shadow-md px-3 py-1 text-center rounded-md"
-                        >
-                          نمایش پاسخ
-                        </button>
-                      </div>
-                    </div>
-                    <div className="response mt-2"></div>
-                  </div>
-                ))}
-                {/* <Reviews data={review} /> */}
-              </div>
-            </TabsContent>
-          </Tabs>
-        </div>
-      </div>
+              </div >
+            </TabsContent >
+          </Tabs >
+        </div >
+      </div >
     </>
   );
 }

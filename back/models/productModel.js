@@ -31,6 +31,12 @@ const productModel = dataBase.define(
         msg: "اسلاگ قبلا ثبت شده است!",
       },
     },
+    endOff: {
+      type: DataTypes.DATE
+    },
+    moreInfo: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+    },
     description: {
       type: DataTypes.TEXT,
     },
@@ -51,7 +57,7 @@ const productModel = dataBase.define(
     timestamps: true,
     tableName: "product",
     indexes: [
-      { unique: false, fields: ["slug", "name", "description", "status","keycode"] },
+      { unique: false, fields: ["slug", "name", "description", "status", "keycode"] },
     ],
   }
 );

@@ -1,20 +1,20 @@
 export type Session = {
   data: {
     user?:
-      | {
-          body: {
-            name: string;
-            password: null | string;
-            email: string;
-            phone: string;
-            role?: "ADMIN" | "AUTHOR" | "USER";
-            id: string;
-          };
-          product: [];
-          token: string;
-        }
-      | null
-      | undefined;
+    | {
+      body: {
+        name: string;
+        password: null | string;
+        email: string;
+        phone: string;
+        role?: "ADMIN" | "AUTHOR" | "USER";
+        id: string;
+      };
+      product: [];
+      token: string;
+    }
+    | null
+    | undefined;
     expires: Date;
   } | null;
 };
@@ -34,37 +34,38 @@ export type BoxProductType = {
 };
 export type ProductPageType = {
   data: {
-    id: number;
-    name: string;
-    slug: string;
-    price: number | null;
-    off: number | null;
-    altImg: string;
-    description: string;
-    totel: number;
-    keycode: string;
-    updatedAt: Date;
+    id: number
+    name: string
+    price: number
+    off: null | number
+    altImg: string
+    slug: string
+    description: string
+    totel: string
+    keycode: string
+    updatedAt: Date,
     detailProduct: {
-      srcImg: string[];
-      title: string;
-      keyward: string[];
+      srcImg: string[],
+      title: string,
+      keyward: string[],
       skillProduct: {
-        name: string;
+        name: string,
         skills: {
-          name: string;
-          text: string;
-        }[];
-      }[];
-      text: string;
-    };
+          name: string,
+          text: string
+        }[]
+      }[]
+      text: string
+    },
     subCategory: {
-      name: string;
-    };
-  };
+      name: string
+    }
+  },
+  review: number
 };
 export type ReviewsType = {
   name: string;
-  date: Date | string;
+  date: Date ;
   text: string;
   count: number;
   id: number;

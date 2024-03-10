@@ -50,6 +50,7 @@ export type PaginationType = {
   nextPage: number | null;
 };
 export type ProductType = {
+  more: string
   id: number;
   name: string;
   price: number;

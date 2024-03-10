@@ -21,6 +21,8 @@ export const createProduct = asyncHandler(async (req, res) => {
     status,
     categoryId,
     totel,
+    endOff,
+    moreInfo
   } = req.body;
   const info = res.userInfo;
   try {
@@ -36,6 +38,8 @@ export const createProduct = asyncHandler(async (req, res) => {
       description,
       status,
       totel,
+      endOff,
+      moreInfo
     });
     res.send({ data });
   } catch (err) {
@@ -64,7 +68,8 @@ export const updateProduct = asyncHandler(async (req, res) => {
     status,
     description,
     categoryId,
-    totel,
+    totel, endOff,
+    moreInfo
   } = req.body;
   try {
     const data = await productModel.findOne({ where: { slug: id } });
@@ -98,6 +103,12 @@ export const updateProduct = asyncHandler(async (req, res) => {
     }
     if (totel) {
       data.totel = totel;
+    }
+    if (endOff) {
+      data.endOff = endOff
+    }
+    if (moreInfo) {
+      data.moreInfo = moreInfo
     }
     data.save();
     res.send({ message: "محصول آپدیت شد" });

@@ -8,7 +8,6 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
-import imag2 from "@/../public/laptop2.jpg";
 import BoxProduct from "../BoxProduct/BoxProduct";
 export default function SwiperProduct() {
   const data = [

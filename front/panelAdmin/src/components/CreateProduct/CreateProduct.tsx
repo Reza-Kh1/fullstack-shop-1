@@ -3,16 +3,18 @@ import SubmitBtn from "../SubmitBtn/SubmitBtn";
 import InputForm from "../InputForm/InputForm";
 import { useEffect, useState } from "react";
 import { CategoryType, ProductDetailType, ProductType } from "../../types/type";
-import { Checkbox, Option, Select } from "@material-tailwind/react";
+import { Button, Checkbox, Option, Select } from "@material-tailwind/react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaTrash } from "react-icons/fa6";
 import DetailProduct from "../DetailProduct/DetailProduct";
 import DialogImage from "../DialogImage/DialogImage";
-
+import EndOff from "../EndOff/EndOff";
 export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
-  const { register, handleSubmit, setValue } = useForm<ProductType>();
+  const { register, handleSubmit, setValue, getValues } = useForm<ProductType>();
   const [category, setCategory] = useState<CategoryType[]>();
+  const [moreInfo, setMoreInfo] = useState<string[]>([])
+  const [endOff, setEndOff] = useState<any>()
   const [selectCategory, setSelectCategory] = useState<string>(
     infoProduct?.subCategory?.name || ""
   );
@@ -36,6 +38,8 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
       description: form.description,
       categoryId: id?.id ? id.id : null,
       status: status || false,
+      endOff,
+      moreInfo
     };
     if (infoProduct?.slug) {
       axios
@@ -68,6 +72,15 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
     const newImg = allImage.filter((id) => id !== i);
     setAllImage(newImg);
   };
+  const deleteHandler = (value: string) => {
+    const newData = moreInfo.filter((item) => item !== value)
+    setMoreInfo(newData)
+  }
+  const createHandler = () => {
+    const value = getValues("more")
+    setMoreInfo([...moreInfo, value])
+    setValue("more", "")
+  }
   useEffect(() => {
     if (imgProduct) {
       allImage.push(imgProduct);
@@ -76,7 +89,7 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
   useEffect(() => {
     getData();
     if (infoProduct) {
-      infoProduct?.srcImg;      
+      infoProduct?.srcImg;
       setValue("totel", infoProduct?.totel || 0);
       setValue("off", infoProduct?.off || 0);
       setValue("price", infoProduct?.price || 0);
@@ -84,6 +97,8 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
       setValue("description", infoProduct?.description || "");
       setValue("slug", infoProduct?.slug || "");
       setValue("altImg", infoProduct?.altImg || "");
+      setEndOff(infoProduct?.endOff)
+      setMoreInfo(infoProduct?.moreInfo || [])
       if (infoProduct.detailProduct) {
         setResponse(infoProduct?.detailProduct || null);
       }
@@ -122,7 +137,7 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
             type="text"
           />
         </div>
-        <div className="w-1/2 p-2">
+        <div className="w-1/3 p-2">
           <label className="block mb-1 mt-3 text-sm font-medium text-gray-800">
             تخفیف
           </label>
@@ -136,7 +151,13 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
             }}
           />
         </div>
-        <div className="w-1/2 p-2">
+        <div className="w-1/3 p-2">
+          <label className="block mb-1 mt-3 text-sm font-medium text-gray-800">
+            زمان تخفیف
+          </label>
+          <EndOff date={endOff} setDate={setEndOff} />
+        </div>
+        <div className="w-1/3 p-2">
           <label className="block mb-1 mt-3 text-sm font-medium text-gray-800">
             تعداد
           </label>
@@ -237,6 +258,41 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
                   </i>
                 </figure>
               ))}
+          </div>
+        </div>
+        <div className="w-full p-2">
+          <label className="block mb-1 mt-3 text-sm font-medium text-gray-800">
+            ایتم ویژه
+          </label>
+          <div className="flex flex-wrap justify-between items-center">
+            <div className="w-4/12">
+              <textarea
+                placeholder="وزن : 150 گرم"
+                {...register("more")}
+                className="w-full p-2 rounded-md"
+                rows={1}
+              ></textarea>
+              <Button varient="gradient" color="blue" className="px-3 py-2" onClick={createHandler}>افزودن</Button>
+            </div>
+            <div className="flex flex-wrap w-8/12 gap-2 pr-2">
+              {moreInfo.length ? (
+                <>
+                  {moreInfo.map((i, index) => (
+                    <div key={index} className="p-2 flex rounded items-center bg-gray-100">
+                      <p className="text-xs ml-1">
+                        {i}
+                      </p>
+                      <i
+                        onClick={() => deleteHandler(i)}
+                        className="text-red-500 p-2 transition-all bg-[#f0f8ff3d] hover:bg-gray-900 hover:text-gray-100 rounded-md cursor-pointer"
+                      >
+                        <FaTrash className="text-lg" />
+                      </i>
+                    </div>
+                  ))}
+                </>
+              ) : null}
+            </div>
           </div>
         </div>
         <div className="w-full flex justify-between">

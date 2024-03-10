@@ -129,7 +129,7 @@ const Editor = ({ setEditor, editor }: EditorType) => {
   }, []);
   return (
     <>
-      <div className="box-editor" style={{ direction: "ltr" }}>
+      <div className="box-editor">
         <ReactQuill
           ref={quillRef}
           theme="snow"
