@@ -37,6 +37,8 @@ export default async function page({ params }: CategoryComponent) {
               price={i.price}
               subject={i.name}
               slug={i.slug}
+              off={i.off}
+              moreInfo={i?.moreInfo || []}
             />
           ))
         ) : (

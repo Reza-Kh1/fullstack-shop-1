@@ -13,6 +13,8 @@ type BoxProductType = {
   id: number;
   skill?: string[];
   slug?: string;
+  off?: number | null;
+  moreInfo: string[] | [];
 };
 export default function BoxProduct({
   src,
@@ -23,6 +25,8 @@ export default function BoxProduct({
   id,
   skill,
   slug,
+  off,
+  moreInfo,
 }: BoxProductType) {
   const [open, setopen] = useState<number | null>(null);
   return (
@@ -65,6 +69,11 @@ export default function BoxProduct({
                   بستن
                   <FaMinus className="inline mr-2" />
                 </span>
+                <div className="flex flex-col gap-2 mt-3">
+                  {moreInfo.length
+                    ? moreInfo.map((i, index) => <span key={index}>{i}</span>)
+                    : null}
+                </div>
               </>
             ) : (
               <>

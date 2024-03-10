@@ -8,16 +8,18 @@ import Script from "next/script";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BandPage from "@/components/BandPage/BandPage";
 import { notFound } from "next/navigation";
+import ButtonCustom from "@/components/ui/ButtonCustom";
+import { FaCartPlus, FaHeart } from "react-icons/fa6";
 type ProductComponent = {
   params: { slug: string };
 };
 const getData = async (slug: string) => {
   const res = await fetchApi({ url: `product/${slug}`, next: 10 });
   if (res?.error) {
-    return notFound()
+    return notFound();
   }
   return res;
-}
+};
 export async function generateMetadata({
   params,
 }: ProductComponent): Promise<Metadata> {
@@ -94,7 +96,6 @@ export default async function page({ params }: ProductComponent) {
   };
   return (
     <>
-      <span>salam</span>
       <Script
         type="application/ld+json"
         id="jsonld-product"
@@ -102,16 +103,63 @@ export default async function page({ params }: ProductComponent) {
       />
       <div className="w-full px-3 max-width">
         <div>
-          <span className="text-span-light dark:text-span-dark">
-            {allData?.data?.name}
-          </span>
-          {allData?.data?.detailProduct?.srcImg.length ? (
-            <div className="w-4/12">
-              <Sliderse data={allData?.data?.detailProduct?.srcImg} />
+          <div className="w-full flex justify-between gap-2 items-center">
+            {allData?.data?.detailProduct?.srcImg.length ? (
+              <div className="w-4/12">
+                <Sliderse data={allData?.data?.detailProduct?.srcImg} />
+              </div>
+            ) : (
+              <span>هیچ عکسی ندارد</span>
+            )}
+            <div className="w-7/12 bg-gray-100 p-3 rounded-md shadow-md">
+              <h1 className="text-xl text-h1-light mb-8 dark:text-h1-dark font-bold">
+                {allData?.data?.name}
+              </h1>
+              <div className="mt-3">
+                <span className="text-h1-light dark:text-h1-dark font-bold text-lg">
+                  ویژگی های کلیدی :
+                </span>
+                <div className="grid grid-cols-2 gap-3 mt-2">
+                  {allData?.data?.moreInfo?.map((i, index) => (
+                    <span
+                      key={index}
+                      className="text-span-light dark:text-span-dark"
+                    >
+                      {i}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="text-span-light flex justify-between text-xl mt-3 dark:text-span-dark">
+                <p>
+                  قیمت :
+                  <span className="inline-block mx-2">
+                    {(allData?.data?.price).toLocaleString("fa")}
+                  </span>
+                  تومان
+                </p>
+                <p>
+                  موجود در انبار :
+                  <span className="inline mr-2">{allData?.data?.totel}</span>
+                </p>
+              </div>
+              <div className="flex justify-between">
+                <span className="py-2 px-5 shadow-md cursor-pointer rounded-md bg-gray-200 text-span-light dark:text-span-dark">مشکی</span>
+                <span className="py-2 px-5 shadow-md cursor-pointer rounded-md bg-gray-200 text-span-light dark:text-span-dark">سبز</span>
+                <span className="py-2 px-5 shadow-md cursor-pointer rounded-md bg-gray-200 text-span-light dark:text-span-dark">آبی</span>
+              </div>
+              <div className="flex justify-between mt-5">
+                <ButtonCustom color="green">
+                  افزودن به سبد خرید
+                  <FaCartPlus className="inline mr-2" />
+                </ButtonCustom>
+                <ButtonCustom color="blue">
+                  افزودن به علاقه مندی
+                  <FaHeart className="inline mr-2" />
+                </ButtonCustom>
+              </div>
             </div>
-          ) : (
-            <span>هیچ عکسی ندارد</span>
-          )}
+          </div>
           <div className="w-full my-3 flex justify-evenly bg-custom-dark dark:bg-custom-light p-3 py-5 rounded-md">
             <BandPage />
           </div>
@@ -145,23 +193,25 @@ export default async function page({ params }: ProductComponent) {
             </TabsContent>
             <TabsContent value="tab2">
               <div className="bg-custom-dark dark:bg-custom-light p-2 rounded-md">
-                {allData?.data?.detailProduct?.skillProduct.map((item, index) => (
-                  <div className="" key={index}>
-                    <span className="text-span-light dark:text-span-dark font-bold text-lg mb-1 block">
-                      {item?.name}
-                    </span>
-                    {item?.skills?.map((id, index2) => (
-                      <div className="flex gap-2 my-2" key={index2}>
-                        <span className="w-4/12 p-1 rounded-sm shadow-md bg-gray-800 dark:bg-slate-300 text-span-light dark:text-span-dark">
-                          {id?.name}
-                        </span>
-                        <span className="w-8/12 p-1 rounded-sm shadow-md bg-gray-800 dark:bg-slate-300 text-span-light dark:text-span-dark">
-                          {id?.text}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                ))}
+                {allData?.data?.detailProduct?.skillProduct.map(
+                  (item, index) => (
+                    <div className="" key={index}>
+                      <span className="text-span-light dark:text-span-dark font-bold text-lg mb-1 block">
+                        {item?.name}
+                      </span>
+                      {item?.skills?.map((id, index2) => (
+                        <div className="flex gap-2 my-2" key={index2}>
+                          <span className="w-4/12 p-1 rounded-sm shadow-md bg-gray-800 dark:bg-slate-300 text-span-light dark:text-span-dark">
+                            {id?.name}
+                          </span>
+                          <span className="w-8/12 p-1 rounded-sm shadow-md bg-gray-800 dark:bg-slate-300 text-span-light dark:text-span-dark">
+                            {id?.text}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )
+                )}
               </div>
             </TabsContent>
             <TabsContent value="tab3">
@@ -171,11 +221,11 @@ export default async function page({ params }: ProductComponent) {
                     54 نظر ثبت شده است
                   </h4>
                 </div>
-              </div >
-            </TabsContent >
-          </Tabs >
-        </div >
-      </div >
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
     </>
   );
 }

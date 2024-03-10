@@ -40,7 +40,7 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
       status: status || false,
       endOff,
       moreInfo
-    };
+    };    
     if (infoProduct?.slug) {
       axios
         .put(`product/${infoProduct?.slug}`, body)
@@ -59,6 +59,8 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
         })
         .catch((err) => {
           toast.error(err);
+          console.log(err);
+          
         });
     }
   };

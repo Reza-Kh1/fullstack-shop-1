@@ -33,4 +33,4 @@ export const updateCart = asyncHandler(async (req, res) => {
   } catch (err) {
     throw customError(err, 401);
   }
-});
+})

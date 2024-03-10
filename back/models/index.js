@@ -12,6 +12,8 @@ import addressModel from "./addressModel.js";
 import imageModel from "./imageModel.js";
 import messageModel from "./MessageModel.js";
 import basicCategoryModel from "./basicCategoryModel.js";
+import interestModel from "./interestModel.js";
+import colorModel from "./ColorModel.js";
 // دسته ها
 basicCategoryModel.hasMany(categoryModel, {
   foreignKey: "basicCategoryId",
@@ -150,6 +152,27 @@ messageModel.belongsTo(userModel, {
   onUpdate: "CASCADE",
 });
 messageModel.hasMany(messageModel, { as: "replies", foreignKey: "replyId" });
+// علاقه مندی ها
+productModel.hasMany(interestModel, {
+  foreignKey: "postId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+interestModel.belongsTo(productModel, {
+  foreignKey: "postId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+userModel.hasMany(interestModel, {
+  foreignKey: "userId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+interestModel.belongsTo(userModel, {
+  foreignKey: "userId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
 // dataBase.sync({ force: true });
 dataBase.sync();
 export {
@@ -166,4 +189,6 @@ export {
   imageModel,
   messageModel,
   basicCategoryModel,
+  interestModel,
+  colorModel,
 };
