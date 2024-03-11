@@ -8,11 +8,22 @@ const colorModel = dataBase.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    codeColor: {
+      type: DataTypes.STRING
     },
+    price: {
+      type: DataTypes.INTEGER
+    },
+    total: {
+      type: DataTypes.INTEGER
+    },
+    discount: {
+      type: DataTypes.INTEGER
+    },
+    endDiscount: {
+      type: DataTypes.DATE
+    }
   },
-  { timestamps: true, tableName: "colors" }
+  { timestamps: false, tableName: "colors" }
 );
 export default colorModel

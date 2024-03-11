@@ -11,12 +11,6 @@ const productModel = dataBase.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    price: {
-      type: DataTypes.INTEGER,
-    },
-    off: {
-      type: DataTypes.INTEGER,
-    },
     altImg: {
       type: DataTypes.STRING,
     },
@@ -31,6 +25,9 @@ const productModel = dataBase.define(
         msg: "اسلاگ قبلا ثبت شده است!",
       },
     },
+    off: {
+      type: DataTypes.INTEGER,
+    },
     endOff: {
       type: DataTypes.DATE
     },
@@ -40,8 +37,11 @@ const productModel = dataBase.define(
     description: {
       type: DataTypes.TEXT,
     },
-    totel: {
-      type: DataTypes.INTEGER,
+    price: {
+      type: DataTypes.INTEGER
+    },
+    total: {
+      type: DataTypes.BOOLEAN
     },
     keycode: {
       type: DataTypes.STRING,
@@ -57,7 +57,7 @@ const productModel = dataBase.define(
     timestamps: true,
     tableName: "product",
     indexes: [
-      { unique: false, fields: ["slug", "name", "description", "status", "keycode"] },
+      { unique: false, fields: ["slug", "name", "description", "status", "keycode", "off"] },
     ],
   }
 );

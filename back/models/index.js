@@ -66,6 +66,17 @@ detailProductModel.belongsTo(productModel, {
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
+// رنگ ها
+productModel.hasMany(colorModel, {
+  foreignKey: "postId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+})
+colorModel.belongsTo(productModel, {
+  foreignKey: "postId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+})
 // نظرات
 productModel.hasMany(reviewModel, {
   foreignKey: "postId",
