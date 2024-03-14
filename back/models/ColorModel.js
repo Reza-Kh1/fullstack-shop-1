@@ -20,10 +20,13 @@ const colorModel = dataBase.define(
     discount: {
       type: DataTypes.INTEGER
     },
+    totalPrice: {
+      type: DataTypes.INTEGER
+    },
     endDiscount: {
       type: DataTypes.DATE
     }
   },
-  { timestamps: false, tableName: "colors" }
+  { timestamps: false, tableName: "colors", indexes: [{ unique: false, fields: ["totalPrice"] }] }
 );
 export default colorModel

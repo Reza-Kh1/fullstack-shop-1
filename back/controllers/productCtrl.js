@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import {
+  colorModel,
   detailProductModel,
   productModel,
   reviewModel,
@@ -9,6 +10,7 @@ import {
 import { customError } from "../middlewares/errorHandler.js";
 import pagination from "../middlewares/pagination.js";
 import { Op } from "sequelize";
+import { dataBase } from "../config/db.js";
 export const createProduct = asyncHandler(async (req, res) => {
   const {
     name,
@@ -127,6 +129,7 @@ export const getProduct = asyncHandler(async (req, res) => {
           attributes: { exclude: ["updatedAt", "createdAt", "id", "postId"] },
         },
         { model: subCategoryModel, attributes: ["name"] },
+        { model: colorModel, attributes: { exclude: ["postId", "discount"] } }
       ],
       attributes: {
         exclude: ["status", "srcImg", "createdAt", "userId", "categoryId"],
@@ -172,6 +175,8 @@ export const getAllProduct = asyncHandler(async (req, res) => {
   if (order) {
     const newOrder = order.split("-");
     filterOrder.push([newOrder[0], newOrder[1]]);
+  } else {
+    filterOrder.push(["updatedAt", "DESC"]);
   }
   if (!filter[Op.and].length) {
     filter = {};
@@ -193,7 +198,15 @@ export const getAllProduct = asyncHandler(async (req, res) => {
           "categoryId",
         ],
       },
-      include: [{ model: subCategoryModel, attributes: ["name", "slug"] }],
+      include: [{ model: subCategoryModel, attributes: ["name", "slug"] },
+      {
+        model: colorModel,
+        separate: true,
+        limit: 1,
+        attributes: { exclude: ["id", "color", "codeColor", "discount", "endDiscount", "postId"] },
+        order: [["totalPrice", "ASC"]]
+      }
+      ],
     });
     const pager = pagination(data.count, limit, page);
     if (!data.count) return res.send({ message: "هیچ محصولی یافت نشد" });
@@ -230,6 +243,8 @@ export const getAllProductAdmin = asyncHandler(async (req, res) => {
   if (order) {
     const newOrder = order.split("-");
     filterOrder.push([newOrder[0], newOrder[1]]);
+  } else {
+    filterOrder.push(["updatedAt", "DESC"]);
   }
   if (!filter[Op.and].length) {
     filter = {};
@@ -246,6 +261,13 @@ export const getAllProductAdmin = asyncHandler(async (req, res) => {
       include: [
         { model: userModel, attributes: ["name"] },
         { model: subCategoryModel, attributes: ["name"] },
+        {
+          model: colorModel,
+          separate: true,
+          limit: 1,
+          attributes: { exclude: ["id", "color", "codeColor", "discount", "endDiscount", "postId"] },
+          order: [["totalPrice", "ASC"]]
+        }
       ],
     });
     const pager = pagination(data.count, limit, page);
@@ -268,6 +290,9 @@ export const getProductAdmin = asyncHandler(async (req, res) => {
         },
         { model: userModel, attributes: ["name"] },
         { model: subCategoryModel, attributes: ["name"] },
+        {
+          model: colorModel, attributes: { exclude: ["postId"] }
+        }
       ],
     });
     if (!data) throw new Error("محصولی وجود ندارد !");

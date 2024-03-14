@@ -112,3 +112,13 @@ export type OffType = {
     name: string;
   };
 };
+export type ColorType = {
+  id?: number
+  color: string,
+  codeColor: string,
+  price: number,
+  total: number,
+  discount: number,
+  postId: number
+  endDiscount: string
+}

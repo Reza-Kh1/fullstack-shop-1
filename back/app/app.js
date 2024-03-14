@@ -20,6 +20,7 @@ import paymentRoute from "../routes/paymentRoute.js";
 import imagetRoute from "../routes/imageRoute.js";
 import messageRoute from "../routes/messageRoute.js";
 import interestRoute from "../routes/interestRoute.js";
+import colorRoute from "../routes/ColorRoute.js";
 // static
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -52,6 +53,7 @@ app.use(api + "payment", paymentRoute);
 app.use(api + "image", imagetRoute);
 app.use(api + "message", messageRoute);
 app.use(api + "interestRoute", interestRoute);
+app.use(api + "color", colorRoute);
 // middlewares
 app.use(globalHandler);
 app.use(notFound);

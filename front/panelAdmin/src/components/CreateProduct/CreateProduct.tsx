@@ -2,22 +2,22 @@ import { useForm } from "react-hook-form";
 import SubmitBtn from "../SubmitBtn/SubmitBtn";
 import InputForm from "../InputForm/InputForm";
 import { useEffect, useState } from "react";
-import { CategoryType, ProductDetailType, ProductType } from "../../types/type";
+import { CategoryType, ColorType, ProductDetailType, ProductType } from "../../types/type";
 import { Button, Checkbox, Option, Select } from "@material-tailwind/react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaTrash } from "react-icons/fa6";
 import DetailProduct from "../DetailProduct/DetailProduct";
 import DialogImage from "../DialogImage/DialogImage";
-import EndOff from "../EndOff/EndOff";
+import ColorProduct from "../ColorProduct/ColorProduct";
 export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
   const { register, handleSubmit, setValue, getValues } = useForm<ProductType>();
   const [category, setCategory] = useState<CategoryType[]>();
   const [moreInfo, setMoreInfo] = useState<string[]>([])
-  const [endOff, setEndOff] = useState<any>()
   const [selectCategory, setSelectCategory] = useState<string>(
     infoProduct?.subCategory?.name || ""
   );
+  const [color, setColor] = useState<ColorType[]>([])
   const [allImage, setAllImage] = useState<string[]>([]);
   const [imgProduct, setImgProduct] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
@@ -29,18 +29,14 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
     const id = category?.find((i) => i.name === selectCategory);
     const body = {
       name: form.name,
-      price: Number(form.price) === 0 ? null : Number(form.price),
-      off: Number(form.off) === 0 ? null : Number(form.off),
       altImg: form.altImg ? form.altImg : null,
       srcImg: allImage,
       slug: form.slug,
-      totel: Number(form.totel) === 0 ? null : Number(form.totel),
       description: form.description,
       categoryId: id?.id ? id.id : null,
       status: status || false,
-      endOff,
       moreInfo
-    };    
+    };
     if (infoProduct?.slug) {
       axios
         .put(`product/${infoProduct?.slug}`, body)
@@ -60,7 +56,6 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
         .catch((err) => {
           toast.error(err);
           console.log(err);
-          
         });
     }
   };
@@ -92,18 +87,15 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
     getData();
     if (infoProduct) {
       infoProduct?.srcImg;
-      setValue("totel", infoProduct?.totel || 0);
-      setValue("off", infoProduct?.off || 0);
-      setValue("price", infoProduct?.price || 0);
       setValue("name", infoProduct?.name || "");
       setValue("description", infoProduct?.description || "");
       setValue("slug", infoProduct?.slug || "");
       setValue("altImg", infoProduct?.altImg || "");
-      setEndOff(infoProduct?.endOff)
       setMoreInfo(infoProduct?.moreInfo || [])
       if (infoProduct.detailProduct) {
         setResponse(infoProduct?.detailProduct || null);
       }
+      setColor(infoProduct.colors || [])
       setIdProduct(infoProduct.id);
       setAllImage(infoProduct?.srcImg);
     }
@@ -111,7 +103,7 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
   return (
     <div className="w-full">
       <form className="flex flex-wrap" onSubmit={handleSubmit(createAction)}>
-        <div className="w-1/2 p-2">
+        <div className="w-full p-2">
           <label className="block mb-1 mt-3 text-sm font-medium text-gray-800">
             نام محصول
           </label>
@@ -123,57 +115,7 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
             type="text"
           />
         </div>
-        <div className="w-1/2 p-2">
-          <label className="block mb-1 mt-3 text-sm font-medium text-gray-800">
-            قیمت محصول
-          </label>
-          <InputForm
-            name="price"
-            onInput={(e) => {
-              e.target.value = e.target.value
-                .replace(/[^0-9]/g, "")
-                .replace(/^0+/, "");
-            }}
-            placeholder="اختیاری"
-            register={register}
-            type="text"
-          />
-        </div>
-        <div className="w-1/3 p-2">
-          <label className="block mb-1 mt-3 text-sm font-medium text-gray-800">
-            تخفیف
-          </label>
-          <InputForm
-            name="off"
-            placeholder="اختیاری"
-            register={register}
-            type="text"
-            onInput={(e) => {
-              e.target.value = e.target.value.replace(/[^0-9]/g, "");
-            }}
-          />
-        </div>
-        <div className="w-1/3 p-2">
-          <label className="block mb-1 mt-3 text-sm font-medium text-gray-800">
-            زمان تخفیف
-          </label>
-          <EndOff date={endOff} setDate={setEndOff} />
-        </div>
-        <div className="w-1/3 p-2">
-          <label className="block mb-1 mt-3 text-sm font-medium text-gray-800">
-            تعداد
-          </label>
-          <InputForm
-            name="totel"
-            placeholder="اختیاری"
-            classLabel=""
-            register={register}
-            type="text"
-            onInput={(e) => {
-              e.target.value = e.target.value.replace(/[^0-9]/g, "");
-            }}
-          />
-        </div>
+
         <div className="w-1/2 p-2">
           <label className="block mb-1 mt-3 text-sm font-medium text-gray-800">
             اسلاگ
@@ -310,6 +252,9 @@ export default function CreateProduct({ infoProduct }: { infoProduct?: any }) {
           />
         </div>
       </form>
+      {idProduct && (
+        <ColorProduct id={idProduct} data={color} />
+      )}
       {response ? (
         <DetailProduct detail={response} id={idProduct} />
       ) : idProduct ? (
